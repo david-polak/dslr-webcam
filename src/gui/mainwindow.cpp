@@ -7,19 +7,19 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
+
   ui->setupUi(this);
+  gphoto = new GphotoContext();
 
   connect(ui->cameraBox, SIGNAL(currentIndexChanged(int)), this,
           SLOT(changeCamera(int)));
 
-  // QComboBox::addItem ( const QString & text, const QVariant & userData =
-  // QVariant() )
-  //    QComboBox * camera = ui->camera;
-  ui->cameraBox->addItem("test1", "data");
-  ui->cameraBox->addItem("test2", "data2");
-  ui->cameraBox->addItem("test3", "data3");
-}
+  auto list = gphoto->getCameras();
 
+  for (const auto &item : list) {
+    ui->cameraBox->addItem(item.first, item.second);
+  }
+}
 void MainWindow::changeCamera(int index) {
   QVariant data = ui->cameraBox->itemData(index);
 
@@ -27,4 +27,7 @@ void MainWindow::changeCamera(int index) {
   qDebug() << data << endl;
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow() {
+  delete gphoto;
+  delete ui;
+}

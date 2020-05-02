@@ -3,9 +3,12 @@
 
 #include <gphoto2/gphoto2-camera.h>
 #include <gphoto2/gphoto2-context.h>
-#include <gphoto2/gphoto2-list.h>
-#include <gphoto2/gphoto2-port-info-list.h>
 
-int autodetect(CameraList *list, GPContext *context);
+#include <QMap>
+#include <QString>
+
+namespace Gppp {
+QList<QPair<QString, QString>> getCameraList(GPContext *context);
+}
 
 #endif // CAMERA_H
