@@ -11,17 +11,31 @@ MainWindow::MainWindow(QWidget *parent)
   ui->setupUi(this);
   gphotoController = new GPhotoController();
 
-  connect(ui->cameraBox, SIGNAL(currentIndexChanged(int)), this,
-          SLOT(changeCamera(int)));
+  fillCameraBox();
+}
+
+void MainWindow::fillCameraBox() {
+  disconnect(ui->cameraBox, SIGNAL(currentIndexChanged(int)), this,
+             SLOT(changeCamera(int)));
+
+  ui->cameraBox->clear();
+  ui->cameraBox->addItem("disconnected", false);
 
   auto list = gphotoController->getCameraList();
-
   for (const auto &item : list) {
     ui->cameraBox->addItem(item.first, item.second);
   }
+
+  connect(ui->cameraBox, SIGNAL(currentIndexChanged(int)), this,
+          SLOT(changeCamera(int)));
 }
+
 void MainWindow::changeCamera(int index) {
   QVariant data = ui->cameraBox->itemData(index);
+
+  if (data.type() == QVariant::Bool) {
+    return;
+  }
 
   qDebug() << index << endl;
   qDebug() << data << endl;

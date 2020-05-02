@@ -20,6 +20,9 @@ public:
 public slots:
   void changeCamera(int index);
 
+protected:
+  void fillCameraBox();
+
 private:
   Ui::MainWindow *ui;
   GPhotoController *gphotoController;
