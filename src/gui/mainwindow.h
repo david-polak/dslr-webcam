@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "src/gphoto/gphoto.h"
+#include "src/gphoto/gphotocontroller.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -22,6 +22,6 @@ public slots:
 
 private:
   Ui::MainWindow *ui;
-  GphotoContext *gphoto;
+  GPhotoController *gphotoController;
 };
 #endif // MAINWINDOW_H

@@ -9,12 +9,12 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
   ui->setupUi(this);
-  gphoto = new GphotoContext();
+  gphotoController = new GPhotoController();
 
   connect(ui->cameraBox, SIGNAL(currentIndexChanged(int)), this,
           SLOT(changeCamera(int)));
 
-  auto list = gphoto->getCameras();
+  auto list = gphotoController->getCameraList();
 
   for (const auto &item : list) {
     ui->cameraBox->addItem(item.first, item.second);
@@ -28,6 +28,6 @@ void MainWindow::changeCamera(int index) {
 }
 
 MainWindow::~MainWindow() {
-  delete gphoto;
+  delete gphotoController;
   delete ui;
 }

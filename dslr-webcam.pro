@@ -17,14 +17,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     src/gphoto/gphoto.cpp \
-    src/gphoto/integration.cpp \
+    src/gphoto/gphotocontroller.cpp \
     src/gphoto/camera.cpp \
     src/gui/mainwindow.cpp \
     src/main.cpp
 
 HEADERS += \
     src/gphoto/gphoto.h \
-    src/gphoto/integration.h \
+    src/gphoto/gphotocontroller.h \
     src/gphoto/camera.h \
     src/gui/mainwindow.h
 

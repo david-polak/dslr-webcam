@@ -1,19 +1,14 @@
-#ifndef GPHOTOCONTEXT_H
-#define GPHOTOCONTEXT_H
+#ifndef CAMERA_H
+#define CAMERA_H
 
-#include <QList>
-#include <QString>
+#include <gphoto2/gphoto2-camera.h>
 #include <gphoto2/gphoto2-context.h>
 
-class GphotoContext {
-public:
-  GphotoContext();
-  ~GphotoContext();
+#include <QMap>
+#include <QString>
 
-  QList<QPair<QString, QString>> getCameras();
+namespace GPhoto {
+QList<QPair<QString, QString>> getCameraList(GPContext *context);
+}
 
-protected:
-  GPContext *context;
-};
-
-#endif // GPHOTOCONTEXT_H
+#endif // CAMERA_H
