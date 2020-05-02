@@ -5,29 +5,21 @@
 
 #include <QDebug>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) , ui(new Ui::MainWindow)
-{
-    ui->setupUi(this);
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow) {
+  ui->setupUi(this);
 
-    connect(ui->camera, SIGNAL(currentIndexChanged(int)), this, SLOT(changeCamera(int)));
+  connect(ui->camera, SIGNAL(currentIndexChanged(int)), this,
+          SLOT(changeCamera(int)));
 
-
-
-    //QComboBox::addItem ( const QString & text, const QVariant & userData = QVariant() )
-//    QComboBox * camera = ui->camera;
-//    camera->addItem("test", "data");
-//    camera->addItem("test2", "data2");
-//    camera->addItem("test3", "data3");
-
-
+  // QComboBox::addItem ( const QString & text, const QVariant & userData =
+  // QVariant() )
+  //    QComboBox * camera = ui->camera;
+  //    camera->addItem("test", "data");
+  //    camera->addItem("test2", "data2");
+  //    camera->addItem("test3", "data3");
 }
 
-void MainWindow::changeCamera(int index) {
-    qDebug() << index << endl;
-}
+void MainWindow::changeCamera(int index) { qDebug() << index << endl; }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
+MainWindow::~MainWindow() { delete ui; }

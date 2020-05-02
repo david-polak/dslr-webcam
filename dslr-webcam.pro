@@ -34,3 +34,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 unix|win32: LIBS += -lgphoto2
 unix|win32: LIBS += -lgphoto2_port
+
+DISTFILES +=
