@@ -1,5 +1,5 @@
-#ifndef GPHOTOCONTEXT_H
-#define GPHOTOCONTEXT_H
+#ifndef GPHOTOCONTROLLER_H
+#define GPHOTOCONTROLLER_H
 
 #include <QList>
 #include <QString>
@@ -13,9 +13,11 @@ public:
 
   QList<QPair<QString, QString>> getCameraList();
 
+  void testCamera(QString model, QString port);
+
 protected:
   GPContext *context;
   CameraAbilitiesList *abilities;
 };
 
-#endif // GPHOTOCONTEXT_H
+#endif

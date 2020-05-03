@@ -37,8 +37,12 @@ void MainWindow::changeCamera(int index) {
     return;
   }
 
-  qDebug() << index << endl;
-  qDebug() << data << endl;
+  QString model = ui->cameraBox->currentText();
+  QString port = data.value<QString>();
+
+  qDebug() << "model:" << model << " port:" << port << endl;
+
+  gphotoController->testCamera(model, port);
 }
 
 MainWindow::~MainWindow() {

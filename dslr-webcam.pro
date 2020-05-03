@@ -16,16 +16,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/gphoto/camerahandler.cpp \
     src/gphoto/gphoto.cpp \
     src/gphoto/gphotocontroller.cpp \
-    src/gphoto/camera.cpp \
     src/gui/mainwindow.cpp \
     src/main.cpp
 
 HEADERS += \
+    src/gphoto/camerahandler.h \
     src/gphoto/gphoto.h \
     src/gphoto/gphotocontroller.h \
-    src/gphoto/camera.h \
     src/gui/mainwindow.h
 
 FORMS += \
