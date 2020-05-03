@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
   fillCameraBox();
 
   connect(ui->pauseBtn, SIGNAL(clicked()), this, SLOT(pause()));
+  connect(ui->resumeBtn, SIGNAL(clicked()), this, SLOT(resume()));
 }
 
 void MainWindow::fillCameraBox() {
@@ -50,6 +51,7 @@ void MainWindow::changeCamera(int index) {
 }
 
 void MainWindow::pause() { gphotoController->pauseStream(); }
+void MainWindow::resume() { gphotoController->resumeStream(); }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
   qDebug() << "MainWindow::closeEvent()" << endl;

@@ -74,4 +74,12 @@ void GPhotoController::startStream() {
   currentStreamer->start();
 }
 bool GPhotoController::isStreamRunning() { return true; }
-void GPhotoController::pauseStream() {}
+void GPhotoController::pauseStream() {
+  qDebug() << "pause stream" << endl;
+  cameraStreamer->requestInterruption();
+}
+
+void GPhotoController::resumeStream() {
+  qDebug() << "resume stream" << endl;
+  cameraStreamer->start();
+}

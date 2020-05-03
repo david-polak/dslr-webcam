@@ -37,10 +37,17 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QPushButton" name="blankBtn">
        <property name="text">
         <string>Blank</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QPushButton" name="resumeBtn">
+       <property name="text">
+        <string>PushButton</string>
        </property>
       </widget>
      </item>

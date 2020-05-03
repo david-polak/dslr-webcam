@@ -20,6 +20,7 @@ public:
 public slots:
   void changeCamera(int index);
   void pause();
+  void resume();
 
 protected:
   void fillCameraBox();
