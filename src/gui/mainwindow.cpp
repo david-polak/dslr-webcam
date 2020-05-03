@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
   gphotoController = new GPhotoController();
 
   fillCameraBox();
+
+  connect(ui->pauseBtn, SIGNAL(clicked()), this, SLOT(pause()));
 }
 
 void MainWindow::fillCameraBox() {
@@ -43,7 +45,11 @@ void MainWindow::changeCamera(int index) {
   qDebug() << "model:" << model << " port:" << port << endl;
 
   gphotoController->selectCamera(model, port);
+  gphotoController->useCameraStreamer();
+  gphotoController->startStream();
 }
+
+void MainWindow::pause() { gphotoController->pauseStream(); }
 
 MainWindow::~MainWindow() {
   delete gphotoController;

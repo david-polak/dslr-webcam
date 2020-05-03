@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     src/gphoto/camerahandler.cpp \
+    src/streamers/camerastreamer.cpp \
     src/gphoto/gphoto.cpp \
     src/gphoto/gphotocontroller.cpp \
     src/gui/mainwindow.cpp \
@@ -24,9 +25,11 @@ SOURCES += \
 
 HEADERS += \
     src/gphoto/camerahandler.h \
+    src/streamers/camerastreamer.h \
     src/gphoto/gphoto.h \
     src/gphoto/gphotocontroller.h \
-    src/gui/mainwindow.h
+    src/gui/mainwindow.h \
+    src/streamers/istreamer.h
 
 FORMS += \
     src/gui/mainwindow.ui
