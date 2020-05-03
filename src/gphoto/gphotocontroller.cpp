@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <gphoto2/gphoto2-port-info-list.h>
 
+#include <bits/stdc++.h>
+#include <fcntl.h>
 #include <unistd.h>
 
 GPhotoController::GPhotoController() {
@@ -56,7 +58,7 @@ void GPhotoController::testCamera(QString model, QString port) {
   //                        "-threads 0 -f v4l2 /dev/video2",
   //                        "w");
 
-  FILE *pipeout = popen("gst-launch-1.0 -e fdsrc ! decodebin3 name=dec ! queue "
+  FILE *pipeout = popen("gst-launch-1.0 fdsrc ! decodebin3 name=dec ! queue "
                         "! videoconvert ! v4l2sink device=/dev/video2",
                         "w");
 
@@ -65,11 +67,10 @@ void GPhotoController::testCamera(QString model, QString port) {
   qDebug() << fd << endl;
   gp_file_new_from_fd(&file, fd);
 
-  int frames = 100;
+  int frames = 30;
   while (frames--) {
     qDebug() << "frames: " << frames << endl;
 
-    const char *mime;
     r = gp_camera_capture_preview(handler->camera, file, context);
     if (r < 0) {
       qDebug() << "Movie capture error... Exiting.";
@@ -78,9 +79,13 @@ void GPhotoController::testCamera(QString model, QString port) {
   }
 
   qDebug() << "end" << endl;
+  fflush(pipeout);
+  close(fd);
   gp_file_unref(file);
-
-  // fflush(pipeout);
+  qDebug() << "kill" << endl;
+  system("killall gst-launch-1.0"); // :P I'll deal with it later
   pclose(pipeout);
+  qDebug() << "terminated" << endl;
+
   delete handler;
 }
