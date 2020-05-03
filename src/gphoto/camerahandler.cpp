@@ -8,4 +8,8 @@ CameraHandler::CameraHandler(const QString model, const QString port,
   GPhoto::setCameraAbilities(camera, modelData, abilities);
 }
 
+void CameraHandler::setPortInfo(GPPortInfo portInfo) {
+  gp_camera_set_port_info(camera, portInfo);
+}
+
 CameraHandler::~CameraHandler() { gp_camera_free(camera); }

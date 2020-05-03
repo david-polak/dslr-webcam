@@ -42,7 +42,7 @@ void MainWindow::changeCamera(int index) {
 
   qDebug() << "model:" << model << " port:" << port << endl;
 
-  gphotoController->testCamera(model, port);
+  gphotoController->selectCamera(model, port);
 }
 
 MainWindow::~MainWindow() {

@@ -16,9 +16,14 @@ GPhotoController::GPhotoController() {
   // loading abilities from libGPhoto2 camera drivers
   gp_abilities_list_new(&abilities);
   gp_abilities_list_load(abilities, context);
+
+  gp_port_info_list_new(&portinfolist);
+  gp_port_info_list_load(portinfolist);
+  gp_port_info_list_count(portinfolist);
 }
 
 GPhotoController::~GPhotoController() {
+  gp_port_info_list_free(portinfolist);
   gp_abilities_list_free(abilities);
   gp_context_unref(context);
 }
@@ -27,27 +32,17 @@ QList<QPair<QString, QString>> GPhotoController::getCameraList() {
   return GPhoto::getCameraList(context);
 }
 
-static GPPortInfoList *portinfolist = NULL;
-
-void GPhotoController::testCamera(QString model, QString port) {
-  CameraHandler *handler = new CameraHandler(model, port, abilities);
-
-  int p;
-  GPPortInfo pi;
-
-  if (!portinfolist) {
-    gp_port_info_list_new(&portinfolist);
-    gp_port_info_list_load(portinfolist);
-    gp_port_info_list_count(portinfolist);
-  }
+void GPhotoController::selectCamera(QString model, QString port) {
+  handler = new CameraHandler(model, port, abilities);
 
   const char *portData = port.toLocal8Bit().constData();
+  int path = gp_port_info_list_lookup_path(portinfolist, portData);
 
-  p = gp_port_info_list_lookup_path(portinfolist, portData);
+  GPPortInfo portInfo;
+  gp_port_info_list_get_info(portinfolist, path, &portInfo);
+  handler->setPortInfo(portInfo);
 
-  gp_port_info_list_get_info(portinfolist, p, &pi);
-  gp_camera_set_port_info(handler->camera, pi);
-
+  return;
   qDebug() << "check 001" << endl;
 
   CameraFile *file;

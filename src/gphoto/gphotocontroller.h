@@ -1,6 +1,7 @@
 #ifndef GPHOTOCONTROLLER_H
 #define GPHOTOCONTROLLER_H
 
+#include "camerahandler.h"
 #include <QList>
 #include <QString>
 #include <gphoto2/gphoto2-abilities-list.h>
@@ -13,11 +14,13 @@ public:
 
   QList<QPair<QString, QString>> getCameraList();
 
-  void testCamera(QString model, QString port);
+  void selectCamera(QString model, QString port);
 
 protected:
   GPContext *context;
   CameraAbilitiesList *abilities;
+  CameraHandler *handler;
+  GPPortInfoList *portinfolist = NULL;
 };
 
 #endif

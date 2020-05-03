@@ -9,6 +9,7 @@ public:
   CameraHandler(const QString model, const QString port,
                 CameraAbilitiesList *abilities);
   ~CameraHandler();
+  void setPortInfo(GPPortInfo portInfo);
 
   // private:
   Camera *camera;
