@@ -51,7 +51,12 @@ void MainWindow::changeCamera(int index) {
 
 void MainWindow::pause() { gphotoController->pauseStream(); }
 
-MainWindow::~MainWindow() {
+void MainWindow::closeEvent(QCloseEvent *event) {
+  qDebug() << "MainWindow::closeEvent()" << endl;
   delete gphotoController;
+}
+
+MainWindow::~MainWindow() {
+  qDebug() << "~MainWindow()" << endl;
   delete ui;
 }

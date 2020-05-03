@@ -2,6 +2,7 @@
 #define GPHOTOCONTROLLER_H
 
 #include "camerahandler.h"
+#include "src/gstreamer/gstreamercontroller.h"
 #include "src/streamers/camerastreamer.h"
 #include "src/streamers/istreamer.h"
 #include <QList>
@@ -27,14 +28,15 @@ public:
   void useCameraStreamer();
 
 protected:
-  GPContext *context;
-  CameraAbilitiesList *abilities;
-  CameraHandler *handler;
+  GPContext *context = NULL;
+  CameraAbilitiesList *abilities = NULL;
+  CameraHandler *handler = NULL;
   GPPortInfoList *portinfolist = NULL;
 
-  CameraStreamer *cameraStreamer;
+  GStreamerController *gstreamer = NULL;
 
-  IStreamer *currentStreamer;
+  IStreamer *currentStreamer = NULL;
+  CameraStreamer *cameraStreamer = NULL;
 };
 
 #endif

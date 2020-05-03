@@ -23,6 +23,7 @@ public slots:
 
 protected:
   void fillCameraBox();
+  void closeEvent(QCloseEvent *event);
 
 private:
   Ui::MainWindow *ui;

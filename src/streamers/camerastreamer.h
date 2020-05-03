@@ -8,8 +8,9 @@
 
 class CameraStreamer : public IStreamer {
 public:
+  ~CameraStreamer();
   void run() override;
-  void setFile(FILE *fd) override;
+  void setFd(int fd) override;
 
   void setCameraHandler(CameraHandler *handler);
   void setContext(GPContext *context);
@@ -17,7 +18,7 @@ public:
 private:
   CameraHandler *handler;
   GPContext *context;
-  FILE *fd;
+  CameraFile *file;
 };
 
 #endif // STREAM_H

@@ -2,6 +2,7 @@
 #include "gphoto.h"
 
 #include "camerahandler.h"
+#include "src/gstreamer/gstreamercontroller.h"
 #include <QDebug>
 #include <gphoto2/gphoto2-port-info-list.h>
 
@@ -19,10 +20,27 @@ GPhotoController::GPhotoController() {
 }
 
 GPhotoController::~GPhotoController() {
+  qDebug() << "~GPhotoController()" << endl;
+
+  if (cameraStreamer) {
+    cameraStreamer->requestInterruption();
+    cameraStreamer->wait();
+    delete cameraStreamer;
+    qDebug() << "delete cameraStreamer;" << endl;
+  }
+  // TODO: cleanup streamers
+
+  if (gstreamer) {
+    delete gstreamer;
+  }
+
+  if (handler) {
+    delete handler;
+  }
+
   gp_port_info_list_free(portinfolist);
   gp_abilities_list_free(abilities);
   gp_context_unref(context);
-  // TODO: cleanup streamers
 }
 
 QList<QPair<QString, QString>> GPhotoController::getCameraList() {
@@ -47,6 +65,13 @@ void GPhotoController::useCameraStreamer() {
   currentStreamer = cameraStreamer;
 }
 
-void GPhotoController::startStream() { currentStreamer->start(); }
+void GPhotoController::startStream() {
+  gstreamer = new GStreamerController();
+  gstreamer->start();
+  int fd = gstreamer->getFd();
+
+  currentStreamer->setFd(fd);
+  currentStreamer->start();
+}
 bool GPhotoController::isStreamRunning() { return true; }
 void GPhotoController::pauseStream() {}
