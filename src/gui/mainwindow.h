@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "src/gphotocontroller.h"
+#include "src/dslrwebcam.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -28,6 +28,6 @@ protected:
 
 private:
   Ui::MainWindow *ui;
-  GPhotoController *gphotoController;
+  DSLRWebcam *gphotoController;
 };
 #endif // MAINWINDOW_H

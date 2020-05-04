@@ -21,7 +21,7 @@ add_executable(dslr-webcam
     src/gui/mainwindow.cpp
     src/gui/mainwindow.ui
     src/main.cpp
-    src/gphotocontroller.cpp
+    src/dslrwebcam.cpp
 )
 
 target_link_libraries(dslr-webcam PRIVATE Qt5::Widgets gphoto2 gphoto2_port)

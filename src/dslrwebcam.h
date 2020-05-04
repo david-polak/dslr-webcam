@@ -10,10 +10,10 @@
 #include <gphoto2/gphoto2-abilities-list.h>
 #include <gphoto2/gphoto2-context.h>
 
-class GPhotoController {
+class DSLRWebcam {
 public:
-  GPhotoController();
-  ~GPhotoController();
+  DSLRWebcam();
+  ~DSLRWebcam();
 
   QList<QPair<QString, QString>> getCameraList();
 
