@@ -14,7 +14,8 @@ public:
   void setImagePath(QString path);
 
 private:
-  QImage *image;
+  int fd;
+  std::vector<char> image;
 };
 
 #endif // STREAM_H

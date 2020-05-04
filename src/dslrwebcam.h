@@ -5,6 +5,7 @@
 #include "src/gstreamer/gstreamercontroller.h"
 #include "src/streamers/camerastreamer.h"
 #include "src/streamers/istreamer.h"
+#include "src/streamers/picturestreamer.h"
 #include <QList>
 #include <QString>
 #include <gphoto2/gphoto2-abilities-list.h>
@@ -26,6 +27,7 @@ public:
   void resumeStream();
 
   void useCameraStreamer();
+  void usePictureStreamer();
 
 protected:
   GPContext *context = NULL;
@@ -37,6 +39,9 @@ protected:
 
   IStreamer *currentStreamer = NULL;
   CameraStreamer *cameraStreamer = NULL;
+  PictureStreamer *pictureStreamer = NULL;
+
+  void killCurrentStreamer();
 };
 
 #endif

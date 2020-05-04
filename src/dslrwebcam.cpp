@@ -58,11 +58,32 @@ void DSLRWebcam::selectCamera(QString model, QString port) {
   handler->setPortInfo(portInfo);
 }
 
+void DSLRWebcam::killCurrentStreamer() {
+  if (currentStreamer) {
+    currentStreamer->requestInterruption();
+    currentStreamer->wait();
+    delete currentStreamer;
+  }
+}
+
 void DSLRWebcam::useCameraStreamer() {
+  killCurrentStreamer();
   cameraStreamer = new CameraStreamer();
   cameraStreamer->setCameraHandler(handler);
   cameraStreamer->setContext(context);
   currentStreamer = cameraStreamer;
+
+  int fd = gstreamer->getFd();
+  currentStreamer->setFd(fd);
+  currentStreamer->start();
+}
+
+void DSLRWebcam::usePictureStreamer() {
+  killCurrentStreamer();
+  pictureStreamer = new PictureStreamer();
+  pictureStreamer->setImagePath(
+      "/home/david/Data/Code/dslr-webcam/images/brb-coin.jpg");
+  currentStreamer = pictureStreamer;
 
   int fd = gstreamer->getFd();
   currentStreamer->setFd(fd);

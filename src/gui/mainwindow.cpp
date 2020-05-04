@@ -56,7 +56,7 @@ void MainWindow::pause() { gphotoController->pauseStream(); }
 void MainWindow::resume() { gphotoController->resumeStream(); }
 
 void MainWindow::useCamera() { gphotoController->useCameraStreamer(); }
-void MainWindow::usePicture() {}
+void MainWindow::usePicture() { gphotoController->usePictureStreamer(); }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
   qDebug() << "MainWindow::closeEvent()" << endl;

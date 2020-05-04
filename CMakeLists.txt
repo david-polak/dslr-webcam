@@ -17,6 +17,7 @@ add_executable(dslr-webcam
     src/gphoto/camerahandler.cpp
     src/gstreamer/gstreamercontroller.cpp
     src/streamers/camerastreamer.cpp 
+    src/streamers/picturestreamer.cpp 
     src/gphoto/gphoto.cpp
     src/gui/mainwindow.cpp
     src/gui/mainwindow.ui
