@@ -82,7 +82,7 @@ void DSLRWebcam::usePictureStreamer() {
   killCurrentStreamer();
   pictureStreamer = new PictureStreamer();
   pictureStreamer->setImagePath(
-      "/home/david/Data/Code/dslr-webcam/images/brb-coin.jpg");
+      "/home/david/Data/Code/dslr-webcam/images/blank.jpg");
   currentStreamer = pictureStreamer;
 
   int fd = gstreamer->getFd();
