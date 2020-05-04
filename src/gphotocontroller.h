@@ -1,7 +1,7 @@
 #ifndef GPHOTOCONTROLLER_H
 #define GPHOTOCONTROLLER_H
 
-#include "camerahandler.h"
+#include "src/gphoto/camerahandler.h"
 #include "src/gstreamer/gstreamercontroller.h"
 #include "src/streamers/camerastreamer.h"
 #include "src/streamers/istreamer.h"

@@ -1,7 +1,7 @@
 #include "gphotocontroller.h"
-#include "gphoto.h"
+#include "gphoto/camerahandler.h"
+#include "gphoto/gphoto.h"
 
-#include "camerahandler.h"
 #include "src/gstreamer/gstreamercontroller.h"
 #include <QDebug>
 #include <gphoto2/gphoto2-port-info-list.h>

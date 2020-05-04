@@ -18,10 +18,10 @@ add_executable(dslr-webcam
     src/gstreamer/gstreamercontroller.cpp
     src/streamers/camerastreamer.cpp 
     src/gphoto/gphoto.cpp
-    src/gphoto/gphotocontroller.cpp
     src/gui/mainwindow.cpp
     src/gui/mainwindow.ui
     src/main.cpp
+    src/gphotocontroller.cpp
 )
 
 target_link_libraries(dslr-webcam PRIVATE Qt5::Widgets gphoto2 gphoto2_port)
