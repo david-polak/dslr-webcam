@@ -63,15 +63,15 @@ void DSLRWebcam::useCameraStreamer() {
   cameraStreamer->setCameraHandler(handler);
   cameraStreamer->setContext(context);
   currentStreamer = cameraStreamer;
+
+  int fd = gstreamer->getFd();
+  currentStreamer->setFd(fd);
+  currentStreamer->start();
 }
 
 void DSLRWebcam::startStream() {
   gstreamer = new GStreamerController();
   gstreamer->start();
-  int fd = gstreamer->getFd();
-
-  currentStreamer->setFd(fd);
-  currentStreamer->start();
 }
 bool DSLRWebcam::isStreamRunning() { return true; }
 void DSLRWebcam::pauseStream() {

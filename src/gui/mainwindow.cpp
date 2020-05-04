@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 
 #include <QComboBox>
-
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -15,6 +14,10 @@ MainWindow::MainWindow(QWidget *parent)
 
   connect(ui->pauseBtn, SIGNAL(clicked()), this, SLOT(pause()));
   connect(ui->resumeBtn, SIGNAL(clicked()), this, SLOT(resume()));
+
+  connect(ui->cameraBtn, SIGNAL(clicked()), this, SLOT(useCamera()));
+  connect(ui->pictureBtn, SIGNAL(clicked()), this, SLOT(usePicture()));
+  connect(ui->startBtn, SIGNAL(clicked()), this, SLOT(start()));
 }
 
 void MainWindow::fillCameraBox() {
@@ -46,12 +49,14 @@ void MainWindow::changeCamera(int index) {
   qDebug() << "model:" << model << " port:" << port << endl;
 
   gphotoController->selectCamera(model, port);
-  gphotoController->useCameraStreamer();
-  gphotoController->startStream();
 }
 
+void MainWindow::start() { gphotoController->startStream(); }
 void MainWindow::pause() { gphotoController->pauseStream(); }
 void MainWindow::resume() { gphotoController->resumeStream(); }
+
+void MainWindow::useCamera() { gphotoController->useCameraStreamer(); }
+void MainWindow::usePicture() {}
 
 void MainWindow::closeEvent(QCloseEvent *event) {
   qDebug() << "MainWindow::closeEvent()" << endl;

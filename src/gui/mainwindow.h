@@ -19,8 +19,11 @@ public:
 
 public slots:
   void changeCamera(int index);
+  void start();
   void pause();
   void resume();
+  void useCamera();
+  void usePicture();
 
 protected:
   void fillCameraBox();

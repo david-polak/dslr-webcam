@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>621</width>
-    <height>472</height>
+    <height>479</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,18 +23,50 @@
       <height>421</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout" columnstretch="0,0">
-     <item row="1" column="1">
+    <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0,0" columnminimumwidth="0,0,0,0,0">
+     <item row="6" column="1">
+      <widget class="QPushButton" name="apertureUp">
+       <property name="text">
+        <string>Aperture +</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="3">
+      <widget class="QPushButton" name="cameraBtn">
+       <property name="text">
+        <string>Camera</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QPushButton" name="apertureDown">
+       <property name="text">
+        <string>Aperture -</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QPushButton" name="blankBtn">
+       <property name="text">
+        <string>Blank</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QPushButton" name="pictureBtn">
+       <property name="text">
+        <string>Picture</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
       <widget class="QPushButton" name="resumeBtn">
        <property name="text">
         <string>Resume</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="0" colspan="2">
-      <widget class="QComboBox" name="cameraBox"/>
-     </item>
-     <item row="1" column="0">
+     <item row="1" column="1">
       <widget class="QPushButton" name="pauseBtn">
        <property name="text">
         <string>Pause</string>
@@ -44,24 +76,13 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="QPushButton" name="blankBtn">
-       <property name="text">
-        <string>Blank</string>
-       </property>
-      </widget>
+     <item row="0" column="0" colspan="3">
+      <widget class="QComboBox" name="cameraBox"/>
      </item>
-     <item row="5" column="1">
-      <widget class="QPushButton" name="apertureUp">
+     <item row="6" column="3">
+      <widget class="QPushButton" name="startBtn">
        <property name="text">
-        <string>Aperture +</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QPushButton" name="apertureDown">
-       <property name="text">
-        <string>Aperture -</string>
+        <string>Start Stream</string>
        </property>
       </widget>
      </item>
