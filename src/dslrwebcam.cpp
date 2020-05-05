@@ -20,7 +20,7 @@ DSLRWebcam::DSLRWebcam() {
 }
 
 DSLRWebcam::~DSLRWebcam() {
-  qDebug() << "~GPhotoController()" << endl;
+  qDebug() << "~dslrWebcam()" << endl;
 
   if (cameraStreamer) {
     cameraStreamer->requestInterruption();

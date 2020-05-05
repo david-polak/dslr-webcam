@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
   ui->setupUi(this);
-  gphotoController = new DSLRWebcam();
+  dslrWebcam = new DSLRWebcam();
 
   fillCameraBox();
 
@@ -27,7 +27,7 @@ void MainWindow::fillCameraBox() {
   ui->cameraBox->clear();
   ui->cameraBox->addItem("disconnected", false);
 
-  auto list = gphotoController->getCameraList();
+  auto list = dslrWebcam->getCameraList();
   for (const auto &item : list) {
     ui->cameraBox->addItem(item.first, item.second);
   }
@@ -48,19 +48,19 @@ void MainWindow::changeCamera(int index) {
 
   qDebug() << "model:" << model << " port:" << port << endl;
 
-  gphotoController->selectCamera(model, port);
+  dslrWebcam->selectCamera(model, port);
 }
 
-void MainWindow::start() { gphotoController->startStream(); }
-void MainWindow::pause() { gphotoController->pauseStream(); }
-void MainWindow::resume() { gphotoController->resumeStream(); }
+void MainWindow::start() { dslrWebcam->startStream(); }
+void MainWindow::pause() { dslrWebcam->pauseStream(); }
+void MainWindow::resume() { dslrWebcam->resumeStream(); }
 
-void MainWindow::useCamera() { gphotoController->useCameraStreamer(); }
-void MainWindow::usePicture() { gphotoController->usePictureStreamer(); }
+void MainWindow::useCamera() { dslrWebcam->useCameraStreamer(); }
+void MainWindow::usePicture() { dslrWebcam->usePictureStreamer(); }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
   qDebug() << "MainWindow::closeEvent()" << endl;
-  delete gphotoController;
+  delete dslrWebcam;
 }
 
 MainWindow::~MainWindow() {

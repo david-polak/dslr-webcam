@@ -31,6 +31,6 @@ protected:
 
 private:
   Ui::MainWindow *ui;
-  DSLRWebcam *gphotoController;
+  DSLRWebcam *dslrWebcam;
 };
 #endif // MAINWINDOW_H
