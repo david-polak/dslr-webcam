@@ -52,7 +52,7 @@ void MainWindow::changeCamera(int index)
   QString model = ui->cameraBox->currentText();
   QString port = data.value<QString>();
 
-  qDebug() << "model:" << model << " port:" << port << endl;
+  qDebug() << "model:" << model << " port:" << port;
 
   dslrWebcam->selectCamera(model, port);
 }
@@ -65,14 +65,15 @@ void MainWindow::useCamera() { dslrWebcam->useCameraStreamer(); }
 void MainWindow::usePicture() { dslrWebcam->usePictureStreamer(); }
 void MainWindow::apertureUp() { dslrWebcam->apertureUp(); }
 
-void MainWindow::closeEvent(QCloseEvent *event)
+void 
+MainWindow::closeEvent(QCloseEvent *event)
 {
-  qDebug() << "MainWindow::closeEvent()" << endl;
+  qDebug() << "MainWindow::closeEvent()";
   delete dslrWebcam;
 }
 
 MainWindow::~MainWindow()
 {
-  qDebug() << "~MainWindow()" << endl;
+  qDebug() << "~MainWindow()";
   delete ui;
 }

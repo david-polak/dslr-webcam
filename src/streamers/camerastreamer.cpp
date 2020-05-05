@@ -10,12 +10,12 @@ void CameraStreamer::setCameraHandler(CameraHandler *handler) {
 void CameraStreamer::setContext(GPContext *context) { this->context = context; }
 
 CameraStreamer::~CameraStreamer() {
-  qDebug() << "~CameraStreamer()" << endl;
+  qDebug() << "~CameraStreamer()";
   // gp_file_unref(this->file);
 }
 
 void CameraStreamer::setFd(int fd) {
-  qDebug() << "CameraStreamer::setFd(" << fd << ")" << endl;
+  qDebug() << "CameraStreamer::setFd(" << fd << ")";
   gp_file_new_from_fd(&this->file, fd);
 }
 

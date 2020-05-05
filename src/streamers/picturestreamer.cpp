@@ -11,7 +11,7 @@ void PictureStreamer::run() {
   const void *buf = image.data();
   size_t size = image.size();
 
-  qDebug() << buf << " " << size << endl;
+  qDebug() << buf << " " << size;
 
   forever {
     if (this->isInterruptionRequested()) {
@@ -24,7 +24,7 @@ void PictureStreamer::run() {
 }
 void PictureStreamer::setFd(int fd) { this->fd = fd; }
 void PictureStreamer::setImagePath(QString path) {
-  qDebug() << path << endl;
+  qDebug() << path;
   const char *pathData = path.toLocal8Bit().constData();
 
   std::ifstream ifs(pathData, std::ios::binary | std::ios::ate);
@@ -36,5 +36,5 @@ void PictureStreamer::setImagePath(QString path) {
 
   image = result;
 
-  qDebug() << result.size() << endl;
+  qDebug() << result.size();
 }

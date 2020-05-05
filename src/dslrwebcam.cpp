@@ -22,14 +22,14 @@ DSLRWebcam::DSLRWebcam()
 
 DSLRWebcam::~DSLRWebcam()
 {
-  qDebug() << "~dslrWebcam()" << endl;
+  qDebug() << "~dslrWebcam()";
 
   if (cameraStreamer)
   {
     cameraStreamer->requestInterruption();
     cameraStreamer->wait();
     delete cameraStreamer;
-    qDebug() << "delete cameraStreamer;" << endl;
+    qDebug() << "delete cameraStreamer;";
   }
   // TODO: cleanup streamers
 
