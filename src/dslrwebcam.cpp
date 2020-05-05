@@ -6,7 +6,8 @@
 #include <QDebug>
 #include <gphoto2/gphoto2-port-info-list.h>
 
-DSLRWebcam::DSLRWebcam() {
+DSLRWebcam::DSLRWebcam()
+{
   // TODO: handle return values
   context = gp_context_new();
 
@@ -19,10 +20,12 @@ DSLRWebcam::DSLRWebcam() {
   gp_port_info_list_count(portinfolist);
 }
 
-DSLRWebcam::~DSLRWebcam() {
+DSLRWebcam::~DSLRWebcam()
+{
   qDebug() << "~dslrWebcam()" << endl;
 
-  if (cameraStreamer) {
+  if (cameraStreamer)
+  {
     cameraStreamer->requestInterruption();
     cameraStreamer->wait();
     delete cameraStreamer;
@@ -30,11 +33,13 @@ DSLRWebcam::~DSLRWebcam() {
   }
   // TODO: cleanup streamers
 
-  if (gstreamer) {
+  if (gstreamer)
+  {
     delete gstreamer;
   }
 
-  if (handler) {
+  if (handler)
+  {
     delete handler;
   }
 
@@ -43,11 +48,13 @@ DSLRWebcam::~DSLRWebcam() {
   gp_context_unref(context);
 }
 
-QList<QPair<QString, QString>> DSLRWebcam::getCameraList() {
+QList<QPair<QString, QString>> DSLRWebcam::getCameraList()
+{
   return GPhoto::getCameraList(context);
 }
 
-void DSLRWebcam::selectCamera(QString model, QString port) {
+void DSLRWebcam::selectCamera(QString model, QString port)
+{
   handler = new CameraHandler(model, port, abilities);
 
   const char *portData = port.toLocal8Bit().constData();
@@ -58,15 +65,18 @@ void DSLRWebcam::selectCamera(QString model, QString port) {
   handler->setPortInfo(portInfo);
 }
 
-void DSLRWebcam::killCurrentStreamer() {
-  if (currentStreamer) {
+void DSLRWebcam::killCurrentStreamer()
+{
+  if (currentStreamer)
+  {
     currentStreamer->requestInterruption();
     currentStreamer->wait();
     delete currentStreamer;
   }
 }
 
-void DSLRWebcam::useCameraStreamer() {
+void DSLRWebcam::useCameraStreamer()
+{
   killCurrentStreamer();
   cameraStreamer = new CameraStreamer();
   cameraStreamer->setCameraHandler(handler);
@@ -78,7 +88,8 @@ void DSLRWebcam::useCameraStreamer() {
   currentStreamer->start();
 }
 
-void DSLRWebcam::usePictureStreamer() {
+void DSLRWebcam::usePictureStreamer()
+{
   killCurrentStreamer();
   pictureStreamer = new PictureStreamer();
   pictureStreamer->setImagePath(
@@ -90,17 +101,25 @@ void DSLRWebcam::usePictureStreamer() {
   currentStreamer->start();
 }
 
-void DSLRWebcam::startStream() {
+void DSLRWebcam::startStream()
+{
   gstreamer = new GStreamerController();
   gstreamer->start();
 }
 bool DSLRWebcam::isStreamRunning() { return true; }
-void DSLRWebcam::pauseStream() {
-  qDebug() << "pause stream" << endl;
+void DSLRWebcam::pauseStream()
+{
+  qDebug() << "pause stream";
   cameraStreamer->requestInterruption();
 }
 
-void DSLRWebcam::resumeStream() {
-  qDebug() << "resume stream" << endl;
+void DSLRWebcam::resumeStream()
+{
+  qDebug() << "resume stream";
   cameraStreamer->start();
+}
+
+void DSLRWebcam::apertureUp()
+{
+  qDebug() << "apertureUP()";
 }

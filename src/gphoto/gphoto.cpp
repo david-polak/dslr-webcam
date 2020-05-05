@@ -38,15 +38,52 @@ void GPhoto::setCameraAbilities(Camera *camera, const char *model,
   gp_camera_set_abilities(camera, _abilitites);
 }
 
-//#include <gphoto2/gphoto2-camera.h>
-//#include <gphoto2/gphoto2-context.h>
-//#include <gphoto2/gphoto2-file.h>
-//#include <gphoto2/gphoto2-filesys.h>
-//#include <gphoto2/gphoto2-list.h>
-//#include <gphoto2/gphoto2-port-info-list.h>
-//#include <gphoto2/gphoto2-setting.h>
+// int list_all_config_action(Camera *camera, GPContext *context) {
+//   CameraWidget *rootconfig;
+//   ret = gp_camera_get_config(camera, &rootconfig, context);
 
-// inline QTextStream &qStdout() {
-//  static QTextStream r{stdout};
-//  return r;
-//}
+//   // display_widgets(p, rootconfig, "", 1);
+//   gp_widget_free(rootconfig);
+//   return (GP_OK);
+// }
+
+
+// static void
+// display_widgets (GPParams *p, CameraWidget *widget, char *prefix, int dumpval) {
+// 	int 	ret, n, i;
+// 	char	*newprefix;
+// 	const char *label, *name, *uselabel;
+// 	CameraWidgetType	type;
+
+// 	gp_widget_get_label (widget, &label);
+// 	/* fprintf(stderr,"label is %s\n", label); */
+// 	ret = gp_widget_get_name (widget, &name);
+// 	/* fprintf(stderr,"name is %s\n", name); */
+// 	gp_widget_get_type (widget, &type);
+
+// 	if (strlen(name))
+// 		uselabel = name;
+// 	else
+// 		uselabel = label;
+
+// 	n = gp_widget_count_children (widget);
+
+// 	newprefix = malloc(strlen(prefix)+1+strlen(uselabel)+1);
+// 	if (!newprefix)
+// 		abort();
+// 	sprintf(newprefix,"%s/%s",prefix,uselabel);
+
+// 	if ((type != GP_WIDGET_WINDOW) && (type != GP_WIDGET_SECTION)) {
+// 		printf("%s\n",newprefix);
+// 		if (dumpval) print_widget (p, newprefix, widget);
+// 	}
+// 	for (i=0; i<n; i++) {
+// 		CameraWidget *child;
+	
+// 		ret = gp_widget_get_child (widget, i, &child);
+// 		if (ret != GP_OK)
+// 			continue;
+// 		display_widgets (p, child, newprefix, dumpval);
+// 	}
+// 	free(newprefix);
+// }

@@ -11,7 +11,8 @@
 #include <gphoto2/gphoto2-abilities-list.h>
 #include <gphoto2/gphoto2-context.h>
 
-class DSLRWebcam {
+class DSLRWebcam
+{
 public:
   DSLRWebcam();
   ~DSLRWebcam();
@@ -28,6 +29,8 @@ public:
 
   void useCameraStreamer();
   void usePictureStreamer();
+
+  void apertureUp();
 
 protected:
   GPContext *context = NULL;
