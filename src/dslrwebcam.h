@@ -32,6 +32,8 @@ public:
 
   void apertureUp();
 
+public slots:
+
 protected:
   GPContext *context = NULL;
   CameraAbilitiesList *abilities = NULL;

@@ -27,9 +27,9 @@ public slots:
   void useCamera();
   void usePicture();
   void apertureUp();
+  void fillCameraBox();
 
 protected:
-  void fillCameraBox();
   void closeEvent(QCloseEvent *event);
 
 private:

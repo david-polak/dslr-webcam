@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->pictureBtn, SIGNAL(clicked()), this, SLOT(usePicture()));
   connect(ui->startBtn, SIGNAL(clicked()), this, SLOT(start()));
   connect(ui->apertureUp, SIGNAL(clicked()), this, SLOT(apertureUp()));
+  connect(ui->refreshBtn, SIGNAL(clicked()), this, SLOT(fillCameraBox()));
 }
 
 void MainWindow::fillCameraBox()
@@ -65,8 +66,7 @@ void MainWindow::useCamera() { dslrWebcam->useCameraStreamer(); }
 void MainWindow::usePicture() { dslrWebcam->usePictureStreamer(); }
 void MainWindow::apertureUp() { dslrWebcam->apertureUp(); }
 
-void 
-MainWindow::closeEvent(QCloseEvent *event)
+void MainWindow::closeEvent(QCloseEvent *event)
 {
   qDebug() << "MainWindow::closeEvent()";
   delete dslrWebcam;
