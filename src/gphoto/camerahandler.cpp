@@ -35,8 +35,7 @@ void CameraHandler::initPortInfoList() {
 
 void CameraHandler::initRootConfig() {
   const char *portData = port.toLocal8Bit().constData();
-
-  // raise(gp_camera_get_config(camera, &rootConfig, context));
+  raise(gp_camera_get_config(camera, &rootConfig, context));
 }
 
 void CameraHandler::initPortInfo() {

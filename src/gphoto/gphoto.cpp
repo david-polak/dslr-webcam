@@ -5,26 +5,26 @@
 #include <gphoto2/gphoto2-port-info-list.h>
 
 int autodetect(CameraList *list, GPContext *context) {
-  gp_list_reset(list);
-  return gp_camera_autodetect(list, context);
+  raise(gp_list_reset(list));
+  return raise(gp_camera_autodetect(list, context));
 }
 
 QList<QPair<QString, QString>> GPhoto::getCameraList(GPContext *context) {
   QList<QPair<QString, QString>> result;
   CameraList *list;
-  gp_list_new(&list);
+  raise(gp_list_new(&list));
   autodetect(list, context);
 
   const char *model;
   const char *port;
 
   for (int i = 0; i < gp_list_count(list); i++) {
-    gp_list_get_name(list, i, &model);
-    gp_list_get_value(list, i, &port);
+    raise(gp_list_get_name(list, i, &model));
+    raise(gp_list_get_value(list, i, &port));
     result.append(QPair<QString, QString>(model, port));
   }
 
-  gp_list_free(list);
+  raise(gp_list_free(list));
   return result;
 }
 
@@ -39,8 +39,8 @@ QList<QPair<QString, QString>> GPhoto::getCameraList(GPContext *context) {
 
 // static void
 // display_widgets (GPParams *p, CameraWidget *widget, char *prefix, int
-// dumpval) { 	int 	ret, n, i; 	char	*newprefix; 	const char *label, *name,
-// *uselabel; 	CameraWidgetType	type;
+// dumpval) { 	int 	ret, n, i; 	char	*newprefix; 	const char
+// *label, *name, *uselabel; 	CameraWidgetType	type;
 
 // 	gp_widget_get_label (widget, &label);
 // 	/* fprintf(stderr,"label is %s\n", label); */
