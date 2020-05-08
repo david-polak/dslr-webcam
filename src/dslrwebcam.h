@@ -11,8 +11,7 @@
 #include <gphoto2/gphoto2-abilities-list.h>
 #include <gphoto2/gphoto2-context.h>
 
-class DSLRWebcam
-{
+class DSLRWebcam {
 public:
   DSLRWebcam();
   ~DSLRWebcam();
@@ -36,7 +35,6 @@ public slots:
 
 protected:
   GPContext *context = NULL;
-  CameraAbilitiesList *abilities = NULL;
   CameraHandler *handler = NULL;
   GPPortInfoList *portinfolist = NULL;
 

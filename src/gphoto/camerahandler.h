@@ -6,13 +6,21 @@
 
 class CameraHandler {
 public:
-  CameraHandler(const QString model, const QString port,
-                CameraAbilitiesList *abilities);
+  CameraHandler(QString model, QString port, GPContext *context);
   ~CameraHandler();
   void setPortInfo(GPPortInfo portInfo);
 
   // private:
   Camera *camera;
+
+protected:
+  CameraAbilitiesList *abilitiesList = NULL;
+  GPContext *context = NULL;
+
+  QString model;
+  QString port;
+
+  void initAbilitiesList();
 };
 
 #endif // CAMERAHANDLER_H

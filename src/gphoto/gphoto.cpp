@@ -28,16 +28,6 @@ QList<QPair<QString, QString>> GPhoto::getCameraList(GPContext *context) {
   return result;
 }
 
-void GPhoto::setCameraAbilities(Camera *camera, const char *model,
-                                CameraAbilitiesList *abilities) {
-  CameraAbilities _abilitites;
-  int _model;
-
-  _model = gp_abilities_list_lookup_model(abilities, model);
-  gp_abilities_list_get_abilities(abilities, _model, &_abilitites);
-  gp_camera_set_abilities(camera, _abilitites);
-}
-
 // int list_all_config_action(Camera *camera, GPContext *context) {
 //   CameraWidget *rootconfig;
 //   ret = gp_camera_get_config(camera, &rootconfig, context);
@@ -47,13 +37,10 @@ void GPhoto::setCameraAbilities(Camera *camera, const char *model,
 //   return (GP_OK);
 // }
 
-
 // static void
-// display_widgets (GPParams *p, CameraWidget *widget, char *prefix, int dumpval) {
-// 	int 	ret, n, i;
-// 	char	*newprefix;
-// 	const char *label, *name, *uselabel;
-// 	CameraWidgetType	type;
+// display_widgets (GPParams *p, CameraWidget *widget, char *prefix, int
+// dumpval) { 	int 	ret, n, i; 	char	*newprefix; 	const char *label, *name,
+// *uselabel; 	CameraWidgetType	type;
 
 // 	gp_widget_get_label (widget, &label);
 // 	/* fprintf(stderr,"label is %s\n", label); */
@@ -79,7 +66,7 @@ void GPhoto::setCameraAbilities(Camera *camera, const char *model,
 // 	}
 // 	for (i=0; i<n; i++) {
 // 		CameraWidget *child;
-	
+
 // 		ret = gp_widget_get_child (widget, i, &child);
 // 		if (ret != GP_OK)
 // 			continue;

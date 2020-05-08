@@ -6,26 +6,19 @@
 #include <QDebug>
 #include <gphoto2/gphoto2-port-info-list.h>
 
-DSLRWebcam::DSLRWebcam()
-{
+DSLRWebcam::DSLRWebcam() {
   // TODO: handle return values
   context = gp_context_new();
-
-  // loading abilities from libGPhoto2 camera drivers
-  gp_abilities_list_new(&abilities);
-  gp_abilities_list_load(abilities, context);
 
   gp_port_info_list_new(&portinfolist);
   gp_port_info_list_load(portinfolist);
   gp_port_info_list_count(portinfolist);
 }
 
-DSLRWebcam::~DSLRWebcam()
-{
+DSLRWebcam::~DSLRWebcam() {
   qDebug() << "~dslrWebcam()";
 
-  if (cameraStreamer)
-  {
+  if (cameraStreamer) {
     cameraStreamer->requestInterruption();
     cameraStreamer->wait();
     delete cameraStreamer;
@@ -33,29 +26,24 @@ DSLRWebcam::~DSLRWebcam()
   }
   // TODO: cleanup streamers
 
-  if (gstreamer)
-  {
+  if (gstreamer) {
     delete gstreamer;
   }
 
-  if (handler)
-  {
+  if (handler) {
     delete handler;
   }
 
   gp_port_info_list_free(portinfolist);
-  gp_abilities_list_free(abilities);
   gp_context_unref(context);
 }
 
-QList<QPair<QString, QString>> DSLRWebcam::getCameraList()
-{
+QList<QPair<QString, QString>> DSLRWebcam::getCameraList() {
   return GPhoto::getCameraList(context);
 }
 
-void DSLRWebcam::selectCamera(QString model, QString port)
-{
-  handler = new CameraHandler(model, port, abilities);
+void DSLRWebcam::selectCamera(QString model, QString port) {
+  handler = new CameraHandler(model, port, context);
 
   const char *portData = port.toLocal8Bit().constData();
   int path = gp_port_info_list_lookup_path(portinfolist, portData);
@@ -65,18 +53,15 @@ void DSLRWebcam::selectCamera(QString model, QString port)
   handler->setPortInfo(portInfo);
 }
 
-void DSLRWebcam::killCurrentStreamer()
-{
-  if (currentStreamer)
-  {
+void DSLRWebcam::killCurrentStreamer() {
+  if (currentStreamer) {
     currentStreamer->requestInterruption();
     currentStreamer->wait();
     delete currentStreamer;
   }
 }
 
-void DSLRWebcam::useCameraStreamer()
-{
+void DSLRWebcam::useCameraStreamer() {
   killCurrentStreamer();
   cameraStreamer = new CameraStreamer();
   cameraStreamer->setCameraHandler(handler);
@@ -88,8 +73,7 @@ void DSLRWebcam::useCameraStreamer()
   currentStreamer->start();
 }
 
-void DSLRWebcam::usePictureStreamer()
-{
+void DSLRWebcam::usePictureStreamer() {
   killCurrentStreamer();
   pictureStreamer = new PictureStreamer();
   pictureStreamer->setImagePath(
@@ -101,26 +85,22 @@ void DSLRWebcam::usePictureStreamer()
   currentStreamer->start();
 }
 
-void DSLRWebcam::startStream()
-{
+void DSLRWebcam::startStream() {
   gstreamer = new GStreamerController();
   gstreamer->start();
 }
 bool DSLRWebcam::isStreamRunning() { return true; }
-void DSLRWebcam::pauseStream()
-{
+void DSLRWebcam::pauseStream() {
   qDebug() << "pause stream";
   cameraStreamer->requestInterruption();
 }
 
-void DSLRWebcam::resumeStream()
-{
+void DSLRWebcam::resumeStream() {
   qDebug() << "resume stream";
   cameraStreamer->start();
 }
 
-void DSLRWebcam::apertureUp()
-{
+void DSLRWebcam::apertureUp() {
   qDebug() << "apertureUP()";
   //   /main/capturesettings/aperture
   // Label: Aperture
@@ -200,7 +180,8 @@ void DSLRWebcam::apertureUp()
   //       return;
   //     }
   //   }
-  //   /* Lets just try setting the value directly, in case we have flexible setters,
+  //   /* Lets just try setting the value directly, in case we have flexible
+  //   setters,
   // 		 * like PTP shutterspeed. */
   //   ret = gp_widget_set_value(child, value);
   //   if (ret == GP_OK)
