@@ -5,8 +5,7 @@
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow)
-{
+    : QMainWindow(parent), ui(new Ui::MainWindow) {
 
   ui->setupUi(this);
   dslrWebcam = new DSLRWebcam();
@@ -23,8 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->refreshBtn, SIGNAL(clicked()), this, SLOT(fillCameraBox()));
 }
 
-void MainWindow::fillCameraBox()
-{
+void MainWindow::fillCameraBox() {
   disconnect(ui->cameraBox, SIGNAL(currentIndexChanged(int)), this,
              SLOT(changeCamera(int)));
 
@@ -32,8 +30,8 @@ void MainWindow::fillCameraBox()
   ui->cameraBox->addItem("disconnected", false);
 
   auto list = dslrWebcam->getCameraList();
-  for (const auto &item : list)
-  {
+  for (const auto &item : list) {
+
     ui->cameraBox->addItem(item.first, item.second);
   }
 
@@ -41,12 +39,10 @@ void MainWindow::fillCameraBox()
           SLOT(changeCamera(int)));
 }
 
-void MainWindow::changeCamera(int index)
-{
+void MainWindow::changeCamera(int index) {
   QVariant data = ui->cameraBox->itemData(index);
 
-  if (data.type() == QVariant::Bool)
-  {
+  if (data.type() == QVariant::Bool) {
     return;
   }
 
@@ -66,14 +62,12 @@ void MainWindow::useCamera() { dslrWebcam->useCameraStreamer(); }
 void MainWindow::usePicture() { dslrWebcam->usePictureStreamer(); }
 void MainWindow::apertureUp() { dslrWebcam->apertureUp(); }
 
-void MainWindow::closeEvent(QCloseEvent *event)
-{
+void MainWindow::closeEvent(QCloseEvent *event) {
   qDebug() << "MainWindow::closeEvent()";
   delete dslrWebcam;
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
   qDebug() << "~MainWindow()";
   delete ui;
 }
