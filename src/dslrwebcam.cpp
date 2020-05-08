@@ -9,10 +9,6 @@
 DSLRWebcam::DSLRWebcam() {
   // TODO: handle return values
   context = gp_context_new();
-
-  gp_port_info_list_new(&portinfolist);
-  gp_port_info_list_load(portinfolist);
-  gp_port_info_list_count(portinfolist);
 }
 
 DSLRWebcam::~DSLRWebcam() {
@@ -34,7 +30,6 @@ DSLRWebcam::~DSLRWebcam() {
     delete handler;
   }
 
-  gp_port_info_list_free(portinfolist);
   gp_context_unref(context);
 }
 
@@ -44,13 +39,6 @@ QList<QPair<QString, QString>> DSLRWebcam::getCameraList() {
 
 void DSLRWebcam::selectCamera(QString model, QString port) {
   handler = new CameraHandler(model, port, context);
-
-  const char *portData = port.toLocal8Bit().constData();
-  int path = gp_port_info_list_lookup_path(portinfolist, portData);
-
-  GPPortInfo portInfo;
-  gp_port_info_list_get_info(portinfolist, path, &portInfo);
-  handler->setPortInfo(portInfo);
 }
 
 void DSLRWebcam::killCurrentStreamer() {

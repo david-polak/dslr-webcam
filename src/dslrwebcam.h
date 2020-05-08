@@ -36,7 +36,6 @@ public slots:
 protected:
   GPContext *context = NULL;
   CameraHandler *handler = NULL;
-  GPPortInfoList *portinfolist = NULL;
 
   GStreamerController *gstreamer = NULL;
 
