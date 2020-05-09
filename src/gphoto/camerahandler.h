@@ -15,6 +15,7 @@ public:
   Camera *camera;
 
   QList<QString> getWidgets(CameraWidgetType type, int readonly);
+  CameraWidget *getWidget(QString moniker);
 
 protected:
   CameraAbilitiesList *abilitiesList = NULL;

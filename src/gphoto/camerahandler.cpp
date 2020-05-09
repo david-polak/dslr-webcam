@@ -111,3 +111,12 @@ QList<QString> CameraHandler::getWidgets(CameraWidgetType type, int readonly) {
 
   return result;
 }
+
+CameraWidget *CameraHandler::getWidget(QString moniker) {
+  for (auto pair : widgets) {
+    if (pair.first == moniker) {
+      return pair.second;
+    }
+  }
+  throw GP_ERROR;
+}
