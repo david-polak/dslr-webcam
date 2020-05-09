@@ -4,9 +4,7 @@
 #include <gphoto2/gphoto2-camera.h>
 #include <gphoto2/gphoto2-file.h>
 
-void CameraStreamer::setCameraHandler(CameraHandler *handler) {
-  this->handler = handler;
-}
+void CameraStreamer::setCamera(Camera *camera) { this->camera = camera; }
 void CameraStreamer::setContext(GPContext *context) { this->context = context; }
 
 CameraStreamer::~CameraStreamer() {
@@ -28,7 +26,7 @@ void CameraStreamer::run() {
       return;
     }
 
-    r = gp_camera_capture_preview(handler->camera, this->file, context);
+    r = gp_camera_capture_preview(camera, this->file, context);
     if (r < 0) {
       qDebug() << "Movie capture error... Exiting.";
       break;

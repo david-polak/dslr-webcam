@@ -21,6 +21,9 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->pictureBtn, SIGNAL(clicked()), this, SLOT(usePicture()));
   connect(ui->refreshBtn, SIGNAL(clicked()), this, SLOT(fillCameraBox()));
 
+  connect(ui->realAperture, SIGNAL(toggled(bool)), dslrWebcam,
+          SLOT(toggleDOF(bool)));
+
   QTimer::singleShot(0, this, SLOT(fillV4L2List()));
 }
 

@@ -8,11 +8,13 @@
 #include "src/streamers/istreamer.h"
 #include "src/streamers/picturestreamer.h"
 #include <QList>
+#include <QObject>
 #include <QString>
 #include <gphoto2/gphoto2-abilities-list.h>
 #include <gphoto2/gphoto2-context.h>
 
-class DSLRWebcam {
+class DSLRWebcam : public QObject {
+  Q_OBJECT
 public:
   DSLRWebcam();
   ~DSLRWebcam();
@@ -39,7 +41,12 @@ public:
 
   void apertureUp();
 
+  void interruptCamera();
+  void resumeCamera();
+
 public slots:
+
+  void toggleDOF(bool enable);
 
 protected:
   GPContext *context = NULL;

@@ -48,6 +48,31 @@ void CameraHandler::initPortInfo() {
   gp_raise(gp_camera_set_port_info(camera, portInfo));
 }
 
+void CameraHandler::toggleDOF(bool enable) {
+  interruptCamera();
+  if (enable) {
+    setWidgetValue("Depth of Field", "2");
+  } else {
+    setWidgetValue("Depth of Field", "0");
+  }
+  resumeCamera();
+}
+
+void CameraHandler::setWidgetValue(QString name, QString value) {
+  for (auto pair : widgets) {
+    if (pair.first == name) {
+      auto _widget = pair.second;
+
+      const char *name;
+      gp_raise(gp_widget_get_name(_widget, &name));
+      gp_raise(gp_widget_set_value(_widget, value.toLocal8Bit().constData()));
+      gp_raise(gp_camera_set_single_config(camera, name, _widget, context));
+
+      qDebug() << "Set" << name << "=" << value;
+    }
+  }
+}
+
 void CameraHandler::initWidgets() {
   fillWidgetsDFS(rootConfig);
   qDebug() << "Camera widgets count:" << widgets.size();
@@ -119,4 +144,21 @@ CameraWidget *CameraHandler::getWidget(QString moniker) {
     }
   }
   throw GP_ERROR;
+}
+
+void CameraHandler::setCameraStreamer(CameraStreamer *streamer) {
+  this->streamer = streamer;
+}
+
+void CameraHandler::interruptCamera() {
+  if (streamer != NULL) {
+    streamer->requestInterruption();
+    streamer->wait();
+  }
+}
+
+void CameraHandler::resumeCamera() {
+  if (streamer != NULL) {
+    streamer->start();
+  }
 }

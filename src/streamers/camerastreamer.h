@@ -1,10 +1,10 @@
-#ifndef STREAM_H
-#define STREAM_H
+#ifndef CAMERASTREAMER_H
+#define CAMERASTREAMER_H
 
 #include <QThread>
 
 #include "istreamer.h"
-#include "src/gphoto/camerahandler.h"
+#include <gphoto2/gphoto2-camera.h>
 
 class CameraStreamer : public IStreamer {
 public:
@@ -12,13 +12,13 @@ public:
   void run() override;
   void setFd(int fd) override;
 
-  void setCameraHandler(CameraHandler *handler);
+  void setCamera(Camera *camera);
   void setContext(GPContext *context);
 
 private:
-  CameraHandler *handler;
   GPContext *context;
   CameraFile *file;
+  Camera *camera;
 };
 
-#endif // STREAM_H
+#endif

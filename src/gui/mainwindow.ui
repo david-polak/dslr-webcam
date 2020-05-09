@@ -71,6 +71,13 @@
             </item>
            </layout>
           </item>
+          <item>
+           <widget class="QCheckBox" name="realAperture">
+            <property name="text">
+             <string>Real Aperture (lock)</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
        </layout>

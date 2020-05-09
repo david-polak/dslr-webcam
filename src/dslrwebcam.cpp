@@ -4,6 +4,7 @@
 
 #include "src/gstreamer/gstreamercontroller.h"
 #include <QDebug>
+#include <QTimer>
 #include <gphoto2/gphoto2-port-info-list.h>
 
 DSLRWebcam::DSLRWebcam() {
@@ -55,9 +56,13 @@ QStringList DSLRWebcam::getCameraWidgets() {
 
 void DSLRWebcam::killCurrentStreamer() {
   if (currentStreamer) {
+    if (typeid(currentStreamer) == typeid(CameraStreamer)) {
+      handler->setCameraStreamer(NULL);
+    }
     currentStreamer->requestInterruption();
     currentStreamer->wait();
     delete currentStreamer;
+    currentStreamer = NULL;
   }
 }
 
@@ -65,17 +70,31 @@ WidgetRadioControl *DSLRWebcam::createWidgetRadioControl(QWidget *parent,
                                                          QString moniker) {
   CameraWidget *widget = handler->getWidget(moniker);
 
-  WidgetRadioControl *control = new WidgetRadioControl(parent, moniker, widget);
+  WidgetRadioControl *control =
+      new WidgetRadioControl(parent, moniker, handler, context, widget);
 
   return control;
+}
+
+void DSLRWebcam::interruptCamera() {
+  if (typeid(currentStreamer) == typeid(CameraStreamer)) {
+    killCurrentStreamer();
+  }
+}
+
+void DSLRWebcam::resumeCamera() {
+  if (currentStreamer == NULL) {
+    useCameraStreamer();
+  }
 }
 
 void DSLRWebcam::useCameraStreamer() {
   killCurrentStreamer();
   cameraStreamer = new CameraStreamer();
-  cameraStreamer->setCameraHandler(handler);
+  cameraStreamer->setCamera(handler->camera);
   cameraStreamer->setContext(context);
   currentStreamer = cameraStreamer;
+  handler->setCameraStreamer(cameraStreamer);
 
   int fd = gstreamer->getFd();
   currentStreamer->setFd(fd);
@@ -92,6 +111,11 @@ void DSLRWebcam::usePictureStreamer() {
   int fd = gstreamer->getFd();
   currentStreamer->setFd(fd);
   currentStreamer->start();
+}
+
+void DSLRWebcam::toggleDOF(bool enable) {
+  qDebug() << "DSLRWebcam::toggleDOF(" << enable << ")";
+  handler->toggleDOF(enable);
 }
 
 void DSLRWebcam::startStream() { gstreamer->start(); }
