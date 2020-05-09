@@ -39,7 +39,11 @@ QList<QPair<QString, QString>> DSLRWebcam::getCameraList() {
 
 void DSLRWebcam::selectCamera(QString model, QString port) {
   handler = new CameraHandler(model, port, context);
-  //handler->getWidgets();
+
+  auto widgets = handler->getWidgets(GP_WIDGET_RADIO, 0);
+  for (auto widget : widgets) {
+    qDebug() << widget;
+  }
 }
 
 void DSLRWebcam::killCurrentStreamer() {

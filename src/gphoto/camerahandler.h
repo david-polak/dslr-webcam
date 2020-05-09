@@ -14,7 +14,7 @@ public:
   // private:
   Camera *camera;
 
-  //QList<QPair<QString, QString>> getWidgets();
+  QList<QString> getWidgets(CameraWidgetType type, int readonly);
 
 protected:
   CameraAbilitiesList *abilitiesList = NULL;

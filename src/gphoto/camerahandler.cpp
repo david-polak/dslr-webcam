@@ -92,15 +92,22 @@ void CameraHandler::fillWidgetsDFS(CameraWidget *widget) {
   }
 }
 
-// QList<QPair<QString, QString>> CameraHandler::getWidgets() {
-//   QList<QPair<QString, QString>> result;
-//   // dfsWidgets(result, rootConfig);
-// const char *label;
-// const char *name;
-// CameraWidgetType type;
-// raise(gp_widget_get_label(widget, &label));
-// raise(gp_widget_get_name(widget, &name));
-// raise(gp_widget_get_type(widget, &type));
+QList<QString> CameraHandler::getWidgets(CameraWidgetType type, int readonly) {
+  QList<QString> result;
 
-//   return result;
-// }
+  for (auto pair : widgets) {
+    CameraWidget *widget = pair.second;
+
+    CameraWidgetType _type;
+    int _readonly;
+
+    raise(gp_widget_get_type(widget, &_type));
+    raise(gp_widget_get_readonly(widget, &_readonly));
+
+    if (_type == type && _readonly == readonly) {
+      result.append(pair.first);
+    }
+  }
+
+  return result;
+}
