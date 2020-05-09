@@ -9,32 +9,40 @@
 DSLRWebcam::DSLRWebcam() {
   // TODO: handle return values
   context = gp_context_new();
+  gstreamer = new GStreamerController();
 }
 
 DSLRWebcam::~DSLRWebcam() {
   qDebug() << "~dslrWebcam()";
 
-  if (cameraStreamer) {
+  if (cameraStreamer != NULL) {
+    qDebug() << "delete cameraStreamer";
     cameraStreamer->requestInterruption();
     cameraStreamer->wait();
     delete cameraStreamer;
-    qDebug() << "delete cameraStreamer;";
   }
   // TODO: cleanup streamers
 
-  if (gstreamer) {
+  if (gstreamer != NULL) {
+    qDebug() << "delete gstreamer";
     delete gstreamer;
   }
 
-  if (handler) {
+  if (handler != NULL) {
+    qDebug() << "delete handler";
     delete handler;
   }
 
+  qDebug() << "delete context";
   gp_context_unref(context);
 }
 
 QList<QPair<QString, QString>> DSLRWebcam::getCameraList() {
   return GPhoto::getCameraList(context);
+}
+
+void DSLRWebcam::setV4L2Device(QString device) {
+  gstreamer->setV4L2Device(device);
 }
 
 void DSLRWebcam::selectCamera(QString model, QString port) {
@@ -78,10 +86,7 @@ void DSLRWebcam::usePictureStreamer() {
   currentStreamer->start();
 }
 
-void DSLRWebcam::startStream() {
-  gstreamer = new GStreamerController();
-  gstreamer->start();
-}
+void DSLRWebcam::startStream() { gstreamer->start(); }
 bool DSLRWebcam::isStreamRunning() { return true; }
 void DSLRWebcam::pauseStream() {
   qDebug() << "pause stream";
@@ -91,6 +96,10 @@ void DSLRWebcam::pauseStream() {
 void DSLRWebcam::resumeStream() {
   qDebug() << "resume stream";
   cameraStreamer->start();
+}
+
+QStringList DSLRWebcam::getV4L2Devices() {
+  return gstreamer->listV4L2Devices();
 }
 
 void DSLRWebcam::apertureUp() {
@@ -112,7 +121,7 @@ void DSLRWebcam::apertureUp() {
   // Choice: 9 8
   // Choice: 10 9
   // Choice: 11 10
-  // Choice: 12 11
+  // Choice: 12 1}1
   // Choice: 13 13
   // Choice: 14 14
   // Choice: 15 16

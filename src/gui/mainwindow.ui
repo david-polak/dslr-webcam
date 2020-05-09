@@ -6,95 +6,130 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>621</width>
-    <height>479</height>
+    <width>506</width>
+    <height>437</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>DSLR Webcam</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="gridLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>621</width>
-      <height>421</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0">
-     <item row="2" column="0">
-      <widget class="QPushButton" name="startBtn">
-       <property name="text">
-        <string>Start Stream</string>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="configTabWidget">
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="cameraTab">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-      </widget>
-     </item>
-     <item row="8" column="0">
-      <widget class="QPushButton" name="apertureDown">
-       <property name="text">
-        <string>Aperture -</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QPushButton" name="pauseBtn">
-       <property name="text">
-        <string>Pause</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QPushButton" name="resumeBtn">
-       <property name="text">
-        <string>Resume</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QPushButton" name="cameraBtn">
-       <property name="text">
+       <attribute name="title">
         <string>Camera</string>
-       </property>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0">
+          <item row="2" column="2">
+           <widget class="QPushButton" name="resumeBtn">
+            <property name="text">
+             <string>Resume</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="refreshBtn">
+            <property name="text">
+             <string>Refresh</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" colspan="2">
+           <widget class="QComboBox" name="cameraBox"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QPushButton" name="pauseBtn">
+            <property name="text">
+             <string>Pause</string>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="QPushButton" name="apertureUp">
-       <property name="text">
-        <string>Aperture +</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QPushButton" name="pictureBtn">
-       <property name="text">
+      <widget class="QWidget" name="pictureTab">
+       <attribute name="title">
         <string>Picture</string>
-       </property>
+       </attribute>
       </widget>
-     </item>
-     <item row="0" column="0" colspan="2">
-      <widget class="QComboBox" name="cameraBox"/>
-     </item>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="refreshBtn">
-       <property name="text">
-        <string>Refresh</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="pictureBtn">
+        <property name="text">
+         <string>Picture</string>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="cameraBtn">
+        <property name="text">
+         <string>Camera</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QComboBox" name="v4l2List"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="startBtn">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <strikeout>false</strikeout>
+         </font>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Start Stream</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>621</width>
+     <width>506</width>
      <height>30</height>
     </rect>
    </property>

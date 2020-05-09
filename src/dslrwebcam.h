@@ -17,6 +17,8 @@ public:
   ~DSLRWebcam();
 
   QList<QPair<QString, QString>> getCameraList();
+  QStringList getV4L2Devices();
+  void setV4L2Device(QString device);
 
   void selectCamera(QString model, QString port);
   void startStream();

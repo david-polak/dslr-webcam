@@ -26,6 +26,8 @@ public slots:
   void usePicture();
   void apertureUp();
   void fillCameraBox();
+  void fillV4L2List();
+  void setV4L2Device(int index);
 
 protected:
   void closeEvent(QCloseEvent *event);

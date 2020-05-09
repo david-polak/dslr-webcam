@@ -4,6 +4,9 @@
 #include <QComboBox>
 #include <QDebug>
 
+#include <QMessageBox>
+#include <QTimer>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
@@ -18,8 +21,31 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->cameraBtn, SIGNAL(clicked()), this, SLOT(useCamera()));
   connect(ui->pictureBtn, SIGNAL(clicked()), this, SLOT(usePicture()));
   connect(ui->startBtn, SIGNAL(clicked()), this, SLOT(start()));
-  connect(ui->apertureUp, SIGNAL(clicked()), this, SLOT(apertureUp()));
   connect(ui->refreshBtn, SIGNAL(clicked()), this, SLOT(fillCameraBox()));
+
+  QTimer::singleShot(0, this, SLOT(fillV4L2List()));
+}
+
+void MainWindow::fillV4L2List() {
+  ui->v4l2List->clear();
+
+  auto list = dslrWebcam->getV4L2Devices();
+  if (list.empty()) {
+    QString error = "Could not find any v4l2 devices.";
+    error += " Please run `modprobe v4l2loopback exclusive_caps=1` to add one.";
+    QMessageBox::information(this, "Error", error, QMessageBox::Ok);
+    QCoreApplication::exit(1);
+  }
+
+  // connecting here ensures signal gets triggered on addItems()
+  connect(ui->v4l2List, SIGNAL(currentIndexChanged(int)), this,
+          SLOT(setV4L2Device(int)));
+  ui->v4l2List->addItems(list);
+}
+
+void MainWindow::setV4L2Device(int index) {
+  QString device = ui->v4l2List->itemText(index);
+  dslrWebcam->setV4L2Device(device);
 }
 
 void MainWindow::fillCameraBox() {
