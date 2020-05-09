@@ -82,6 +82,13 @@ void MainWindow::changeCamera(int index) {
   ui->selectWidgetBox->clear();
   ui->selectWidgetBox->setEnabled(true);
   ui->selectWidgetBox->addItems(cameraWidgets);
+
+  ui->cameraVerticalLayout->addWidget(
+      dslrWebcam->createWidgetRadioControl(this, "Aperture"));
+  ui->cameraVerticalLayout->addWidget(
+      dslrWebcam->createWidgetRadioControl(this, "ISO Speed"));
+  ui->cameraVerticalLayout->addWidget(
+      dslrWebcam->createWidgetRadioControl(this, "Shutter Speed"));
 }
 
 void MainWindow::enableStreamers() {

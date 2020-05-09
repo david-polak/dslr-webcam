@@ -3,6 +3,7 @@
 
 #include "src/gphoto/camerahandler.h"
 #include "src/gstreamer/gstreamercontroller.h"
+#include "src/gui/widgetradiocontrol.h"
 #include "src/streamers/camerastreamer.h"
 #include "src/streamers/istreamer.h"
 #include "src/streamers/picturestreamer.h"
@@ -19,6 +20,9 @@ public:
   QList<QPair<QString, QString>> getCameraList();
   QStringList getV4L2Devices();
   QStringList getCameraWidgets();
+
+  WidgetRadioControl *createWidgetRadioControl(QWidget *parent,
+                                               QString moniker);
 
   void setV4L2Device(QString device);
 
