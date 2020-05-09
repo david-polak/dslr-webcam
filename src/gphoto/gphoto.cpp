@@ -28,15 +28,6 @@ QList<QPair<QString, QString>> GPhoto::getCameraList(GPContext *context) {
   return result;
 }
 
-// int list_all_config_action(Camera *camera, GPContext *context) {
-//   CameraWidget *rootconfig;
-//   ret = gp_camera_get_config(camera, &rootconfig, context);
-
-//   // display_widgets(p, rootconfig, "", 1);
-//   gp_widget_free(rootconfig);
-//   return (GP_OK);
-// }
-
 // static void
 // display_widgets (GPParams *p, CameraWidget *widget, char *prefix, int
 // dumpval) { 	int 	ret, n, i; 	char	*newprefix; 	const char

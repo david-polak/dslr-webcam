@@ -13,6 +13,7 @@ CameraHandler::CameraHandler(QString model, QString port, GPContext *context) {
   initPortInfoList();
   initPortInfo();
   initRootConfig();
+  initWidgets();
 }
 
 void CameraHandler::initAbilitiesList() {
@@ -47,6 +48,11 @@ void CameraHandler::initPortInfo() {
   raise(gp_camera_set_port_info(camera, portInfo));
 }
 
+void CameraHandler::initWidgets() {
+  fillWidgetsDFS(rootConfig);
+  qDebug() << "Camera widgets count:" << widgets.size();
+}
+
 CameraHandler::~CameraHandler() {
   qDebug() << "~CameraHandler()";
   if (portInfoList != NULL) {
@@ -62,3 +68,39 @@ CameraHandler::~CameraHandler() {
     raise(gp_camera_unref(camera));
   }
 }
+
+void CameraHandler::fillWidgetsDFS(CameraWidget *widget) {
+  const char *label;
+  const char *name;
+  raise(gp_widget_get_label(widget, &label));
+  raise(gp_widget_get_name(widget, &name));
+
+  const char *moniker;
+  if (strlen(label)) {
+    moniker = label;
+  } else {
+    moniker = name;
+  }
+
+  widgets.append(QPair<QString, CameraWidget *>(moniker, widget));
+
+  int childrenCount = gp_widget_count_children(widget);
+  for (int i = 0; i < childrenCount; i++) {
+    CameraWidget *child;
+    raise(gp_widget_get_child(widget, i, &child));
+    fillWidgetsDFS(child);
+  }
+}
+
+// QList<QPair<QString, QString>> CameraHandler::getWidgets() {
+//   QList<QPair<QString, QString>> result;
+//   // dfsWidgets(result, rootConfig);
+// const char *label;
+// const char *name;
+// CameraWidgetType type;
+// raise(gp_widget_get_label(widget, &label));
+// raise(gp_widget_get_name(widget, &name));
+// raise(gp_widget_get_type(widget, &type));
+
+//   return result;
+// }
