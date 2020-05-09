@@ -24,7 +24,15 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->realAperture, SIGNAL(toggled(bool)), dslrWebcam,
           SLOT(toggleDOF(bool)));
 
+  connect(ui->addWidgetBtn, SIGNAL(clicked()), this, SLOT(addWidget()));
+
   QTimer::singleShot(0, this, SLOT(fillV4L2List()));
+}
+
+void MainWindow::addWidget() {
+  QString name = ui->selectWidgetBox->currentText();
+  ui->cameraVerticalLayout->addWidget(
+      dslrWebcam->createWidgetRadioControl(this, name));
 }
 
 void MainWindow::fillV4L2List() {
@@ -114,7 +122,6 @@ void MainWindow::resume() { dslrWebcam->resumeStream(); }
 
 void MainWindow::useCamera() { dslrWebcam->useCameraStreamer(); }
 void MainWindow::usePicture() { dslrWebcam->usePictureStreamer(); }
-void MainWindow::apertureUp() { dslrWebcam->apertureUp(); }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
   qDebug() << "MainWindow::closeEvent()";

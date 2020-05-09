@@ -39,8 +39,6 @@ public:
   void useCameraStreamer();
   void usePictureStreamer();
 
-  void apertureUp();
-
   void interruptCamera();
   void resumeCamera();
 

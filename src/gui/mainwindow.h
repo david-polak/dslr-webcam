@@ -28,10 +28,11 @@ public slots:
   void resume();
   void useCamera();
   void usePicture();
-  void apertureUp();
   void fillCameraBox();
   void fillV4L2List();
   void setV4L2Device(int index);
+
+  void addWidget();
 
 protected:
   void closeEvent(QCloseEvent *event);

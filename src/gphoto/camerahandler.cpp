@@ -151,6 +151,7 @@ void CameraHandler::setCameraStreamer(CameraStreamer *streamer) {
 }
 
 void CameraHandler::interruptCamera() {
+  qDebug() << "interruptCamera";
   if (streamer != NULL) {
     streamer->requestInterruption();
     streamer->wait();
@@ -158,6 +159,7 @@ void CameraHandler::interruptCamera() {
 }
 
 void CameraHandler::resumeCamera() {
+  qDebug() << "resumeCamera";
   if (streamer != NULL) {
     streamer->start();
   }
