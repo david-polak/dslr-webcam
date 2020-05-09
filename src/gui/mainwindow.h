@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "src/dslrwebcam.h"
+#include "ui_mainwindow.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE

@@ -21,6 +21,8 @@ add_executable(dslr-webcam
     src/gphoto/gphoto.cpp
     src/gui/mainwindow.cpp
     src/gui/mainwindow.ui
+    src/gui/widgetradiocontrol.cpp
+    src/gui/widgetradiocontrol.ui
     src/main.cpp
     src/dslrwebcam.cpp
 )
