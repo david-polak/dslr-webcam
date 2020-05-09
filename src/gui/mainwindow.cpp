@@ -76,6 +76,12 @@ void MainWindow::changeCamera(int index) {
   qDebug() << "model:" << model << " port:" << port;
 
   dslrWebcam->selectCamera(model, port);
+
+  auto cameraWidgets = dslrWebcam->getCameraWidgets();
+  ui->addWidgetBtn->setEnabled(true);
+  ui->selectWidgetBox->clear();
+  ui->selectWidgetBox->setEnabled(true);
+  ui->selectWidgetBox->addItems(cameraWidgets);
 }
 
 void MainWindow::enableStreamers() {

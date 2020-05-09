@@ -47,11 +47,10 @@ void DSLRWebcam::setV4L2Device(QString device) {
 
 void DSLRWebcam::selectCamera(QString model, QString port) {
   handler = new CameraHandler(model, port, context);
+}
 
-  auto widgets = handler->getWidgets(GP_WIDGET_RADIO, 0);
-  for (auto widget : widgets) {
-    qDebug() << widget;
-  }
+QStringList DSLRWebcam::getCameraWidgets() {
+  return handler->getWidgets(GP_WIDGET_RADIO, 0);
 }
 
 void DSLRWebcam::killCurrentStreamer() {

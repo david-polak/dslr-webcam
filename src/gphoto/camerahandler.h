@@ -14,7 +14,7 @@ public:
   // private:
   Camera *camera;
 
-  QList<QString> getWidgets(CameraWidgetType type, int readonly);
+  QStringList getWidgets(CameraWidgetType type, int readonly);
   CameraWidget *getWidget(QString moniker);
 
 protected:

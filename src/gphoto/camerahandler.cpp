@@ -92,8 +92,8 @@ void CameraHandler::fillWidgetsDFS(CameraWidget *widget) {
   }
 }
 
-QList<QString> CameraHandler::getWidgets(CameraWidgetType type, int readonly) {
-  QList<QString> result;
+QStringList CameraHandler::getWidgets(CameraWidgetType type, int readonly) {
+  QStringList result;
 
   for (auto pair : widgets) {
     CameraWidget *widget = pair.second;
