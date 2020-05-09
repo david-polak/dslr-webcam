@@ -35,33 +35,16 @@
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0">
-          <item row="2" column="2">
-           <widget class="QPushButton" name="resumeBtn">
-            <property name="text">
-             <string>Resume</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
+         <layout class="QGridLayout" name="gridLayout" rowstretch="0" columnstretch="0,0">
+          <item row="0" column="1">
            <widget class="QPushButton" name="refreshBtn">
             <property name="text">
              <string>Refresh</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0" colspan="2">
+          <item row="0" column="0">
            <widget class="QComboBox" name="cameraBox"/>
-          </item>
-          <item row="2" column="1">
-           <widget class="QPushButton" name="pauseBtn">
-            <property name="text">
-             <string>Pause</string>
-            </property>
-            <property name="flat">
-             <bool>false</bool>
-            </property>
-           </widget>
           </item>
          </layout>
         </item>
@@ -78,8 +61,14 @@
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QPushButton" name="pictureBtn">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Picture</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
         <property name="flat">
          <bool>false</bool>
@@ -88,8 +77,14 @@
       </item>
       <item>
        <widget class="QPushButton" name="cameraBtn">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Camera</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -104,7 +99,7 @@
        <widget class="QComboBox" name="v4l2List"/>
       </item>
       <item>
-       <widget class="QPushButton" name="startBtn">
+       <widget class="QPushButton" name="startStreamBtn">
         <property name="font">
          <font>
           <weight>50</weight>
@@ -117,6 +112,9 @@
         </property>
         <property name="text">
          <string>Start Stream</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

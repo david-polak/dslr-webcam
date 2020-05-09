@@ -15,12 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
 
   fillCameraBox();
 
-  connect(ui->pauseBtn, SIGNAL(clicked()), this, SLOT(pause()));
-  connect(ui->resumeBtn, SIGNAL(clicked()), this, SLOT(resume()));
+  connect(ui->startStreamBtn, SIGNAL(clicked()), this, SLOT(startStream()));
 
   connect(ui->cameraBtn, SIGNAL(clicked()), this, SLOT(useCamera()));
   connect(ui->pictureBtn, SIGNAL(clicked()), this, SLOT(usePicture()));
-  connect(ui->startBtn, SIGNAL(clicked()), this, SLOT(start()));
   connect(ui->refreshBtn, SIGNAL(clicked()), this, SLOT(fillCameraBox()));
 
   QTimer::singleShot(0, this, SLOT(fillV4L2List()));
@@ -80,7 +78,21 @@ void MainWindow::changeCamera(int index) {
   dslrWebcam->selectCamera(model, port);
 }
 
-void MainWindow::start() { dslrWebcam->startStream(); }
+void MainWindow::enableStreamers() {
+  ui->cameraBtn->setEnabled(true);
+  ui->pictureBtn->setEnabled(true);
+}
+
+void MainWindow::startStream() {
+  dslrWebcam->startStream();
+  ui->startStreamBtn->setChecked(true);
+  ui->startStreamBtn->setEnabled(false);
+  ui->startStreamBtn->setText("Streaming");
+  ui->startStreamBtn->setStyleSheet("background-color: #ffccd5; color: gray;");
+  ui->v4l2List->setEnabled(false);
+  enableStreamers();
+}
+
 void MainWindow::pause() { dslrWebcam->pauseStream(); }
 void MainWindow::resume() { dslrWebcam->resumeStream(); }
 

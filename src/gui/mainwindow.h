@@ -18,8 +18,10 @@ public:
   ~MainWindow();
 
 public slots:
+
+  void startStream();
+
   void changeCamera(int index);
-  void start();
   void pause();
   void resume();
   void useCamera();
@@ -31,6 +33,7 @@ public slots:
 
 protected:
   void closeEvent(QCloseEvent *event);
+  void enableStreamers();
 
 private:
   Ui::MainWindow *ui;
