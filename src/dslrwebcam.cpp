@@ -4,6 +4,7 @@
 
 #include "src/gstreamer/gstreamercontroller.h"
 #include <QDebug>
+#include <QSettings>
 #include <QTimer>
 #include <gphoto2/gphoto2-port-info-list.h>
 
@@ -11,6 +12,8 @@ DSLRWebcam::DSLRWebcam() {
   // TODO: handle return values
   context = gp_context_new();
   gstreamer = new GStreamerController();
+
+  QSettings settings;
 }
 
 DSLRWebcam::~DSLRWebcam() {
@@ -120,6 +123,7 @@ void DSLRWebcam::toggleDOF(bool enable) {
 
 void DSLRWebcam::startStream() { gstreamer->start(); }
 bool DSLRWebcam::isStreamRunning() { return true; }
+
 void DSLRWebcam::pauseStream() {
   qDebug() << "pause stream";
   cameraStreamer->requestInterruption();

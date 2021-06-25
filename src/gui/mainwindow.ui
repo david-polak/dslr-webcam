@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>506</width>
-    <height>500</height>
+    <height>507</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,59 +33,56 @@
        <attribute name="title">
         <string>Camera</string>
        </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <layout class="QVBoxLayout" name="cameraVerticalLayout">
         <item>
-         <layout class="QVBoxLayout" name="cameraVerticalLayout">
+         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="3,1">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="3,1">
-            <item>
-             <widget class="QComboBox" name="cameraBox"/>
-            </item>
-            <item>
-             <widget class="QPushButton" name="refreshBtn">
-              <property name="text">
-               <string>Refresh</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QComboBox" name="cameraBox"/>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="3,1">
-            <item>
-             <widget class="QComboBox" name="selectWidgetBox">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="addWidgetBtn">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>Add control</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="realAperture">
+           <widget class="QPushButton" name="refreshBtn">
             <property name="text">
-             <string>Real Aperture (lock)</string>
+             <string>Refresh</string>
             </property>
            </widget>
           </item>
          </layout>
         </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="3,1">
+          <item>
+           <widget class="QComboBox" name="selectWidgetBox">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="addWidgetBtn">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Add control</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="realAperture">
+          <property name="text">
+           <string>Real Aperture (lock)</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="pictureTab">
+      <widget class="QWidget" name="settingsTab">
        <attribute name="title">
-        <string>Picture</string>
+        <string>Settings</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3"/>
       </widget>
      </widget>
     </item>
