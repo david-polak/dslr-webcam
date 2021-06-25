@@ -36,7 +36,7 @@ void MainWindow::addWidget() {
 }
 
 void MainWindow::fillV4L2List() {
-  ui->v4l2List->clear();
+  ui->outputDeviceList->clear();
 
   auto list = dslrWebcam->getV4L2Devices();
   if (list.empty()) {
@@ -47,13 +47,13 @@ void MainWindow::fillV4L2List() {
   }
 
   // connecting here ensures signal gets triggered on addItems()
-  connect(ui->v4l2List, SIGNAL(currentIndexChanged(int)), this,
+  connect(ui->outputDeviceList, SIGNAL(currentIndexChanged(int)), this,
           SLOT(setV4L2Device(int)));
-  ui->v4l2List->addItems(list);
+  ui->outputDeviceList->addItems(list);
 }
 
 void MainWindow::setV4L2Device(int index) {
-  QString device = ui->v4l2List->itemText(index);
+  QString device = ui->outputDeviceList->itemText(index);
   dslrWebcam->setV4L2Device(device);
 }
 
@@ -113,7 +113,7 @@ void MainWindow::startStream() {
   ui->startStreamBtn->setEnabled(false);
   ui->startStreamBtn->setText("Streaming");
   ui->startStreamBtn->setStyleSheet("background-color: #ffccd5; color: gray;");
-  ui->v4l2List->setEnabled(false);
+  ui->outputDeviceList->setEnabled(false);
   enableStreamers();
 }
 
