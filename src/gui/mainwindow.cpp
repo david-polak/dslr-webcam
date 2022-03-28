@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->startStreamBtn, SIGNAL(clicked()), this, SLOT(startStream()));
 
   connect(ui->cameraBtn, SIGNAL(clicked()), this, SLOT(useCamera()));
-  connect(ui->pictureBtn, SIGNAL(clicked()), this, SLOT(usePicture()));
   connect(ui->refreshBtn, SIGNAL(clicked()), this, SLOT(fillCameraBox()));
 
   connect(ui->realAperture, SIGNAL(toggled(bool)), dslrWebcam,
@@ -102,10 +101,7 @@ void MainWindow::changeCamera(int index) {
       dslrWebcam->createWidgetRadioControl(this, "Shutter Speed"));
 }
 
-void MainWindow::enableStreamers() {
-  ui->cameraBtn->setEnabled(true);
-  ui->pictureBtn->setEnabled(true);
-}
+void MainWindow::enableStreamers() { ui->cameraBtn->setEnabled(true); }
 
 void MainWindow::startStream() {
   dslrWebcam->startStream();
