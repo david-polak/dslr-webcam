@@ -16,62 +16,62 @@
 #include "src/streamers/picturestreamer.h"
 
 class DSLRWebcam : public QObject {
-    Q_OBJECT
-  public:
-    DSLRWebcam();
-    ~DSLRWebcam();
+  Q_OBJECT
+public:
+  DSLRWebcam();
+  ~DSLRWebcam();
 
-    QList<QPair<QString, QString>> getCameraList();
-    QStringList getV4L2Devices();
-    QStringList getCameraWidgets();
+  QList<QPair<QString, QString>> getCameraList();
+  QStringList getV4L2Devices();
+  QStringList getCameraWidgets();
 
-    WidgetRadioControl *
-    createWidgetRadioControl(QWidget *parent, QString moniker);
+  WidgetRadioControl *
+  createWidgetRadioControl(QWidget *parent, QString moniker);
 
-    void startStream();
-    void stopStream();
+  void startStream();
+  void stopStream();
 
-    void setV4L2Device(QString v4l2Device);
+  void setV4L2Device(QString v4l2Device);
 
-    void selectCamera(QString model, QString port);
-    void startStreamOld();
+  void selectCamera(QString model, QString port);
+  void startStreamOld();
 
-    bool isStreamRunning();
-    bool isStreamerRunning();
+  bool isStreamRunning();
+  bool isStreamerRunning();
 
-    void pauseStreamOld();
-    void resumeStreamOld();
+  void pauseStreamOld();
+  void resumeStreamOld();
 
-    void startCameraStreamer();
-    void stopCameraStreamer();
+  void startCameraStreamer();
+  void stopCameraStreamer();
 
-    void useCameraStreamer();
-    void usePictureStreamer();
-    void killCurrentStreamer();
+  void useCameraStreamer();
+  void usePictureStreamer();
+  void killCurrentStreamer();
 
-    void interruptCamera();
-    void resumeCamera();
+  void interruptCamera();
+  void resumeCamera();
 
-  public slots:
+public slots:
 
-    void toggleDOF(bool enable);
+  void toggleDOF(bool enable);
 
-  protected:
-    GPContext *gphotoContext = NULL;
-    CameraHandler *cameraHandler = NULL;
+protected:
+  GPContext *gphotoContext = NULL;
+  CameraHandler *cameraHandler = NULL;
 
-    GStreamerController *gstreamer = NULL;
+  GStreamerController *gstreamer = NULL;
 
-    IStreamer *currentStreamer = NULL;
-    CameraStreamer *cameraStreamer = NULL;
-    PictureStreamer *pictureStreamer = NULL;
+  IStreamer *currentStreamer = NULL;
+  CameraStreamer *cameraStreamer = NULL;
+  PictureStreamer *pictureStreamer = NULL;
 
-    QString v4l2Device;
+  QString v4l2Device;
 
-    QString cameraModel;
-    QString cameraPort;
+  QString cameraModel;
+  QString cameraPort;
 
-    void deleteCameraHandler();
+  void deleteCameraHandler();
 };
 
 #endif

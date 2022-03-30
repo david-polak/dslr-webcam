@@ -11,180 +11,180 @@
 #include "src/gstreamer/gstreamercontroller.h"
 
 DSLRWebcam::DSLRWebcam() {
-    // TODO: handle return values
-    gphotoContext = gp_context_new();
-    //  gstreamer = new GStreamerController();
+  // TODO: handle return values
+  gphotoContext = gp_context_new();
+  //  gstreamer = new GStreamerController();
 
-    QSettings settings;
+  QSettings settings;
 }
 
 DSLRWebcam::~DSLRWebcam() {
-    qDebug() << "~dslrWebcam()";
+  qDebug() << "~dslrWebcam()";
 
-    if (cameraStreamer != NULL) {
-        qDebug() << "delete cameraStreamer";
-        cameraStreamer->requestInterruption();
-        cameraStreamer->wait();
-        delete cameraStreamer;
-    }
-    // TODO: cleanup streamers
+  if (cameraStreamer != NULL) {
+    qDebug() << "delete cameraStreamer";
+    cameraStreamer->requestInterruption();
+    cameraStreamer->wait();
+    delete cameraStreamer;
+  }
+  // TODO: cleanup streamers
 
-    if (gstreamer != NULL) {
-        qDebug() << "delete gstreamer";
-        delete gstreamer;
-    }
+  if (gstreamer != NULL) {
+    qDebug() << "delete gstreamer";
+    delete gstreamer;
+  }
 
-    if (cameraHandler != NULL) {
-        qDebug() << "delete handler";
-        delete cameraHandler;
-    }
+  if (cameraHandler != NULL) {
+    qDebug() << "delete handler";
+    delete cameraHandler;
+  }
 
-    qDebug() << "delete context";
-    gp_context_unref(gphotoContext);
+  qDebug() << "delete context";
+  gp_context_unref(gphotoContext);
 }
 
 void DSLRWebcam::startStream() {
-    qDebug() << "Start stream";
-    gstreamer = new GStreamerController();
-    gstreamer->setV4L2Device(v4l2Device);
-    gstreamer->start();
+  qDebug() << "Start stream";
+  gstreamer = new GStreamerController();
+  gstreamer->setV4L2Device(v4l2Device);
+  gstreamer->start();
 }
 
 void DSLRWebcam::stopStream() {
-    qDebug() << "Stop stream";
-    gstreamer->stop();
-    delete gstreamer;
-    gstreamer = NULL;
+  qDebug() << "Stop stream";
+  gstreamer->stop();
+  delete gstreamer;
+  gstreamer = NULL;
 }
 
 void DSLRWebcam::startCameraStreamer() {
-    qDebug() << "Start camera streamer";
-    killCurrentStreamer();
-    selectCamera(cameraModel, cameraPort);
+  qDebug() << "Start camera streamer";
+  killCurrentStreamer();
+  selectCamera(cameraModel, cameraPort);
 
-    cameraStreamer = new CameraStreamer();
-    cameraStreamer->setCamera(cameraHandler->camera);
-    cameraStreamer->setContext(gphotoContext);
-    currentStreamer = cameraStreamer;
-    cameraHandler->setCameraStreamer(cameraStreamer);
+  cameraStreamer = new CameraStreamer();
+  cameraStreamer->setCamera(cameraHandler->camera);
+  cameraStreamer->setContext(gphotoContext);
+  currentStreamer = cameraStreamer;
+  cameraHandler->setCameraStreamer(cameraStreamer);
 
-    int fd = gstreamer->getFd();
-    currentStreamer->setFd(fd);
-    currentStreamer->start();
+  int fd = gstreamer->getFd();
+  currentStreamer->setFd(fd);
+  currentStreamer->start();
 }
 
 void DSLRWebcam::stopCameraStreamer() {
-    killCurrentStreamer();
-    deleteCameraHandler();
+  killCurrentStreamer();
+  deleteCameraHandler();
 }
 
 void DSLRWebcam::deleteCameraHandler() {
-    if (cameraHandler != NULL) {
-        delete cameraHandler;
-        cameraHandler = NULL;
-    }
+  if (cameraHandler != NULL) {
+    delete cameraHandler;
+    cameraHandler = NULL;
+  }
 }
 
 bool DSLRWebcam::isStreamRunning() { return gstreamer != NULL; }
 bool DSLRWebcam::isStreamerRunning() { return currentStreamer != NULL; }
 
 QList<QPair<QString, QString>> DSLRWebcam::getCameraList() {
-    return GPhoto::getCameraList(gphotoContext);
+  return GPhoto::getCameraList(gphotoContext);
 }
 
 void DSLRWebcam::setV4L2Device(QString v4l2Device) {
-    this->v4l2Device = v4l2Device;
+  this->v4l2Device = v4l2Device;
 }
 
 void DSLRWebcam::selectCamera(QString model, QString port) {
-    cameraModel = model;
-    cameraPort = port;
-    deleteCameraHandler();
-    cameraHandler = new CameraHandler(cameraModel, cameraPort, gphotoContext);
+  cameraModel = model;
+  cameraPort = port;
+  deleteCameraHandler();
+  cameraHandler = new CameraHandler(cameraModel, cameraPort, gphotoContext);
 }
 
 QStringList DSLRWebcam::getCameraWidgets() {
-    return cameraHandler->getWidgets(GP_WIDGET_RADIO, 0);
+  return cameraHandler->getWidgets(GP_WIDGET_RADIO, 0);
 }
 
 void DSLRWebcam::killCurrentStreamer() {
-    qDebug() << "Stopping streamer";
-    if (!currentStreamer) {
-        return;
-    }
-    if (typeid(currentStreamer) == typeid(CameraStreamer)) {
-        cameraHandler->setCameraStreamer(NULL);
-    }
-    currentStreamer->requestInterruption();
-    currentStreamer->wait();
-    delete currentStreamer;
-    currentStreamer = NULL;
+  qDebug() << "Stopping streamer";
+  if (!currentStreamer) {
+    return;
+  }
+  if (typeid(currentStreamer) == typeid(CameraStreamer)) {
+    cameraHandler->setCameraStreamer(NULL);
+  }
+  currentStreamer->requestInterruption();
+  currentStreamer->wait();
+  delete currentStreamer;
+  currentStreamer = NULL;
 }
 
 WidgetRadioControl *
 DSLRWebcam::createWidgetRadioControl(QWidget *parent, QString moniker) {
-    CameraWidget *widget = cameraHandler->getWidget(moniker);
+  CameraWidget *widget = cameraHandler->getWidget(moniker);
 
-    WidgetRadioControl *control = new WidgetRadioControl(
-        parent, moniker, cameraHandler, gphotoContext, widget);
+  WidgetRadioControl *control = new WidgetRadioControl(
+      parent, moniker, cameraHandler, gphotoContext, widget);
 
-    return control;
+  return control;
 }
 
 void DSLRWebcam::interruptCamera() {
-    if (typeid(currentStreamer) == typeid(CameraStreamer)) {
-        killCurrentStreamer();
-    }
+  if (typeid(currentStreamer) == typeid(CameraStreamer)) {
+    killCurrentStreamer();
+  }
 }
 
 void DSLRWebcam::resumeCamera() {
-    if (currentStreamer == NULL) {
-        useCameraStreamer();
-    }
+  if (currentStreamer == NULL) {
+    useCameraStreamer();
+  }
 }
 
 void DSLRWebcam::useCameraStreamer() {
-    killCurrentStreamer();
-    cameraStreamer = new CameraStreamer();
-    cameraStreamer->setCamera(cameraHandler->camera);
-    cameraStreamer->setContext(gphotoContext);
-    currentStreamer = cameraStreamer;
-    cameraHandler->setCameraStreamer(cameraStreamer);
+  killCurrentStreamer();
+  cameraStreamer = new CameraStreamer();
+  cameraStreamer->setCamera(cameraHandler->camera);
+  cameraStreamer->setContext(gphotoContext);
+  currentStreamer = cameraStreamer;
+  cameraHandler->setCameraStreamer(cameraStreamer);
 
-    int fd = gstreamer->getFd();
-    currentStreamer->setFd(fd);
-    currentStreamer->start();
+  int fd = gstreamer->getFd();
+  currentStreamer->setFd(fd);
+  currentStreamer->start();
 }
 
 void DSLRWebcam::usePictureStreamer() {
-    killCurrentStreamer();
-    pictureStreamer = new PictureStreamer();
-    pictureStreamer->setImagePath(
-        "/home/david/Data/Code/dslr-webcam/images/blank.jpg");
-    currentStreamer = pictureStreamer;
+  killCurrentStreamer();
+  pictureStreamer = new PictureStreamer();
+  pictureStreamer->setImagePath(
+      "/home/david/Data/Code/dslr-webcam/images/blank.jpg");
+  currentStreamer = pictureStreamer;
 
-    int fd = gstreamer->getFd();
-    currentStreamer->setFd(fd);
-    currentStreamer->start();
+  int fd = gstreamer->getFd();
+  currentStreamer->setFd(fd);
+  currentStreamer->start();
 }
 
 void DSLRWebcam::toggleDOF(bool enable) {
-    qDebug() << "DSLRWebcam::toggleDOF(" << enable << ")";
-    cameraHandler->toggleDOF(enable);
+  qDebug() << "DSLRWebcam::toggleDOF(" << enable << ")";
+  cameraHandler->toggleDOF(enable);
 }
 
 void DSLRWebcam::startStreamOld() { gstreamer->start(); }
 
 void DSLRWebcam::pauseStreamOld() {
-    qDebug() << "pause stream";
-    cameraStreamer->requestInterruption();
+  qDebug() << "pause stream";
+  cameraStreamer->requestInterruption();
 }
 
 void DSLRWebcam::resumeStreamOld() {
-    qDebug() << "resume stream";
-    cameraStreamer->start();
+  qDebug() << "resume stream";
+  cameraStreamer->start();
 }
 
 QStringList DSLRWebcam::getV4L2Devices() {
-    return gstreamer->listV4L2Devices();
+  return gstreamer->listV4L2Devices();
 }
