@@ -26,18 +26,26 @@ public:
   WidgetRadioControl *createWidgetRadioControl(QWidget *parent,
                                                QString moniker);
 
-  void setV4L2Device(QString device);
+  void startStream();
+  void stopStream();
+
+  void setV4L2Device(QString v4l2Device);
 
   void selectCamera(QString model, QString port);
-  void startStream();
+  void startStreamOld();
 
   bool isStreamRunning();
+  bool isStreamerRunning();
 
-  void pauseStream();
-  void resumeStream();
+  void pauseStreamOld();
+  void resumeStreamOld();
+
+  void startCameraStreamer();
+  void stopCameraStreamer();
 
   void useCameraStreamer();
   void usePictureStreamer();
+  void killCurrentStreamer();
 
   void interruptCamera();
   void resumeCamera();
@@ -47,8 +55,8 @@ public slots:
   void toggleDOF(bool enable);
 
 protected:
-  GPContext *context = NULL;
-  CameraHandler *handler = NULL;
+  GPContext *gphotoContext = NULL;
+  CameraHandler *cameraHandler = NULL;
 
   GStreamerController *gstreamer = NULL;
 
@@ -56,7 +64,12 @@ protected:
   CameraStreamer *cameraStreamer = NULL;
   PictureStreamer *pictureStreamer = NULL;
 
-  void killCurrentStreamer();
+  QString v4l2Device;
+
+  QString cameraModel;
+  QString cameraPort;
+
+  void deleteCameraHandler();
 };
 
 #endif

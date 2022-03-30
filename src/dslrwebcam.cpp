@@ -10,8 +10,8 @@
 
 DSLRWebcam::DSLRWebcam() {
   // TODO: handle return values
-  context = gp_context_new();
-  gstreamer = new GStreamerController();
+  gphotoContext = gp_context_new();
+  //  gstreamer = new GStreamerController();
 
   QSettings settings;
 }
@@ -32,49 +32,100 @@ DSLRWebcam::~DSLRWebcam() {
     delete gstreamer;
   }
 
-  if (handler != NULL) {
+  if (cameraHandler != NULL) {
     qDebug() << "delete handler";
-    delete handler;
+    delete cameraHandler;
   }
 
   qDebug() << "delete context";
-  gp_context_unref(context);
+  gp_context_unref(gphotoContext);
 }
+
+void DSLRWebcam::startStream() {
+  qDebug() << "Start stream";
+  gstreamer = new GStreamerController();
+  gstreamer->setV4L2Device(v4l2Device);
+  gstreamer->start();
+}
+
+void DSLRWebcam::stopStream() {
+  qDebug() << "Stop stream";
+  gstreamer->stop();
+  delete gstreamer;
+  gstreamer = NULL;
+}
+
+void DSLRWebcam::startCameraStreamer() {
+  qDebug() << "Start camera streamer";
+  killCurrentStreamer();
+  selectCamera(cameraModel, cameraPort);
+
+  cameraStreamer = new CameraStreamer();
+  cameraStreamer->setCamera(cameraHandler->camera);
+  cameraStreamer->setContext(gphotoContext);
+  currentStreamer = cameraStreamer;
+  cameraHandler->setCameraStreamer(cameraStreamer);
+
+  int fd = gstreamer->getFd();
+  currentStreamer->setFd(fd);
+  currentStreamer->start();
+}
+
+void DSLRWebcam::stopCameraStreamer() {
+  killCurrentStreamer();
+  deleteCameraHandler();
+}
+
+void DSLRWebcam::deleteCameraHandler() {
+  if (cameraHandler != NULL) {
+    delete cameraHandler;
+    cameraHandler = NULL;
+  }
+}
+
+bool DSLRWebcam::isStreamRunning() { return gstreamer != NULL; }
+bool DSLRWebcam::isStreamerRunning() { return currentStreamer != NULL; }
 
 QList<QPair<QString, QString>> DSLRWebcam::getCameraList() {
-  return GPhoto::getCameraList(context);
+  return GPhoto::getCameraList(gphotoContext);
 }
 
-void DSLRWebcam::setV4L2Device(QString device) {
-  gstreamer->setV4L2Device(device);
+void DSLRWebcam::setV4L2Device(QString v4l2Device) {
+  this->v4l2Device = v4l2Device;
 }
 
 void DSLRWebcam::selectCamera(QString model, QString port) {
-  handler = new CameraHandler(model, port, context);
+  cameraModel = model;
+  cameraPort = port;
+  deleteCameraHandler();
+  cameraHandler = new CameraHandler(cameraModel, cameraPort, gphotoContext);
 }
 
 QStringList DSLRWebcam::getCameraWidgets() {
-  return handler->getWidgets(GP_WIDGET_RADIO, 0);
+  return cameraHandler->getWidgets(GP_WIDGET_RADIO, 0);
 }
 
 void DSLRWebcam::killCurrentStreamer() {
-  if (currentStreamer) {
-    if (typeid(currentStreamer) == typeid(CameraStreamer)) {
-      handler->setCameraStreamer(NULL);
-    }
-    currentStreamer->requestInterruption();
-    currentStreamer->wait();
-    delete currentStreamer;
-    currentStreamer = NULL;
+
+  qDebug() << "Stopping streamer";
+  if (!currentStreamer) {
+    return;
   }
+  if (typeid(currentStreamer) == typeid(CameraStreamer)) {
+    cameraHandler->setCameraStreamer(NULL);
+  }
+  currentStreamer->requestInterruption();
+  currentStreamer->wait();
+  delete currentStreamer;
+  currentStreamer = NULL;
 }
 
 WidgetRadioControl *DSLRWebcam::createWidgetRadioControl(QWidget *parent,
                                                          QString moniker) {
-  CameraWidget *widget = handler->getWidget(moniker);
+  CameraWidget *widget = cameraHandler->getWidget(moniker);
 
-  WidgetRadioControl *control =
-      new WidgetRadioControl(parent, moniker, handler, context, widget);
+  WidgetRadioControl *control = new WidgetRadioControl(
+      parent, moniker, cameraHandler, gphotoContext, widget);
 
   return control;
 }
@@ -94,10 +145,10 @@ void DSLRWebcam::resumeCamera() {
 void DSLRWebcam::useCameraStreamer() {
   killCurrentStreamer();
   cameraStreamer = new CameraStreamer();
-  cameraStreamer->setCamera(handler->camera);
-  cameraStreamer->setContext(context);
+  cameraStreamer->setCamera(cameraHandler->camera);
+  cameraStreamer->setContext(gphotoContext);
   currentStreamer = cameraStreamer;
-  handler->setCameraStreamer(cameraStreamer);
+  cameraHandler->setCameraStreamer(cameraStreamer);
 
   int fd = gstreamer->getFd();
   currentStreamer->setFd(fd);
@@ -118,18 +169,17 @@ void DSLRWebcam::usePictureStreamer() {
 
 void DSLRWebcam::toggleDOF(bool enable) {
   qDebug() << "DSLRWebcam::toggleDOF(" << enable << ")";
-  handler->toggleDOF(enable);
+  cameraHandler->toggleDOF(enable);
 }
 
-void DSLRWebcam::startStream() { gstreamer->start(); }
-bool DSLRWebcam::isStreamRunning() { return true; }
+void DSLRWebcam::startStreamOld() { gstreamer->start(); }
 
-void DSLRWebcam::pauseStream() {
+void DSLRWebcam::pauseStreamOld() {
   qDebug() << "pause stream";
   cameraStreamer->requestInterruption();
 }
 
-void DSLRWebcam::resumeStream() {
+void DSLRWebcam::resumeStreamOld() {
   qDebug() << "resume stream";
   cameraStreamer->start();
 }

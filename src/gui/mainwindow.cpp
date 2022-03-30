@@ -15,9 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
 
   fillCameraBox();
 
-  connect(ui->startStreamBtn, SIGNAL(clicked()), this, SLOT(startStream()));
+  connect(ui->streamControlBtn, SIGNAL(clicked()), this,
+          SLOT(streamControlBtnAction()));
 
-  connect(ui->cameraBtn, SIGNAL(clicked()), this, SLOT(useCamera()));
+  connect(ui->cameraBtn, SIGNAL(clicked()), this, SLOT(cameraBtnAction()));
   connect(ui->refreshBtn, SIGNAL(clicked()), this, SLOT(fillCameraBox()));
 
   connect(ui->realAperture, SIGNAL(toggled(bool)), dslrWebcam,
@@ -26,6 +27,29 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->addWidgetBtn, SIGNAL(clicked()), this, SLOT(addWidget()));
 
   QTimer::singleShot(0, this, SLOT(fillV4L2List()));
+}
+
+void MainWindow::streamControlBtnAction() {
+  if (dslrWebcam->isStreamRunning()) {
+    dslrWebcam->stopStream();
+    ui->streamControlBtn->setStyleSheet("");
+    disableStreamers();
+  } else {
+    dslrWebcam->startStream();
+    ui->streamControlBtn->setStyleSheet("background-color: #ffccd5;");
+    enableStreamers();
+  }
+}
+
+void MainWindow::enableStreamers() { ui->cameraBtn->setEnabled(true); }
+void MainWindow::disableStreamers() { ui->cameraBtn->setEnabled(false); }
+
+void MainWindow::cameraBtnAction() {
+  if (dslrWebcam->isStreamerRunning()) {
+    dslrWebcam->stopCameraStreamer();
+  } else {
+    dslrWebcam->startCameraStreamer();
+  }
 }
 
 void MainWindow::addWidget() {
@@ -105,20 +129,8 @@ void MainWindow::changeCamera(int index) {
       dslrWebcam->createWidgetRadioControl(this, "Shutter Speed"));
 }
 
-void MainWindow::enableStreamers() { ui->cameraBtn->setEnabled(true); }
-
-void MainWindow::startStream() {
-  dslrWebcam->startStream();
-  ui->startStreamBtn->setChecked(true);
-  ui->startStreamBtn->setEnabled(false);
-  ui->startStreamBtn->setText("Streaming");
-  ui->startStreamBtn->setStyleSheet("background-color: #ffccd5; color: gray;");
-  ui->outputDeviceList->setEnabled(false);
-  enableStreamers();
-}
-
-void MainWindow::pause() { dslrWebcam->pauseStream(); }
-void MainWindow::resume() { dslrWebcam->resumeStream(); }
+void MainWindow::pause() { dslrWebcam->pauseStreamOld(); }
+void MainWindow::resume() { dslrWebcam->resumeStreamOld(); }
 
 void MainWindow::useCamera() { dslrWebcam->useCameraStreamer(); }
 void MainWindow::usePicture() { dslrWebcam->usePictureStreamer(); }

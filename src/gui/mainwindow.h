@@ -21,7 +21,8 @@ public:
 
 public slots:
 
-  void startStream();
+  void streamControlBtnAction();
+  void cameraBtnAction();
 
   void changeCamera(int index);
   void pause();
@@ -37,6 +38,7 @@ public slots:
 protected:
   void closeEvent(QCloseEvent *event);
   void enableStreamers();
+  void disableStreamers();
 
 private:
   Ui::MainWindow *ui;

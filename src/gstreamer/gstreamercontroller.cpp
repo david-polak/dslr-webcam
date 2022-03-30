@@ -7,12 +7,17 @@
 GStreamerController::GStreamerController() {}
 
 GStreamerController::~GStreamerController() {
-  if (output != NULL) {
+  if (running) {
     stop();
   }
 }
 
 void GStreamerController::start() {
+  if (running) {
+    qDebug() << "GStreamerController is already streaming.";
+    return;
+  }
+
   QString command = "gst-launch-1.0 fdsrc";
   command += " ! decodebin3 name=dec";
   command += " ! queue";
@@ -21,13 +26,19 @@ void GStreamerController::start() {
 
   output = popen(command.toLocal8Bit().constData(), "w");
   fd = dup(fileno(output));
+  running = true;
 }
 
 void GStreamerController::stop() {
+  if (!running) {
+    qDebug() << "GStreamerController is not streaming.";
+    return;
+  }
   fflush(output);
   close(fd);
   system("killall gst-launch-1.0"); // :P I'll deal with it later
   pclose(output);
+  running = false;
 }
 
 int GStreamerController::getFd() { return fd; }
@@ -38,7 +49,6 @@ void GStreamerController::setV4L2Device(QString device) {
 
 QStringList GStreamerController::listV4L2Devices() {
   QStringList output;
-  qDebug() << "listV4L2Devices()";
 
   // TODO: use v4l2-ctl for write capability detection
   QStringList filters;

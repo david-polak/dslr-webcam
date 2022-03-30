@@ -21,11 +21,11 @@ void CameraHandler::initAbilitiesList() {
   gp_raise(gp_abilities_list_new(&abilitiesList));
   gp_raise(gp_abilities_list_load(abilitiesList, context));
 
-  CameraAbilities abilitites;
+  CameraAbilities abilities;
   int index = gp_raise(gp_abilities_list_lookup_model(
       abilitiesList, this->model.toLocal8Bit().constData()));
-  gp_raise(gp_abilities_list_get_abilities(abilitiesList, index, &abilitites));
-  gp_raise(gp_camera_set_abilities(camera, abilitites));
+  gp_raise(gp_abilities_list_get_abilities(abilitiesList, index, &abilities));
+  gp_raise(gp_camera_set_abilities(camera, abilities));
 }
 
 void CameraHandler::initPortInfoList() {

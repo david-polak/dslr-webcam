@@ -23,6 +23,7 @@ protected:
   QString device;
   FILE *output = NULL;
   int fd;
+  bool running = false;
 };
 
 #endif // GSTREAMERCONTROLLER_H
