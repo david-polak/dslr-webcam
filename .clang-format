@@ -7,3 +7,4 @@ Language: Cpp
 AlignAfterOpenBracket: AlwaysBreak
 BinPackParameters: false
 BinPackArguments: false
+ReflowComments: true
