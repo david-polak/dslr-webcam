@@ -64,13 +64,17 @@ void MainWindow::fillCameraBox() {
   ui->cameraBox->addItem("disconnected", false);
 
   auto list = dslrWebcam->getCameraList();
-  for (const auto &item : list) {
 
+  for (const auto &item : list) {
     ui->cameraBox->addItem(item.first, item.second);
   }
 
   connect(ui->cameraBox, SIGNAL(currentIndexChanged(int)), this,
           SLOT(changeCamera(int)));
+
+  if (list.length() == 1) {
+    ui->cameraBox->setCurrentIndex(1);
+  }
 }
 
 void MainWindow::changeCamera(int index) {

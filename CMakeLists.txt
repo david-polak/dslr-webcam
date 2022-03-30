@@ -22,6 +22,7 @@ add_executable(dslr-webcam
     src/streamers/camerastreamer.h
     src/streamers/picturestreamer.cpp
     src/streamers/picturestreamer.h
+    src/streamers/istreamer.h
     src/gphoto/gphoto.cpp
     src/gphoto/gphoto.h
     src/gui/mainwindow.cpp
