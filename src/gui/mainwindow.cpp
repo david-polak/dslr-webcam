@@ -12,21 +12,29 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     dslrWebcam = new DSLRWebcam();
 
-    fillCameraBox();
-
-    connect(ui->streamControlBtn, SIGNAL(clicked()), this,
-            SLOT(streamControlBtnAction()));
-
-    connect(ui->cameraBtn, SIGNAL(clicked()), this, SLOT(cameraBtnAction()));
-    connect(ui->refreshBtn, SIGNAL(clicked()), this, SLOT(fillCameraBox()));
-
-    connect(ui->realAperture, SIGNAL(toggled(bool)), dslrWebcam,
-            SLOT(toggleDOF(bool)));
-
-    connect(ui->addWidgetBtn, SIGNAL(clicked()), this, SLOT(addWidget()));
-
-    QTimer::singleShot(0, this, SLOT(fillV4L2List()));
+    //    fillCameraBox();
+    //
+    //    connect(ui->streamControlBtn, SIGNAL(clicked()), this,
+    //            SLOT(streamControlBtnAction()));
+    //
+    //    connect(ui->cameraBtn, SIGNAL(clicked()), this,
+    //    SLOT(cameraBtnAction())); connect(ui->refreshBtn, SIGNAL(clicked()),
+    //    this, SLOT(fillCameraBox()));
+    //
+    //    connect(ui->realAperture, SIGNAL(toggled(bool)), dslrWebcam,
+    //            SLOT(toggleDOF(bool)));
+    //
+    //    connect(ui->addWidgetBtn, SIGNAL(clicked()), this, SLOT(addWidget()));
+    //
+    //    QTimer::singleShot(0, this, SLOT(fillV4L2List()));
 }
+
+MainWindow::~MainWindow() {
+    qDebug() << "~MainWindow()";
+    delete ui;
+}
+
+// ######### OLD ############################################################
 
 void MainWindow::streamControlBtnAction() {
     if (dslrWebcam->isStreamRunning()) {
@@ -70,8 +78,9 @@ void MainWindow::fillV4L2List() {
     }
 
     // connecting here ensures signal gets triggered on addItems()
-    connect(ui->outputDeviceList, SIGNAL(currentIndexChanged(int)), this,
-            SLOT(setV4L2Device(int)));
+    connect(
+        ui->outputDeviceList, SIGNAL(currentIndexChanged(int)), this,
+        SLOT(setV4L2Device(int)));
     ui->outputDeviceList->addItems(list);
 }
 
@@ -81,8 +90,9 @@ void MainWindow::setV4L2Device(int index) {
 }
 
 void MainWindow::fillCameraBox() {
-    disconnect(ui->cameraBox, SIGNAL(currentIndexChanged(int)), this,
-               SLOT(changeCamera(int)));
+    disconnect(
+        ui->cameraBox, SIGNAL(currentIndexChanged(int)), this,
+        SLOT(changeCamera(int)));
 
     ui->cameraBox->clear();
     ui->cameraBox->addItem("disconnected", false);
@@ -93,8 +103,9 @@ void MainWindow::fillCameraBox() {
         ui->cameraBox->addItem(item.first, item.second);
     }
 
-    connect(ui->cameraBox, SIGNAL(currentIndexChanged(int)), this,
-            SLOT(changeCamera(int)));
+    connect(
+        ui->cameraBox, SIGNAL(currentIndexChanged(int)), this,
+        SLOT(changeCamera(int)));
 
     if (list.length() == 1) {
         ui->cameraBox->setCurrentIndex(1);
@@ -138,9 +149,4 @@ void MainWindow::usePicture() { dslrWebcam->usePictureStreamer(); }
 void MainWindow::closeEvent(QCloseEvent *event) {
     qDebug() << "MainWindow::closeEvent()";
     delete dslrWebcam;
-}
-
-MainWindow::~MainWindow() {
-    qDebug() << "~MainWindow()";
-    delete ui;
 }

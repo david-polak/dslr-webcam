@@ -121,8 +121,8 @@ void DSLRWebcam::killCurrentStreamer() {
     currentStreamer = NULL;
 }
 
-WidgetRadioControl *DSLRWebcam::createWidgetRadioControl(QWidget *parent,
-                                                         QString moniker) {
+WidgetRadioControl *
+DSLRWebcam::createWidgetRadioControl(QWidget *parent, QString moniker) {
     CameraWidget *widget = cameraHandler->getWidget(moniker);
 
     WidgetRadioControl *control = new WidgetRadioControl(

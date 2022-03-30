@@ -25,8 +25,8 @@ class DSLRWebcam : public QObject {
     QStringList getV4L2Devices();
     QStringList getCameraWidgets();
 
-    WidgetRadioControl *createWidgetRadioControl(QWidget *parent,
-                                                 QString moniker);
+    WidgetRadioControl *
+    createWidgetRadioControl(QWidget *parent, QString moniker);
 
     void startStream();
     void stopStream();

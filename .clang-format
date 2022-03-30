@@ -4,3 +4,5 @@ BasedOnStyle: llvm
 ---
 Language: Cpp
 IndentWidth: 4
+AlignAfterOpenBracket: AlwaysBreak
+BinPackParameters: false

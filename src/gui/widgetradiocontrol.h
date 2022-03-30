@@ -20,9 +20,12 @@ class WidgetRadioControl : public QWidget {
     Q_OBJECT
 
   public:
-    explicit WidgetRadioControl(QWidget *parent, QString moniker,
-                                CameraHandler *cameraHandler,
-                                GPContext *context, CameraWidget *widget);
+    explicit WidgetRadioControl(
+        QWidget *parent,
+        QString moniker,
+        CameraHandler *cameraHandler,
+        GPContext *context,
+        CameraWidget *widget);
 
     ~WidgetRadioControl();
 

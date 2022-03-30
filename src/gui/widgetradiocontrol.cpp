@@ -7,9 +7,12 @@
 
 #include "src/gphoto/gphoto.h"
 
-WidgetRadioControl::WidgetRadioControl(QWidget *parent, QString moniker,
-                                       CameraHandler *cameraHandler,
-                                       GPContext *context, CameraWidget *widget)
+WidgetRadioControl::WidgetRadioControl(
+    QWidget *parent,
+    QString moniker,
+    CameraHandler *cameraHandler,
+    GPContext *context,
+    CameraWidget *widget)
 
     : QWidget(parent) {
     this->widget = widget;
@@ -24,8 +27,9 @@ WidgetRadioControl::WidgetRadioControl(QWidget *parent, QString moniker,
 
     initChoices();
 
-    connect(ui.values, SIGNAL(currentTextChanged(QString)), this,
-            SLOT(changeOption(QString)));
+    connect(
+        ui.values, SIGNAL(currentTextChanged(QString)), this,
+        SLOT(changeOption(QString)));
 }
 
 void WidgetRadioControl::initChoices() {
@@ -46,8 +50,8 @@ void WidgetRadioControl::changeOption(QString option) {
     gp_raise(gp_widget_set_value(widget, option.toLocal8Bit().constData()));
 
     cameraHandler->interruptCamera();
-    gp_raise(gp_camera_set_single_config(cameraHandler->camera, name, widget,
-                                         context));
+    gp_raise(gp_camera_set_single_config(
+        cameraHandler->camera, name, widget, context));
     cameraHandler->resumeCamera();
 }
 
