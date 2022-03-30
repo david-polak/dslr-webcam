@@ -2,7 +2,28 @@
 
 #include <QApplication>
 
-int main(int argc, char *argv[]) {
+int main(
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    int argc, char *argv[]) {
   QCoreApplication::setOrganizationName("david-polak");
   QCoreApplication::setOrganizationDomain("polakdavid.com");
   QCoreApplication::setApplicationName("dslr-webcam");
