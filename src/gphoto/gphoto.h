@@ -13,9 +13,9 @@ QList<QPair<QString, QString>> getCameraList(GPContext *context);
 } // namespace GPhoto
 
 inline int gp_raise(int returned) {
-  if (returned < GP_OK) {
-    qDebug() << "Error GPhoto returned: " << returned;
-    throw returned;
-  }
-  return returned;
+    if (returned < GP_OK) {
+        qDebug() << "Error GPhoto returned: " << returned;
+        throw returned;
+    }
+    return returned;
 }

@@ -1,10 +1,11 @@
 #ifndef WIDGETRADIOCONTROL_H
 #define WIDGETRADIOCONTROL_H
 
+#include <QWidget>
+
 #include "gphoto2/gphoto2-widget.h"
 #include "src/gphoto/camerahandler.h"
 #include "ui_widgetradiocontrol.h"
-#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,30 +17,30 @@ typedef void (*InterruptCamera)(void);
 typedef void (*ResumeCamera)();
 
 class WidgetRadioControl : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-  explicit WidgetRadioControl(QWidget *parent, QString moniker,
-                              CameraHandler *cameraHandler, GPContext *context,
-                              CameraWidget *widget);
+  public:
+    explicit WidgetRadioControl(QWidget *parent, QString moniker,
+                                CameraHandler *cameraHandler,
+                                GPContext *context, CameraWidget *widget);
 
-  ~WidgetRadioControl();
+    ~WidgetRadioControl();
 
-private slots:
-  void changeOption(QString option);
+  private slots:
+    void changeOption(QString option);
 
-protected:
-  void initChoices();
+  protected:
+    void initChoices();
 
-  QString moniker;
-  CameraWidget *widget = NULL;
-  GPContext *context = NULL;
-  CameraHandler *cameraHandler = NULL;
+    QString moniker;
+    CameraWidget *widget = NULL;
+    GPContext *context = NULL;
+    CameraHandler *cameraHandler = NULL;
 
-  const char *name;
+    const char *name;
 
-private:
-  Ui::WidgetRadioControl ui;
+  private:
+    Ui::WidgetRadioControl ui;
 };
 
 #endif
