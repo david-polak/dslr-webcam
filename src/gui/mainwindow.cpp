@@ -12,21 +12,26 @@ MainWindow::MainWindow(QWidget *parent)
   ui->setupUi(this);
   dslrWebcam = new DSLRWebcam();
 
-  //    fillCameraBox();
+  fillCameraBox();
+
+  //  connect(
+  //      ui->streamControlBtn,
+  //      SIGNAL(clicked()),
+  //      this,
+  //      SLOT(streamControlBtnAction()));
   //
-  //    connect(ui->streamControlBtn, SIGNAL(clicked()), this,
-  //            SLOT(streamControlBtnAction()));
+  //  connect(ui->cameraBtn, SIGNAL(clicked()), this, SLOT(cameraBtnAction()));
+  //  connect(ui->refreshBtn, SIGNAL(clicked()), this, SLOT(fillCameraBox()));
   //
-  //    connect(ui->cameraBtn, SIGNAL(clicked()), this,
-  //    SLOT(cameraBtnAction())); connect(ui->refreshBtn, SIGNAL(clicked()),
-  //    this, SLOT(fillCameraBox()));
+  //  connect(
+  //      ui->realAperture,
+  //      SIGNAL(toggled(bool)),
+  //      dslrWebcam,
+  //      SLOT(toggleDOF(bool)));
   //
-  //    connect(ui->realAperture, SIGNAL(toggled(bool)), dslrWebcam,
-  //            SLOT(toggleDOF(bool)));
+  //  connect(ui->addWidgetBtn, SIGNAL(clicked()), this, SLOT(addWidget()));
   //
-  //    connect(ui->addWidgetBtn, SIGNAL(clicked()), this, SLOT(addWidget()));
-  //
-  //    QTimer::singleShot(0, this, SLOT(fillV4L2List()));
+  //  QTimer::singleShot(0, this, SLOT(fillV4L2List()));
 }
 
 MainWindow::~MainWindow() {
