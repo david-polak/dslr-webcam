@@ -28,7 +28,9 @@ WidgetRadioControl::WidgetRadioControl(
     initChoices();
 
     connect(
-        ui.values, SIGNAL(currentTextChanged(QString)), this,
+        ui.values,
+        SIGNAL(currentTextChanged(QString)),
+        this,
         SLOT(changeOption(QString)));
 }
 

@@ -79,7 +79,9 @@ void MainWindow::fillV4L2List() {
 
     // connecting here ensures signal gets triggered on addItems()
     connect(
-        ui->outputDeviceList, SIGNAL(currentIndexChanged(int)), this,
+        ui->outputDeviceList,
+        SIGNAL(currentIndexChanged(int)),
+        this,
         SLOT(setV4L2Device(int)));
     ui->outputDeviceList->addItems(list);
 }
@@ -91,7 +93,9 @@ void MainWindow::setV4L2Device(int index) {
 
 void MainWindow::fillCameraBox() {
     disconnect(
-        ui->cameraBox, SIGNAL(currentIndexChanged(int)), this,
+        ui->cameraBox,
+        SIGNAL(currentIndexChanged(int)),
+        this,
         SLOT(changeCamera(int)));
 
     ui->cameraBox->clear();
@@ -104,7 +108,9 @@ void MainWindow::fillCameraBox() {
     }
 
     connect(
-        ui->cameraBox, SIGNAL(currentIndexChanged(int)), this,
+        ui->cameraBox,
+        SIGNAL(currentIndexChanged(int)),
+        this,
         SLOT(changeCamera(int)));
 
     if (list.length() == 1) {
