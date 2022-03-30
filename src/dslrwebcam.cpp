@@ -17,6 +17,7 @@ DSLRWebcam::DSLRWebcam() {
 }
 
 DSLRWebcam::~DSLRWebcam() {
+
   qDebug() << "~dslrWebcam()";
 
   if (cameraStreamer != NULL) {
@@ -27,9 +28,19 @@ DSLRWebcam::~DSLRWebcam() {
   }
   // TODO: cleanup streamers
 
+
   if (gstreamer != NULL) {
     qDebug() << "delete gstreamer";
     delete gstreamer;
+
+
+
+
+
+
+
+
+
   }
 
   if (cameraHandler != NULL) {

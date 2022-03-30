@@ -31,9 +31,11 @@ add_executable(dslr-webcam
     src/gui/widgetradiocontrol.cpp
     src/gui/widgetradiocontrol.h
     src/gui/widgetradiocontrol.ui
-    src/main.cpp
+    src/camera.cpp
+    src/camera.h
     src/dslrwebcam.cpp
     src/dslrwebcam.h
+    src/main.cpp
 )
 
 target_link_libraries(dslr-webcam PRIVATE Qt5::Widgets gphoto2 gphoto2_port)
