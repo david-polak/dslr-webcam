@@ -25,9 +25,7 @@ modprobe v4l2loopback exclusive_caps=1 video_nr=0 card_label="Label"
 
 # Development
 
-## Prerequisites
-
-### pre-commit
+## pre-commit
 
 To ensure a consistent style this project uses the pre-commit tool.
 
