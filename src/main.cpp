@@ -8,6 +8,22 @@ int main(int argc, char *argv[]) {
   QCoreApplication::setApplicationName("dslr-webcam");
 
   QApplication a(argc, argv);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   MainWindow mainWindow;
   mainWindow.show();
   return a.exec();
