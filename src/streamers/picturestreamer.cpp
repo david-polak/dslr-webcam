@@ -5,7 +5,8 @@
 
 #include "unistd.h"
 
-PictureStreamer::~PictureStreamer() {}
+PictureStreamer::~PictureStreamer() {
+}
 
 void PictureStreamer::run() {
   const void *buf = image.data();
@@ -22,7 +23,9 @@ void PictureStreamer::run() {
     this->msleep(500);
   }
 }
-void PictureStreamer::setFd(int fd) { this->fd = fd; }
+void PictureStreamer::setFd(int fd) {
+  this->fd = fd;
+}
 void PictureStreamer::setImagePath(QString path) {
   qDebug() << path;
   const char *pathData = path.toLocal8Bit().constData();

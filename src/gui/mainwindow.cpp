@@ -103,7 +103,9 @@ void MainWindow::handleCameraListClick(const QModelIndex &index) {
   this->ui->rememberCameraCheckbox->setEnabled(true);
 }
 
-void MainWindow::handleUseCameraBtnClick() { this->useCamera(); }
+void MainWindow::handleUseCameraBtnClick() {
+  this->useCamera();
+}
 
 void MainWindow::useCamera() {
   if (this->selectedCamera.second == "") {
@@ -233,10 +235,16 @@ void MainWindow::changeCamera(int index) {
   //      dslrWebcam->createWidgetRadioControl(this, "Shutter Speed"));
 }
 
-void MainWindow::pause() { dslrWebcam->pauseStreamOld(); }
-void MainWindow::resume() { dslrWebcam->resumeStreamOld(); }
+void MainWindow::pause() {
+  dslrWebcam->pauseStreamOld();
+}
+void MainWindow::resume() {
+  dslrWebcam->resumeStreamOld();
+}
 
-void MainWindow::usePicture() { dslrWebcam->usePictureStreamer(); }
+void MainWindow::usePicture() {
+  dslrWebcam->usePictureStreamer();
+}
 
 void MainWindow::closeEvent(QCloseEvent *event) {
   //  qDebug() << "MainWindow::closeEvent()";

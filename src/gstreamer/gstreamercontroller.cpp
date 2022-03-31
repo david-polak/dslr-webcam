@@ -5,7 +5,8 @@
 #include <QDebug>
 #include <QDir>
 
-GStreamerController::GStreamerController() {}
+GStreamerController::GStreamerController() {
+}
 
 GStreamerController::~GStreamerController() {
   if (running) {
@@ -42,7 +43,9 @@ void GStreamerController::stop() {
   running = false;
 }
 
-int GStreamerController::getFd() { return fd; }
+int GStreamerController::getFd() {
+  return fd;
+}
 
 void GStreamerController::setV4L2Device(QString device) {
   this->device = device;

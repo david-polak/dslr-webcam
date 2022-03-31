@@ -5,8 +5,12 @@
 
 #include <QDebug>
 
-void CameraStreamer::setCamera(Camera *camera) { this->camera = camera; }
-void CameraStreamer::setContext(GPContext *context) { this->context = context; }
+void CameraStreamer::setCamera(Camera *camera) {
+  this->camera = camera;
+}
+void CameraStreamer::setContext(GPContext *context) {
+  this->context = context;
+}
 
 CameraStreamer::~CameraStreamer() {
   qDebug() << "~CameraStreamer()";

@@ -29,9 +29,13 @@ QList<QPair<QString, QString>> GPhoto::getCameraList(GPContext *context) {
   return result;
 }
 
-GPContext *GPhoto::createContext() { return gp_context_new(); }
+GPContext *GPhoto::createContext() {
+  return gp_context_new();
+}
 
-void GPhoto::deleteContext(GPContext *context) { gp_context_unref(context); }
+void GPhoto::deleteContext(GPContext *context) {
+  gp_context_unref(context);
+}
 
 // static void
 // display_widgets (GPParams *p, CameraWidget *widget, char *prefix, int

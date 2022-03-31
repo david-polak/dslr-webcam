@@ -91,8 +91,12 @@ void DSLRWebcam::deleteCameraHandler() {
   }
 }
 
-bool DSLRWebcam::isStreamRunning() { return gstreamer != NULL; }
-bool DSLRWebcam::isStreamerRunning() { return currentStreamer != NULL; }
+bool DSLRWebcam::isStreamRunning() {
+  return gstreamer != NULL;
+}
+bool DSLRWebcam::isStreamerRunning() {
+  return currentStreamer != NULL;
+}
 
 void DSLRWebcam::setV4L2Device(QString v4l2Device) {
   this->v4l2Device = v4l2Device;
@@ -175,7 +179,9 @@ void DSLRWebcam::toggleDOF(bool enable) {
   cameraHandler->toggleDOF(enable);
 }
 
-void DSLRWebcam::startStreamOld() { gstreamer->start(); }
+void DSLRWebcam::startStreamOld() {
+  gstreamer->start();
+}
 
 void DSLRWebcam::pauseStreamOld() {
   qDebug() << "pause stream";

@@ -57,4 +57,6 @@ void WidgetRadioControl::changeOption(QString option) {
   cameraHandler->resumeCamera();
 }
 
-WidgetRadioControl::~WidgetRadioControl() { qDebug() << "~WidgetRadioControl"; }
+WidgetRadioControl::~WidgetRadioControl() {
+  qDebug() << "~WidgetRadioControl";
+}
