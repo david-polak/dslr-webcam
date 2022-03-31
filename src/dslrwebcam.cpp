@@ -12,34 +12,14 @@
 
 DSLRWebcam::DSLRWebcam() {
   this->gphotoContext = GPhoto::createContext();
-  //
-  //  QSettings settings;
 }
+
 DSLRWebcam::~DSLRWebcam() {
   qDebug() << "~dslrWebcam()";
-  GPhoto::deleteContext(this->gphotoContext);
+  this->deleteCameraStreamer();
+  this->deleteCameraHandler();
   this->deleteGstreamer();
-  //
-  //  if (cameraStreamer != NULL) {
-  //    qDebug() << "delete cameraStreamer";
-  //    cameraStreamer->requestInterruption();
-  //    cameraStreamer->wait();
-  //    delete cameraStreamer;
-  //  }
-  //  // TODO: cleanup streamers
-  //
-  //  if (gstreamer != NULL) {
-  //    qDebug() << "delete gstreamer";
-  //    delete gstreamer;
-  //  }
-  //
-  //  if (cameraHandler != NULL) {
-  //    qDebug() << "delete handler";
-  //    delete cameraHandler;
-  //  }
-  //
-  //  qDebug() << "delete context";
-  //  gp_context_unref(gphotoContext);
+  GPhoto::deleteContext(this->gphotoContext);
 }
 
 QList<QPair<QString, QString>> DSLRWebcam::getCameraList() {
@@ -76,6 +56,22 @@ void DSLRWebcam::deleteGstreamer() {
   this->gstreamer->stop();
   delete this->gstreamer;
   this->gstreamer = nullptr;
+}
+
+void DSLRWebcam::deleteCameraStreamer() {
+  if (this->cameraStreamer == nullptr) {
+    return;
+  }
+  delete this->cameraStreamer;
+  this->cameraStreamer = nullptr;
+}
+
+void DSLRWebcam::deleteCameraHandler() {
+  if (this->cameraHandler == nullptr) {
+    return;
+  }
+  delete this->cameraHandler;
+  this->cameraHandler = nullptr;
 }
 
 // ######### OLD ############################################################

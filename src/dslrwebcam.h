@@ -32,8 +32,12 @@ protected:
   bool running = false;
   GPContext *gphotoContext = nullptr;
   GStreamerController *gstreamer = nullptr;
+  CameraStreamer *cameraStreamer = nullptr;
+  CameraHandler *cameraHandler = nullptr;
 
   void deleteGstreamer();
+  void deleteCameraStreamer();
+  void deleteCameraHandler();
 
   ///////// old
 
