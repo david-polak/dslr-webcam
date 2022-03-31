@@ -20,37 +20,13 @@ MainWindow::MainWindow(QWidget *parent)
   this->populateCameraList();
 
   QString cameraSetting = settings.value("camera", "").toString();
-  auto camera = Utils::findCamera(this->cameraList, cameraSetting);
+  this->selectedCamera = Utils::findCamera(this->cameraList, cameraSetting);
 
-  if (camera.second != "") {
-    qDebug() << "Camera found";
-    return;
+  if (this->selectedCamera.second != "") {
+    this->useCamera();
+  } else {
+    this->uiInitialiseSelectCameraTab();
   }
-
-  this->uiInitialiseSelectCameraTab();
-
-  // start camera
-
-  //  fillCameraBox();
-
-  //  connect(
-  //      ui->streamControlBtn,
-  //      SIGNAL(clicked()),
-  //      this,
-  //      SLOT(streamControlBtnAction()));
-  //
-  //  connect(ui->cameraBtn, SIGNAL(clicked()), this, SLOT(cameraBtnAction()));
-  //  connect(ui->refreshBtn, SIGNAL(clicked()), this, SLOT(fillCameraBox()));
-  //
-  //  connect(
-  //      ui->realAperture,
-  //      SIGNAL(toggled(bool)),
-  //      dslrWebcam,
-  //      SLOT(toggleDOF(bool)));
-  //
-  //  connect(ui->addWidgetBtn, SIGNAL(clicked()), this, SLOT(addWidget()));
-  //
-  //  QTimer::singleShot(0, this, SLOT(fillV4L2List()));
 }
 
 MainWindow::~MainWindow() {
@@ -82,13 +58,12 @@ void MainWindow::uiInitialiseSelectCameraTab() {
       this->ui->refreshBtn, SIGNAL(clicked()), this, SLOT(refreshBtnAction()));
   connect(
       ui->cameraList,
-      SIGNAL(clicked(const QModelIndex &)),
+      SIGNAL(clicked(QModelIndex)),
       this,
-      SLOT(handleCameraListClick(const QModelIndex &)));
+      SLOT(handleCameraListClick(QModelIndex)));
 }
 
 void MainWindow::uiPopulateCameraList() {
-  qDebug() << "uiPopulateCameraList";
   auto currentModel = this->ui->cameraList->model();
   if (currentModel != nullptr) {
     this->ui->cameraList->setModel(nullptr);
@@ -125,6 +100,8 @@ void MainWindow::handleCameraListClick(const QModelIndex &index) {
   this->ui->useCameraBtn->setEnabled(true);
   this->ui->rememberCameraCheckbox->setEnabled(true);
 }
+
+void MainWindow::useCamera() { dslrWebcam->useCameraStreamer(); }
 
 // ######### OLD ############################################################
 
@@ -245,10 +222,32 @@ void MainWindow::changeCamera(int index) {
 void MainWindow::pause() { dslrWebcam->pauseStreamOld(); }
 void MainWindow::resume() { dslrWebcam->resumeStreamOld(); }
 
-void MainWindow::useCamera() { dslrWebcam->useCameraStreamer(); }
 void MainWindow::usePicture() { dslrWebcam->usePictureStreamer(); }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
   //  qDebug() << "MainWindow::closeEvent()";
   //  delete dslrWebcam;
 }
+
+// start camera
+
+//  fillCameraBox();
+
+//  connect(
+//      ui->streamControlBtn,
+//      SIGNAL(clicked()),
+//      this,
+//      SLOT(streamControlBtnAction()));
+//
+//  connect(ui->cameraBtn, SIGNAL(clicked()), this, SLOT(cameraBtnAction()));
+//  connect(ui->refreshBtn, SIGNAL(clicked()), this, SLOT(fillCameraBox()));
+//
+//  connect(
+//      ui->realAperture,
+//      SIGNAL(toggled(bool)),
+//      dslrWebcam,
+//      SLOT(toggleDOF(bool)));
+//
+//  connect(ui->addWidgetBtn, SIGNAL(clicked()), this, SLOT(addWidget()));
+//
+//  QTimer::singleShot(0, this, SLOT(fillV4L2List()));

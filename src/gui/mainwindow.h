@@ -37,6 +37,7 @@ protected:
   void uiInitialSetup();
   void uiInitialiseSelectCameraTab();
   void uiPopulateCameraList();
+  void useCamera();
 
 public slots:
 
@@ -46,7 +47,6 @@ public slots:
   void changeCamera(int index);
   void pause();
   void resume();
-  void useCamera();
   void usePicture();
   void fillCameraBox();
   void fillV4L2List();
