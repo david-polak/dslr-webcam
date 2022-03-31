@@ -36,14 +36,28 @@ bool DSLRWebcam::isRunning() const {
 
 void DSLRWebcam::start(
     const QPair<QString, QString> &camera, const QString &v4l2Device) {
+  this->cameraHandler =
+      new CameraHandler(camera.first, camera.second, this->gphotoContext);
+
+  this->cameraStreamer = new CameraStreamer();
+  this->cameraStreamer->setContext(this->gphotoContext);
+  this->cameraStreamer->setCamera(this->cameraHandler->camera);
+
+  this->cameraHandler->setCameraStreamer(this->cameraStreamer);
+
   this->gstreamer = new GStreamerController();
   this->gstreamer->setV4L2Device(v4l2Device);
   this->gstreamer->start();
+
+  this->cameraStreamer->setFd(this->gstreamer->getFd());
+  this->cameraStreamer->start();
 
   this->running = true;
 }
 
 void DSLRWebcam::stop() {
+  this->deleteCameraStreamer();
+  this->deleteCameraHandler();
   this->deleteGstreamer();
 
   this->running = false;
@@ -62,6 +76,8 @@ void DSLRWebcam::deleteCameraStreamer() {
   if (this->cameraStreamer == nullptr) {
     return;
   }
+  this->cameraStreamer->requestInterruption();
+  this->cameraStreamer->wait();
   delete this->cameraStreamer;
   this->cameraStreamer = nullptr;
 }
