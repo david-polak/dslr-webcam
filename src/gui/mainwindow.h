@@ -32,6 +32,7 @@ protected:
   QSettings settings;
 
   QList<QPair<QString, QString>> cameraList;
+  QPair<QString, QString> selectedCamera;
 
   void uiInitialSetup();
   void uiInitialiseSelectCameraTab();

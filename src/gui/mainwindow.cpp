@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
   this->populateCameraList();
 
   QString cameraSetting = settings.value("camera", "").toString();
-  auto camera = Utils::findCamera(&this->cameraList, cameraSetting);
+  auto camera = Utils::findCamera(this->cameraList, cameraSetting);
 
   if (camera.second != "") {
     qDebug() << "Camera found";
@@ -90,8 +90,8 @@ void MainWindow::uiInitialiseSelectCameraTab() {
 void MainWindow::uiPopulateCameraList() {
   qDebug() << "uiPopulateCameraList";
   auto currentModel = this->ui->cameraList->model();
-  if (currentModel != NULL) {
-    this->ui->cameraList->setModel(NULL);
+  if (currentModel != nullptr) {
+    this->ui->cameraList->setModel(nullptr);
     delete currentModel;
   }
 
@@ -109,10 +109,21 @@ void MainWindow::uiPopulateCameraList() {
 void MainWindow::refreshBtnAction() {
   this->populateCameraList();
   this->uiPopulateCameraList();
+  this->ui->useCameraBtn->setEnabled(false);
+  this->ui->rememberCameraCheckbox->setEnabled(false);
 }
 
 void MainWindow::handleCameraListClick(const QModelIndex &index) {
-  qDebug() << index;
+  auto selectedModel = index.data().toString();
+  this->selectedCamera = Utils::findCamera(this->cameraList, selectedModel);
+
+  if (this->selectedCamera.second == "") {
+    this->ui->useCameraBtn->setEnabled(false);
+    this->ui->rememberCameraCheckbox->setEnabled(false);
+    return;
+  }
+  this->ui->useCameraBtn->setEnabled(true);
+  this->ui->rememberCameraCheckbox->setEnabled(true);
 }
 
 // ######### OLD ############################################################

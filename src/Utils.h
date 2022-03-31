@@ -10,7 +10,7 @@
 class Utils {
 public:
   static QPair<QString, QString>
-  findCamera(QList<QPair<QString, QString>> *list, QString model);
+  findCamera(const QList<QPair<QString, QString>> &list, const QString &model);
 };
 
 #endif // DSLR_WEBCAM_UTILS_H
