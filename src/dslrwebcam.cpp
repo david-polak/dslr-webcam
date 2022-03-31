@@ -16,8 +16,9 @@ DSLRWebcam::DSLRWebcam() {
   //  QSettings settings;
 }
 DSLRWebcam::~DSLRWebcam() {
-  GPhoto::deleteContext(this->gphotoContext);
   qDebug() << "~dslrWebcam()";
+  GPhoto::deleteContext(this->gphotoContext);
+  this->deleteGstreamer();
   //
   //  if (cameraStreamer != NULL) {
   //    qDebug() << "delete cameraStreamer";
@@ -57,14 +58,24 @@ void DSLRWebcam::start(
     const QPair<QString, QString> &camera, const QString &v4l2Device) {
   this->gstreamer = new GStreamerController();
   this->gstreamer->setV4L2Device(v4l2Device);
+  this->gstreamer->start();
 
   this->running = true;
 }
+
 void DSLRWebcam::stop() {
-  delete this->gstreamer;
-  this->gstreamer = nullptr;
+  this->deleteGstreamer();
 
   this->running = false;
+}
+
+void DSLRWebcam::deleteGstreamer() {
+  if (this->gstreamer == nullptr) {
+    return;
+  }
+  this->gstreamer->stop();
+  delete this->gstreamer;
+  this->gstreamer = nullptr;
 }
 
 // ######### OLD ############################################################

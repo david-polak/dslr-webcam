@@ -33,6 +33,8 @@ protected:
   GPContext *gphotoContext = nullptr;
   GStreamerController *gstreamer = nullptr;
 
+  void deleteGstreamer();
+
   ///////// old
 
   // public:
