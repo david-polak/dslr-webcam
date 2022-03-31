@@ -45,9 +45,11 @@ void DSLRWebcam::start(
 
   this->cameraHandler->setCameraStreamer(this->cameraStreamer);
 
-  this->gstreamer = new GStreamerController();
-  this->gstreamer->setV4L2Device(v4l2Device);
-  this->gstreamer->start();
+  if (this->gstreamer == nullptr) {
+    this->gstreamer = new GStreamerController();
+    this->gstreamer->setV4L2Device(v4l2Device);
+    this->gstreamer->start();
+  }
 
   this->cameraStreamer->setFd(this->gstreamer->getFd());
   this->cameraStreamer->start();
@@ -58,7 +60,6 @@ void DSLRWebcam::start(
 void DSLRWebcam::stop() {
   this->deleteCameraStreamer();
   this->deleteCameraHandler();
-  this->deleteGstreamer();
 
   this->running = false;
 }
