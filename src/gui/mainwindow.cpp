@@ -52,7 +52,10 @@ void MainWindow::populateCameraList() {
 void MainWindow::uiInitialiseSelectCameraTab() {
   this->uiPopulateCameraList();
   connect(
-      this->ui->refreshBtn, SIGNAL(clicked()), this, SLOT(refreshBtnAction()));
+      this->ui->refreshBtn,
+      SIGNAL(clicked()),
+      this,
+      SLOT(handleRefreshBtnClick()));
   connect(
       ui->cameraList,
       SIGNAL(clicked(QModelIndex)),
@@ -65,12 +68,16 @@ void MainWindow::uiInitialiseSelectCameraTab() {
       SLOT(handleUseCameraBtnClick()));
 }
 
-void MainWindow::uiPopulateCameraList() {
+void MainWindow::deleteUiCameraListModel() {
   auto currentModel = this->ui->cameraList->model();
   if (currentModel != nullptr) {
     this->ui->cameraList->setModel(nullptr);
     delete currentModel;
   }
+}
+
+void MainWindow::uiPopulateCameraList() {
+  this->deleteUiCameraListModel();
 
   QStringList cameraModelList;
   cameraModelList << "None";
@@ -83,7 +90,7 @@ void MainWindow::uiPopulateCameraList() {
   this->ui->cameraList->setModel(model);
 }
 
-void MainWindow::refreshBtnAction() {
+void MainWindow::handleRefreshBtnClick() {
   this->populateCameraList();
   this->uiPopulateCameraList();
   this->ui->useCameraBtn->setEnabled(false);
@@ -116,7 +123,11 @@ void MainWindow::useCamera() {
 
   this->ui->tabs->addTab(this->cameraTab, "Camera");
   this->ui->tabs->addTab(this->settingsTab, "Settings");
-  this->ui->tabs->removeTab(1);
+
+  auto *tab = this->ui->selectCameraTab;
+  this->ui->tabs->removeTab(0);
+  this->deleteUiCameraListModel();
+  delete tab;
 }
 
 // ######### OLD ############################################################

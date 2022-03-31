@@ -22,8 +22,7 @@ public:
   ~MainWindow();
 
 public slots:
-  void populateCameraList();
-  void refreshBtnAction();
+  void handleRefreshBtnClick();
   void handleCameraListClick(const QModelIndex &index);
   void handleUseCameraBtnClick();
 
@@ -35,10 +34,14 @@ protected:
   QList<QPair<QString, QString>> cameraList;
   QPair<QString, QString> selectedCamera;
 
+  void populateCameraList();
+  void useCamera();
+
   void uiInitialSetup();
   void uiInitialiseSelectCameraTab();
   void uiPopulateCameraList();
-  void useCamera();
+
+  void deleteUiCameraListModel();
 
 public slots:
 
