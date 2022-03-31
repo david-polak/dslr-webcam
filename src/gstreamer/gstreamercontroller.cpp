@@ -1,7 +1,5 @@
 #include "gstreamercontroller.h"
 
-#include <bits/stdc++.h>
-
 #include <QDebug>
 #include <QDir>
 
@@ -9,9 +7,6 @@ GStreamerController::GStreamerController() {
 }
 
 GStreamerController::~GStreamerController() {
-  if (running) {
-    stop();
-  }
 }
 
 QStringList GStreamerController::getV4l2Devices() {
@@ -28,38 +23,29 @@ QStringList GStreamerController::getV4l2Devices() {
 }
 
 void GStreamerController::start() {
-  if (running) {
-    qDebug() << "GStreamerController is already streaming.";
-    return;
-  }
-
   QString command = "gst-launch-1.0 fdsrc";
   command += " ! decodebin3 name=dec";
   command += " ! queue";
   command += " ! videoconvert";
   command += " ! v4l2sink device=" + device;
 
-  output = popen(command.toLocal8Bit().constData(), "w");
-  fd = dup(fileno(output));
-  running = true;
+  outpipe = popen(command.toLocal8Bit().constData(), "w");
+  fd = dup(fileno(outpipe));
 }
 
 void GStreamerController::stop() {
-  if (!running) {
-    qDebug() << "GStreamerController is not streaming.";
-    return;
-  }
-  fflush(output);
+  fflush(outpipe);
   close(fd);
-  system("killall gst-launch-1.0"); // :P I'll deal with it later
-  pclose(output);
-  running = false;
+
+  // TODO: Figure out a proper solution...
+  system("killall gst-launch-1.0");
+  pclose(outpipe);
 }
 
-int GStreamerController::getFd() {
+int GStreamerController::getFd() const {
   return fd;
 }
 
-void GStreamerController::setV4L2Device(QString device) {
-  this->device = device;
+void GStreamerController::setV4L2Device(QString v4l2Device) {
+  this->device = v4l2Device;
 }

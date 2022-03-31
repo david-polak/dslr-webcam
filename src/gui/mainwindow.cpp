@@ -191,7 +191,7 @@ void MainWindow::handleForgetCameraBtnClick() {
 }
 
 void MainWindow::uiInitialiseOutputDeviceList() {
-  Connect(
+  connect(
       ui->outputDeviceList,
       SIGNAL(currentIndexChanged(int)),
       this,
