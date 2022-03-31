@@ -41,7 +41,7 @@ protected:
   QList<QPair<QString, QString>> cameraList;
   QPair<QString, QString> selectedCamera;
   QStringList v4l2List;
-  QString selectedV4l2Device;
+  QString v4l2Device;
 
   void populateCameraList();
   void populateV4l2List();

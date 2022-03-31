@@ -200,7 +200,7 @@ void MainWindow::uiInitialiseOutputDeviceList() {
 }
 
 void MainWindow::handleOutputDeviceListChange(const int &index) {
-  this->selectedV4l2Device = ui->outputDeviceList->itemText(index);
+  this->v4l2Device = ui->outputDeviceList->itemText(index);
 }
 
 void MainWindow::uiInitialiseCameraTab() {
@@ -212,6 +212,15 @@ void MainWindow::uiInitialiseStartBtn() {
 }
 
 void MainWindow::handleStartBtnClick() {
+  if (this->dslrWebcam->isRunning()) {
+    this->dslrWebcam->stop();
+    this->ui->startBtn->setStyleSheet("");
+    this->ui->startBtn->setText("Start Webcam");
+  } else {
+    this->dslrWebcam->start(this->selectedCamera, this->v4l2Device);
+    this->ui->startBtn->setStyleSheet("background-color: #ffccd5;");
+    this->ui->startBtn->setText("Stop Webcam");
+  }
 }
 
 // ######### OLD ############################################################
