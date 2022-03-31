@@ -27,6 +27,7 @@ public slots:
   void handleUseCameraBtnClick();
   void handleRememberCameraCboxClick();
   void handleForgetCameraBtnClick();
+  void verifyV4l2ListNotEmpty();
 
 protected:
   QWidget *cameraTab;
@@ -35,8 +36,10 @@ protected:
 
   QList<QPair<QString, QString>> cameraList;
   QPair<QString, QString> selectedCamera;
+  QStringList v4l2List;
 
   void populateCameraList();
+  void populateV4l2List();
   void useCamera();
 
   void uiInitialSetup();

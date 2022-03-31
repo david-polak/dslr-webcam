@@ -12,12 +12,13 @@ public:
   GStreamerController();
   ~GStreamerController();
 
+  static QStringList getV4l2Devices();
+
   void stop();
   void start();
   int getFd();
 
   void setV4L2Device(QString device);
-  QStringList listV4L2Devices();
 
 protected:
   QString device;

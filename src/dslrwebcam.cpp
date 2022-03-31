@@ -47,6 +47,10 @@ QList<QPair<QString, QString>> DSLRWebcam::getCameraList() {
   return GPhoto::getCameraList(this->gphotoContext);
 }
 
+QStringList DSLRWebcam::getV4L2Devices() {
+  return GStreamerController::getV4l2Devices();
+}
+
 // ######### OLD ############################################################
 
 void DSLRWebcam::startStream() {
@@ -191,8 +195,4 @@ void DSLRWebcam::pauseStreamOld() {
 void DSLRWebcam::resumeStreamOld() {
   qDebug() << "resume stream";
   cameraStreamer->start();
-}
-
-QStringList DSLRWebcam::getV4L2Devices() {
-  return gstreamer->listV4L2Devices();
 }

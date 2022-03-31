@@ -27,7 +27,7 @@ protected:
   GPContext *gphotoContext = NULL;
 
 public:
-  QStringList getV4L2Devices();
+  static QStringList getV4L2Devices();
   QStringList getCameraWidgets();
 
   WidgetRadioControl *

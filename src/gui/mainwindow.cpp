@@ -9,12 +9,15 @@
 
 #include "src/Utils.h"
 #include "ui_mainwindow.h"
+#include <stdexcept>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
   this->ui->setupUi(this);
   this->uiInitialSetup();
+
+  this->populateV4l2List();
 
   this->dslrWebcam = new DSLRWebcam();
   this->populateCameraList();
@@ -27,10 +30,13 @@ MainWindow::MainWindow(QWidget *parent)
   } else {
     this->uiInitialiseSelectCameraTab();
   }
+
+  QTimer::singleShot(0, this, SLOT(verifyV4l2ListNotEmpty()));
 }
 
 MainWindow::~MainWindow() {
   qDebug() << "~MainWindow()";
+  this->deleteUiCameraListModel();
   delete this->ui;
   delete this->dslrWebcam;
 }
@@ -47,6 +53,20 @@ void MainWindow::uiInitialSetup() {
 
 void MainWindow::populateCameraList() {
   this->cameraList = this->dslrWebcam->getCameraList();
+}
+
+void MainWindow::populateV4l2List() {
+  this->v4l2List = DSLRWebcam::getV4L2Devices();
+  qDebug() << this->v4l2List;
+}
+
+void MainWindow::verifyV4l2ListNotEmpty() {
+  if (this->v4l2List.empty()) {
+    QString error = "Could not find any v4l2 devices."
+                    " Please run `modprobe v4l2loopback exclusive_caps=1`.";
+    QMessageBox::information(this, "Error", error, QMessageBox::Ok);
+    QCoreApplication::exit(1);
+  }
 }
 
 void MainWindow::deleteUiCameraListModel() {
@@ -126,6 +146,7 @@ void MainWindow::useCamera() {
     return;
   }
 
+  this->uiInitialiseCameraTab();
   this->ui->tabs->addTab(this->cameraTab, "Camera");
 
   this->uiInitialiseSettingsTab();
@@ -133,7 +154,6 @@ void MainWindow::useCamera() {
 
   auto *tab = this->ui->selectCameraTab;
   this->ui->tabs->removeTab(0);
-  this->deleteUiCameraListModel();
   delete tab;
 }
 
@@ -207,24 +227,24 @@ void MainWindow::addWidget() {
 }
 
 void MainWindow::fillV4L2List() {
-  ui->outputDeviceList->clear();
-
-  auto list = dslrWebcam->getV4L2Devices();
-  if (list.empty()) {
-    QString error = "Could not find any v4l2 devices.";
-    error += " Please run `modprobe v4l2loopback exclusive_caps=1` to add "
-             "one.";
-    QMessageBox::information(this, "Error", error, QMessageBox::Ok);
-    QCoreApplication::exit(1);
-  }
-
-  // connecting here ensures signal gets triggered on addItems()
-  connect(
-      ui->outputDeviceList,
-      SIGNAL(currentIndexChanged(int)),
-      this,
-      SLOT(setV4L2Device(int)));
-  ui->outputDeviceList->addItems(list);
+  //  ui->outputDeviceList->clear();
+  //
+  //  auto list = DSLRWebcam::getV4L2Devices();
+  //  if (list.empty()) {
+  //    QString error = "Could not find any v4l2 devices.";
+  //    error += " Please run `modprobe v4l2loopback exclusive_caps=1` to add "
+  //             "one.";
+  //    QMessageBox::information(this, "Error", error, QMessageBox::Ok);
+  //    QCoreApplication::exit(1);
+  //  }
+  //
+  //  // connecting here ensures signal gets triggered on addItems()
+  //  connect(
+  //      ui->outputDeviceList,
+  //      SIGNAL(currentIndexChanged(int)),
+  //      this,
+  //      SLOT(setV4L2Device(int)));
+  //  ui->outputDeviceList->addItems(list);
 }
 
 void MainWindow::setV4L2Device(int index) {

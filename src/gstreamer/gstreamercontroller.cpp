@@ -14,6 +14,19 @@ GStreamerController::~GStreamerController() {
   }
 }
 
+QStringList GStreamerController::getV4l2Devices() {
+  QStringList list;
+  // TODO: use v4l2-ctl for write capability detection
+  QStringList filters;
+  filters << "video*";
+  QDir dir("/dev");
+  QFileInfoList files = dir.entryInfoList(filters, QDir::System);
+  for (const auto &file : files) {
+    list.append(file.filePath());
+  }
+  return list;
+}
+
 void GStreamerController::start() {
   if (running) {
     qDebug() << "GStreamerController is already streaming.";
@@ -49,19 +62,4 @@ int GStreamerController::getFd() {
 
 void GStreamerController::setV4L2Device(QString device) {
   this->device = device;
-}
-
-QStringList GStreamerController::listV4L2Devices() {
-  QStringList output;
-
-  // TODO: use v4l2-ctl for write capability detection
-  QStringList filters;
-  filters << "video*";
-  QDir dir("/dev");
-  QFileInfoList files = dir.entryInfoList(filters, QDir::System);
-
-  for (auto file : files) {
-    output.append(file.filePath());
-  }
-  return output;
 }
