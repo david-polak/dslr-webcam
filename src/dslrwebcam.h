@@ -22,6 +22,11 @@ public:
   ~DSLRWebcam();
 
   QList<QPair<QString, QString>> getCameraList();
+
+protected:
+  GPContext *gphotoContext = NULL;
+
+public:
   QStringList getV4L2Devices();
   QStringList getCameraWidgets();
 
@@ -57,7 +62,6 @@ public slots:
   void toggleDOF(bool enable);
 
 protected:
-  GPContext *gphotoContext = NULL;
   CameraHandler *cameraHandler = NULL;
 
   GStreamerController *gstreamer = NULL;

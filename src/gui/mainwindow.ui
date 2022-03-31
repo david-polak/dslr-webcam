@@ -16,14 +16,60 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QTabWidget" name="configTabWidget">
+     <widget class="QTabWidget" name="tabs">
       <property name="tabShape">
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
+      <widget class="QWidget" name="selectCameraTab">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <attribute name="title">
+        <string>Select Camera</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QPushButton" name="refreshBtn">
+          <property name="text">
+           <string>Refresh camera list</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListView" name="cameraList"/>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="rememberCameraCheckbox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Automatically use this camera on application start</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="useCameraBtn">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Use camera</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="cameraTab">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -34,20 +80,6 @@
         <string>Camera</string>
        </attribute>
        <layout class="QVBoxLayout" name="cameraVerticalLayout">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="3,1">
-          <item>
-           <widget class="QComboBox" name="cameraBox"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="refreshBtn">
-            <property name="text">
-             <string>Refresh</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="3,1">
           <item>
@@ -133,31 +165,15 @@
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QPushButton" name="cameraBtn">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>Camera</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0">
+     <layout class="QHBoxLayout" name="startBtnLayout" stretch="0">
       <property name="spacing">
        <number>6</number>
       </property>
       <item>
-       <widget class="QPushButton" name="streamControlBtn">
+       <widget class="QPushButton" name="startBtn">
         <property name="font">
          <font>
+          <weight>50</weight>
           <bold>false</bold>
           <strikeout>false</strikeout>
          </font>
@@ -166,7 +182,7 @@
          <bool>false</bool>
         </property>
         <property name="text">
-         <string>Start Stream</string>
+         <string>Start Webcam</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -183,7 +199,7 @@
      <x>0</x>
      <y>0</y>
      <width>450</width>
-     <height>26</height>
+     <height>30</height>
     </rect>
    </property>
   </widget>

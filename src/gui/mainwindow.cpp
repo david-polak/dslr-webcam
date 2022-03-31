@@ -2,17 +2,36 @@
 
 #include <QComboBox>
 #include <QDebug>
+#include <QList>
 #include <QMessageBox>
+#include <QStringListModel>
 #include <QTimer>
 
+#include "src/Utils.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
-  ui->setupUi(this);
-  dslrWebcam = new DSLRWebcam();
 
-  fillCameraBox();
+  this->ui->setupUi(this);
+  this->uiInitialSetup();
+
+  this->dslrWebcam = new DSLRWebcam();
+  this->populateCameraList();
+
+  QString cameraSetting = settings.value("camera", "").toString();
+  auto camera = Utils::findCamera(&this->cameraList, cameraSetting);
+
+  if (camera.second != "") {
+    qDebug() << "Camera found";
+    return;
+  }
+
+  this->uiInitialiseSelectCameraTab();
+
+  // start camera
+
+  //  fillCameraBox();
 
   //  connect(
   //      ui->streamControlBtn,
@@ -36,25 +55,86 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() {
   qDebug() << "~MainWindow()";
-  delete ui;
+  delete this->ui;
+  delete this->dslrWebcam;
+}
+
+void MainWindow::uiInitialSetup() {
+  this->ui->startBtn->setVisible(false);
+
+  this->settingsTab = this->ui->settingsTab;
+  this->cameraTab = this->ui->cameraTab;
+
+  this->ui->tabs->removeTab(1);
+  this->ui->tabs->removeTab(1);
+
+  //  this->ui->tabs->addTab(this->cameraTab, "Camera");
+  //  this->ui->tabs->addTab(this->settingsTab, "Settings");
+}
+
+void MainWindow::populateCameraList() {
+  this->cameraList = this->dslrWebcam->getCameraList();
+}
+
+void MainWindow::uiInitialiseSelectCameraTab() {
+  this->uiPopulateCameraList();
+  connect(
+      this->ui->refreshBtn, SIGNAL(clicked()), this, SLOT(refreshBtnAction()));
+  connect(
+      ui->cameraList,
+      SIGNAL(clicked(const QModelIndex &)),
+      this,
+      SLOT(handleCameraListClick(const QModelIndex &)));
+}
+
+void MainWindow::uiPopulateCameraList() {
+  qDebug() << "uiPopulateCameraList";
+  auto currentModel = this->ui->cameraList->model();
+  if (currentModel != NULL) {
+    this->ui->cameraList->setModel(NULL);
+    delete currentModel;
+  }
+
+  QStringList cameraModelList;
+  cameraModelList << "None";
+  for (const auto &item : this->cameraList) {
+    cameraModelList << item.first;
+  }
+
+  auto *model = new QStringListModel();
+  model->setStringList(cameraModelList);
+  this->ui->cameraList->setModel(model);
+}
+
+void MainWindow::refreshBtnAction() {
+  this->populateCameraList();
+  this->uiPopulateCameraList();
+}
+
+void MainWindow::handleCameraListClick(const QModelIndex &index) {
+  qDebug() << index;
 }
 
 // ######### OLD ############################################################
 
 void MainWindow::streamControlBtnAction() {
-  if (dslrWebcam->isStreamRunning()) {
-    dslrWebcam->stopStream();
-    ui->streamControlBtn->setStyleSheet("");
-    disableStreamers();
-  } else {
-    dslrWebcam->startStream();
-    ui->streamControlBtn->setStyleSheet("background-color: #ffccd5;");
-    enableStreamers();
-  }
+  //  if (dslrWebcam->isStreamRunning()) {
+  //    dslrWebcam->stopStream();
+  //    ui->streamControlBtn->setStyleSheet("");
+  //    disableStreamers();
+  //  } else {
+  //    dslrWebcam->startStream();
+  //    ui->streamControlBtn->setStyleSheet("background-color: #ffccd5;");
+  //    enableStreamers();
+  //  }
 }
 
-void MainWindow::enableStreamers() { ui->cameraBtn->setEnabled(true); }
-void MainWindow::disableStreamers() { ui->cameraBtn->setEnabled(false); }
+void MainWindow::enableStreamers() {
+  //  ui->cameraBtn->setEnabled(true);
+}
+void MainWindow::disableStreamers() {
+  //  ui->cameraBtn->setEnabled(false);
+}
 
 void MainWindow::cameraBtnAction() {
   if (dslrWebcam->isStreamerRunning()) {
@@ -97,58 +177,58 @@ void MainWindow::setV4L2Device(int index) {
 }
 
 void MainWindow::fillCameraBox() {
-  disconnect(
-      ui->cameraBox,
-      SIGNAL(currentIndexChanged(int)),
-      this,
-      SLOT(changeCamera(int)));
-
-  ui->cameraBox->clear();
-  ui->cameraBox->addItem("disconnected", false);
-
-  auto list = dslrWebcam->getCameraList();
-
-  for (const auto &item : list) {
-    ui->cameraBox->addItem(item.first, item.second);
-  }
-
-  connect(
-      ui->cameraBox,
-      SIGNAL(currentIndexChanged(int)),
-      this,
-      SLOT(changeCamera(int)));
-
-  if (list.length() == 1) {
-    ui->cameraBox->setCurrentIndex(1);
-  }
+  //  disconnect(
+  //      ui->cameraBox,
+  //      SIGNAL(currentIndexChanged(int)),
+  //      this,
+  //      SLOT(changeCamera(int)));
+  //
+  //  ui->cameraBox->clear();
+  //  ui->cameraBox->addItem("disconnected", false);
+  //
+  //  auto list = dslrWebcam->getCameraList();
+  //
+  //  for (const auto &item : list) {
+  //    ui->cameraBox->addItem(item.first, item.second);
+  //  }
+  //
+  //  connect(
+  //      ui->cameraBox,
+  //      SIGNAL(currentIndexChanged(int)),
+  //      this,
+  //      SLOT(changeCamera(int)));
+  //
+  //  if (list.length() == 1) {
+  //    ui->cameraBox->setCurrentIndex(1);
+  //  }
 }
 
 void MainWindow::changeCamera(int index) {
-  QVariant data = ui->cameraBox->itemData(index);
-
-  if (data.type() == QVariant::Bool) {
-    return;
-  }
-
-  QString model = ui->cameraBox->currentText();
-  QString port = data.value<QString>();
-
-  qDebug() << "model:" << model << " port:" << port;
-
-  dslrWebcam->selectCamera(model, port);
-
-  auto cameraWidgets = dslrWebcam->getCameraWidgets();
-  ui->addWidgetBtn->setEnabled(true);
-  ui->selectWidgetBox->clear();
-  ui->selectWidgetBox->setEnabled(true);
-  ui->selectWidgetBox->addItems(cameraWidgets);
-
-  ui->cameraVerticalLayout->addWidget(
-      dslrWebcam->createWidgetRadioControl(this, "Aperture"));
-  ui->cameraVerticalLayout->addWidget(
-      dslrWebcam->createWidgetRadioControl(this, "ISO Speed"));
-  ui->cameraVerticalLayout->addWidget(
-      dslrWebcam->createWidgetRadioControl(this, "Shutter Speed"));
+  //  QVariant data = ui->cameraBox->itemData(index);
+  //
+  //  if (data.type() == QVariant::Bool) {
+  //    return;
+  //  }
+  //
+  //  QString model = ui->cameraBox->currentText();
+  //  QString port = data.value<QString>();
+  //
+  //  qDebug() << "model:" << model << " port:" << port;
+  //
+  //  dslrWebcam->handleCameraListClick(model, port);
+  //
+  //  auto cameraWidgets = dslrWebcam->getCameraWidgets();
+  //  ui->addWidgetBtn->setEnabled(true);
+  //  ui->selectWidgetBox->clear();
+  //  ui->selectWidgetBox->setEnabled(true);
+  //  ui->selectWidgetBox->addItems(cameraWidgets);
+  //
+  //  ui->cameraVerticalLayout->addWidget(
+  //      dslrWebcam->createWidgetRadioControl(this, "Aperture"));
+  //  ui->cameraVerticalLayout->addWidget(
+  //      dslrWebcam->createWidgetRadioControl(this, "ISO Speed"));
+  //  ui->cameraVerticalLayout->addWidget(
+  //      dslrWebcam->createWidgetRadioControl(this, "Shutter Speed"));
 }
 
 void MainWindow::pause() { dslrWebcam->pauseStreamOld(); }
@@ -158,6 +238,6 @@ void MainWindow::useCamera() { dslrWebcam->useCameraStreamer(); }
 void MainWindow::usePicture() { dslrWebcam->usePictureStreamer(); }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
-  qDebug() << "MainWindow::closeEvent()";
-  delete dslrWebcam;
+  //  qDebug() << "MainWindow::closeEvent()";
+  //  delete dslrWebcam;
 }

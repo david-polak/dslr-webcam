@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSettings>
 
 #include "src/dslrwebcam.h"
 #include "ui_mainwindow.h"
@@ -19,6 +20,22 @@ class MainWindow : public QMainWindow {
 public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
+
+public slots:
+  void populateCameraList();
+  void refreshBtnAction();
+  void handleCameraListClick(const QModelIndex &index);
+
+protected:
+  QWidget *cameraTab;
+  QWidget *settingsTab;
+  QSettings settings;
+
+  QList<QPair<QString, QString>> cameraList;
+
+  void uiInitialSetup();
+  void uiInitialiseSelectCameraTab();
+  void uiPopulateCameraList();
 
 public slots:
 
@@ -44,5 +61,6 @@ protected:
 private:
   Ui::MainWindow *ui;
   DSLRWebcam *dslrWebcam;
+  void selectCamera(int index);
 };
 #endif // MAINWINDOW_H

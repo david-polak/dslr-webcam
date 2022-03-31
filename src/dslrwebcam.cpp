@@ -11,37 +11,43 @@
 #include "src/gstreamer/gstreamercontroller.h"
 
 DSLRWebcam::DSLRWebcam() {
-  // TODO: handle return values
-  gphotoContext = gp_context_new();
-  //  gstreamer = new GStreamerController();
+  this->gphotoContext = GPhoto::createContext();
 
-  QSettings settings;
+  //  //  gstreamer = new GStreamerController();
+  //
+  //  QSettings settings;
 }
-
 DSLRWebcam::~DSLRWebcam() {
-  qDebug() << "~dslrWebcam()";
-
-  if (cameraStreamer != NULL) {
-    qDebug() << "delete cameraStreamer";
-    cameraStreamer->requestInterruption();
-    cameraStreamer->wait();
-    delete cameraStreamer;
-  }
-  // TODO: cleanup streamers
-
-  if (gstreamer != NULL) {
-    qDebug() << "delete gstreamer";
-    delete gstreamer;
-  }
-
-  if (cameraHandler != NULL) {
-    qDebug() << "delete handler";
-    delete cameraHandler;
-  }
-
-  qDebug() << "delete context";
-  gp_context_unref(gphotoContext);
+  GPhoto::deleteContext(this->gphotoContext);
+  //  qDebug() << "~dslrWebcam()";
+  //
+  //  if (cameraStreamer != NULL) {
+  //    qDebug() << "delete cameraStreamer";
+  //    cameraStreamer->requestInterruption();
+  //    cameraStreamer->wait();
+  //    delete cameraStreamer;
+  //  }
+  //  // TODO: cleanup streamers
+  //
+  //  if (gstreamer != NULL) {
+  //    qDebug() << "delete gstreamer";
+  //    delete gstreamer;
+  //  }
+  //
+  //  if (cameraHandler != NULL) {
+  //    qDebug() << "delete handler";
+  //    delete cameraHandler;
+  //  }
+  //
+  //  qDebug() << "delete context";
+  //  gp_context_unref(gphotoContext);
 }
+
+QList<QPair<QString, QString>> DSLRWebcam::getCameraList() {
+  return GPhoto::getCameraList(this->gphotoContext);
+}
+
+// ######### OLD ############################################################
 
 void DSLRWebcam::startStream() {
   qDebug() << "Start stream";
@@ -87,10 +93,6 @@ void DSLRWebcam::deleteCameraHandler() {
 
 bool DSLRWebcam::isStreamRunning() { return gstreamer != NULL; }
 bool DSLRWebcam::isStreamerRunning() { return currentStreamer != NULL; }
-
-QList<QPair<QString, QString>> DSLRWebcam::getCameraList() {
-  return GPhoto::getCameraList(gphotoContext);
-}
 
 void DSLRWebcam::setV4L2Device(QString v4l2Device) {
   this->v4l2Device = v4l2Device;
