@@ -191,7 +191,7 @@ void MainWindow::handleForgetCameraBtnClick() {
 }
 
 void MainWindow::uiInitialiseOutputDeviceList() {
-  connect(
+  Connect(
       ui->outputDeviceList,
       SIGNAL(currentIndexChanged(int)),
       this,
@@ -245,17 +245,17 @@ void MainWindow::disableStreamers() {
 }
 
 void MainWindow::cameraBtnAction() {
-  if (dslrWebcam->isStreamerRunning()) {
-    dslrWebcam->stopCameraStreamer();
-  } else {
-    dslrWebcam->startCameraStreamer();
-  }
+  //  if (dslrWebcam->isStreamerRunning()) {
+  //    dslrWebcam->stopCameraStreamer();
+  //  } else {
+  //    dslrWebcam->startCameraStreamer();
+  //  }
 }
 
 void MainWindow::addWidget() {
-  QString name = ui->selectWidgetBox->currentText();
-  ui->cameraVerticalLayout->addWidget(
-      dslrWebcam->createWidgetRadioControl(this, name));
+  //  QString name = ui->selectWidgetBox->currentText();
+  //  ui->cameraVerticalLayout->addWidget(
+  //      dslrWebcam->createWidgetRadioControl(this, name));
 }
 
 void MainWindow::fillV4L2List() {
@@ -280,8 +280,8 @@ void MainWindow::fillV4L2List() {
 }
 
 void MainWindow::setV4L2Device(int index) {
-  QString device = ui->outputDeviceList->itemText(index);
-  dslrWebcam->setV4L2Device(device);
+  //  QString device = ui->outputDeviceList->itemText(index);
+  //  dslrWebcam->setV4L2Device(device);
 }
 
 void MainWindow::fillCameraBox() {
@@ -340,14 +340,14 @@ void MainWindow::changeCamera(int index) {
 }
 
 void MainWindow::pause() {
-  dslrWebcam->pauseStreamOld();
+  //  dslrWebcam->pauseStreamOld();
 }
 void MainWindow::resume() {
-  dslrWebcam->resumeStreamOld();
+  //  dslrWebcam->resumeStreamOld();
 }
 
 void MainWindow::usePicture() {
-  dslrWebcam->usePictureStreamer();
+  //  dslrWebcam->usePictureStreamer();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
