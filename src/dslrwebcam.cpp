@@ -19,7 +19,7 @@ DSLRWebcam::DSLRWebcam() {
 }
 DSLRWebcam::~DSLRWebcam() {
   GPhoto::deleteContext(this->gphotoContext);
-  //  qDebug() << "~dslrWebcam()";
+  qDebug() << "~dslrWebcam()";
   //
   //  if (cameraStreamer != NULL) {
   //    qDebug() << "delete cameraStreamer";
@@ -49,6 +49,19 @@ QList<QPair<QString, QString>> DSLRWebcam::getCameraList() {
 
 QStringList DSLRWebcam::getV4L2Devices() {
   return GStreamerController::getV4l2Devices();
+}
+
+bool DSLRWebcam::isRunning() const {
+  return this->running;
+}
+
+void DSLRWebcam::start(QPair<QString, QString> camera, QString v4l2Device) {
+
+  this->running = true;
+}
+void DSLRWebcam::stop() {
+
+  this->running = false;
 }
 
 // ######### OLD ############################################################

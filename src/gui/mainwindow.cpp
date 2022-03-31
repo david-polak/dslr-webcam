@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
   this->uiInitialSetup();
 
   this->populateV4l2List();
+  this->uiInitialiseOutputDeviceList();
 
   this->dslrWebcam = new DSLRWebcam();
   this->populateCameraList();
@@ -37,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() {
   qDebug() << "~MainWindow()";
   this->deleteUiCameraListModel();
+  delete this->selectCameraTab;
   delete this->ui;
   delete this->dslrWebcam;
 }
@@ -57,7 +59,6 @@ void MainWindow::populateCameraList() {
 
 void MainWindow::populateV4l2List() {
   this->v4l2List = DSLRWebcam::getV4L2Devices();
-  qDebug() << this->v4l2List;
 }
 
 void MainWindow::verifyV4l2ListNotEmpty() {
@@ -146,15 +147,16 @@ void MainWindow::useCamera() {
     return;
   }
 
+  this->uiInitialiseStartBtn();
+
   this->uiInitialiseCameraTab();
   this->ui->tabs->addTab(this->cameraTab, "Camera");
 
   this->uiInitialiseSettingsTab();
   this->ui->tabs->addTab(this->settingsTab, "Settings");
 
-  auto *tab = this->ui->selectCameraTab;
+  this->selectCameraTab = this->ui->selectCameraTab;
   this->ui->tabs->removeTab(0);
-  delete tab;
 }
 
 void MainWindow::handleRememberCameraCboxClick() {
@@ -188,7 +190,28 @@ void MainWindow::handleForgetCameraBtnClick() {
   settings.setValue("camera", "");
 }
 
+void MainWindow::uiInitialiseOutputDeviceList() {
+  connect(
+      ui->outputDeviceList,
+      SIGNAL(currentIndexChanged(int)),
+      this,
+      SLOT(handleOutputDeviceListChange(int)));
+  ui->outputDeviceList->addItems(this->v4l2List);
+}
+
+void MainWindow::handleOutputDeviceListChange(const int &index) {
+  this->selectedV4l2Device = ui->outputDeviceList->itemText(index);
+}
+
 void MainWindow::uiInitialiseCameraTab() {
+}
+
+void MainWindow::uiInitialiseStartBtn() {
+  connect(ui->startBtn, SIGNAL(clicked()), this, SLOT(handleStartBtnClick()));
+  ui->startBtn->setVisible(true);
+}
+
+void MainWindow::handleStartBtnClick() {
 }
 
 // ######### OLD ############################################################

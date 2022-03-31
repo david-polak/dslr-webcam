@@ -22,12 +22,19 @@ public:
   ~DSLRWebcam();
 
   QList<QPair<QString, QString>> getCameraList();
+  static QStringList getV4L2Devices();
+  bool isRunning() const;
+
+  void start(QPair<QString, QString> camera, QString v4l2Device);
+  void stop();
 
 protected:
-  GPContext *gphotoContext = NULL;
+  bool running = false;
+  GPContext *gphotoContext = nullptr;
+
+  ///////// old
 
 public:
-  static QStringList getV4L2Devices();
   QStringList getCameraWidgets();
 
   WidgetRadioControl *

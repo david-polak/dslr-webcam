@@ -27,10 +27,13 @@ public slots:
   void handleUseCameraBtnClick();
   void handleRememberCameraCboxClick();
   void handleForgetCameraBtnClick();
+  void handleOutputDeviceListChange(const int &index);
+  void handleStartBtnClick();
 
   void verifyV4l2ListNotEmpty();
 
 protected:
+  QWidget *selectCameraTab;
   QWidget *cameraTab;
   QWidget *settingsTab;
   QSettings settings;
@@ -38,6 +41,7 @@ protected:
   QList<QPair<QString, QString>> cameraList;
   QPair<QString, QString> selectedCamera;
   QStringList v4l2List;
+  QString selectedV4l2Device;
 
   void populateCameraList();
   void populateV4l2List();
@@ -49,6 +53,8 @@ protected:
 
   void uiInitialiseSettingsTab();
   void uiInitialiseCameraTab();
+  void uiInitialiseOutputDeviceList();
+  void uiInitialiseStartBtn();
 
   void deleteUiCameraListModel();
 
