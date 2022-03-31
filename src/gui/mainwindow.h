@@ -27,6 +27,7 @@ public slots:
   void handleUseCameraBtnClick();
   void handleRememberCameraCboxClick();
   void handleForgetCameraBtnClick();
+
   void verifyV4l2ListNotEmpty();
 
 protected:
