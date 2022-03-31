@@ -25,6 +25,7 @@ public slots:
   void handleRefreshBtnClick();
   void handleCameraListClick(const QModelIndex &index);
   void handleUseCameraBtnClick();
+  void handleRememberCameraCboxClick();
 
 protected:
   QWidget *cameraTab;

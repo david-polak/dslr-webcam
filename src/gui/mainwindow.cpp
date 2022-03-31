@@ -49,25 +49,6 @@ void MainWindow::populateCameraList() {
   this->cameraList = this->dslrWebcam->getCameraList();
 }
 
-void MainWindow::uiInitialiseSelectCameraTab() {
-  this->uiPopulateCameraList();
-  connect(
-      this->ui->refreshBtn,
-      SIGNAL(clicked()),
-      this,
-      SLOT(handleRefreshBtnClick()));
-  connect(
-      ui->cameraList,
-      SIGNAL(clicked(QModelIndex)),
-      this,
-      SLOT(handleCameraListClick(QModelIndex)));
-  connect(
-      ui->useCameraBtn,
-      SIGNAL(clicked()),
-      this,
-      SLOT(handleUseCameraBtnClick()));
-}
-
 void MainWindow::deleteUiCameraListModel() {
   auto currentModel = this->ui->cameraList->model();
   if (currentModel != nullptr) {
@@ -90,11 +71,35 @@ void MainWindow::uiPopulateCameraList() {
   this->ui->cameraList->setModel(model);
 }
 
+void MainWindow::uiInitialiseSelectCameraTab() {
+  this->uiPopulateCameraList();
+  connect(
+      this->ui->refreshBtn,
+      SIGNAL(clicked()),
+      this,
+      SLOT(handleRefreshBtnClick()));
+  connect(
+      ui->cameraList,
+      SIGNAL(clicked(QModelIndex)),
+      this,
+      SLOT(handleCameraListClick(QModelIndex)));
+  connect(
+      ui->useCameraBtn,
+      SIGNAL(clicked()),
+      this,
+      SLOT(handleUseCameraBtnClick()));
+  connect(
+      ui->rememberCameraCbox,
+      SIGNAL(clicked()),
+      this,
+      SLOT(handleRememberCameraCboxClick()));
+}
+
 void MainWindow::handleRefreshBtnClick() {
   this->populateCameraList();
   this->uiPopulateCameraList();
   this->ui->useCameraBtn->setEnabled(false);
-  this->ui->rememberCameraCheckbox->setEnabled(false);
+  this->ui->rememberCameraCbox->setEnabled(false);
 }
 
 void MainWindow::handleCameraListClick(const QModelIndex &index) {
@@ -103,11 +108,11 @@ void MainWindow::handleCameraListClick(const QModelIndex &index) {
 
   if (this->selectedCamera.second == "") {
     this->ui->useCameraBtn->setEnabled(false);
-    this->ui->rememberCameraCheckbox->setEnabled(false);
+    this->ui->rememberCameraCbox->setEnabled(false);
     return;
   }
   this->ui->useCameraBtn->setEnabled(true);
-  this->ui->rememberCameraCheckbox->setEnabled(true);
+  this->ui->rememberCameraCbox->setEnabled(true);
 }
 
 void MainWindow::handleUseCameraBtnClick() {

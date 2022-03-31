@@ -45,7 +45,7 @@
          <widget class="QListView" name="cameraList"/>
         </item>
         <item>
-         <widget class="QCheckBox" name="rememberCameraCheckbox">
+         <widget class="QCheckBox" name="rememberCameraCbox">
           <property name="enabled">
            <bool>false</bool>
           </property>
