@@ -3,10 +3,12 @@ BasedOnStyle: llvm
 
 ---
 Language: Cpp
-AlignAfterOpenBracket: AlwaysBreak
+
 BinPackParameters: false
 BinPackArguments: false
-ReflowComments: true
+
+AlignAfterOpenBracket: AlwaysBreak
 AllowShortBlocksOnASingleLine: Never
 AllowShortFunctionsOnASingleLine: None
-#AllowShortBlocksOnASingleLine: Never
+
+ReflowComments: true
