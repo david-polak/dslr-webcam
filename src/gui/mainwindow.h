@@ -26,6 +26,7 @@ public slots:
   void handleCameraListClick(const QModelIndex &index);
   void handleUseCameraBtnClick();
   void handleRememberCameraCboxClick();
+  void handleForgetCameraBtnClick();
 
 protected:
   QWidget *cameraTab;
@@ -41,6 +42,9 @@ protected:
   void uiInitialSetup();
   void uiInitialiseSelectCameraTab();
   void uiPopulateCameraList();
+
+  void uiInitialiseSettingsTab();
+  void uiInitialiseCameraTab();
 
   void deleteUiCameraListModel();
 

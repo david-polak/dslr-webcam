@@ -127,12 +127,48 @@ void MainWindow::useCamera() {
   }
 
   this->ui->tabs->addTab(this->cameraTab, "Camera");
+
+  this->uiInitialiseSettingsTab();
   this->ui->tabs->addTab(this->settingsTab, "Settings");
 
   auto *tab = this->ui->selectCameraTab;
   this->ui->tabs->removeTab(0);
   this->deleteUiCameraListModel();
   delete tab;
+}
+
+void MainWindow::handleRememberCameraCboxClick() {
+  if (this->ui->rememberCameraCbox->checkState() == Qt::Checked) {
+    settings.setValue("camera", this->selectedCamera.first);
+  } else {
+    settings.setValue("camera", "");
+  }
+}
+
+void MainWindow::uiInitialiseSettingsTab() {
+  auto cameraSetting = settings.value("camera", "");
+  if (cameraSetting == "") {
+    ui->selectedCameraLabel->setVisible(false);
+    ui->forgetCameraBtn->setVisible(false);
+  } else {
+    ui->selectedCameraLabel->setVisible(true);
+    ui->forgetCameraBtn->setVisible(true);
+    ui->forgetCameraBtn->setText("Forget " + cameraSetting.toString());
+    connect(
+        this->ui->forgetCameraBtn,
+        SIGNAL(clicked()),
+        this,
+        SLOT(handleForgetCameraBtnClick()));
+  }
+}
+
+void MainWindow::handleForgetCameraBtnClick() {
+  ui->forgetCameraBtn->setEnabled(false);
+  ui->forgetCameraBtn->setText("Camera forgotten");
+  settings.setValue("camera", "");
+}
+
+void MainWindow::uiInitialiseCameraTab() {
 }
 
 // ######### OLD ############################################################
