@@ -43,9 +43,6 @@ void MainWindow::uiInitialSetup() {
 
   this->ui->tabs->removeTab(1);
   this->ui->tabs->removeTab(1);
-
-  //  this->ui->tabs->addTab(this->cameraTab, "Camera");
-  //  this->ui->tabs->addTab(this->settingsTab, "Settings");
 }
 
 void MainWindow::populateCameraList() {
@@ -61,6 +58,11 @@ void MainWindow::uiInitialiseSelectCameraTab() {
       SIGNAL(clicked(QModelIndex)),
       this,
       SLOT(handleCameraListClick(QModelIndex)));
+  connect(
+      ui->useCameraBtn,
+      SIGNAL(clicked()),
+      this,
+      SLOT(handleUseCameraBtnClick()));
 }
 
 void MainWindow::uiPopulateCameraList() {
@@ -101,7 +103,19 @@ void MainWindow::handleCameraListClick(const QModelIndex &index) {
   this->ui->rememberCameraCheckbox->setEnabled(true);
 }
 
-void MainWindow::useCamera() { dslrWebcam->useCameraStreamer(); }
+void MainWindow::handleUseCameraBtnClick() { this->useCamera(); }
+
+void MainWindow::useCamera() {
+  if (this->selectedCamera.second == "") {
+    qCritical() << "No port found for selectedCamera "
+                << this->selectedCamera.first;
+    return;
+  }
+
+  this->ui->tabs->addTab(this->cameraTab, "Camera");
+  this->ui->tabs->addTab(this->settingsTab, "Settings");
+  this->ui->tabs->removeTab(1);
+}
 
 // ######### OLD ############################################################
 

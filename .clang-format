@@ -8,3 +8,4 @@ AlignAfterOpenBracket: AlwaysBreak
 BinPackParameters: false
 BinPackArguments: false
 ReflowComments: true
+AllowShortBlocksOnASingleLine: Never
