@@ -277,11 +277,15 @@ void MainWindow::handleStartBtnClick() {
     this->dslrWebcam->stop();
     this->ui->startBtn->setStyleSheet("");
     this->ui->startBtn->setText("Start Webcam");
+    this->setWindowIcon(*this->standbyIcon);
+    this->trayIcon->setIcon(*this->standbyIcon);
   } else {
     this->dslrWebcam->start();
     this->ui->startBtn->setStyleSheet("background-color: #ffccd5;");
     this->ui->startBtn->setText("Stop Webcam");
     this->ui->outputDeviceList->setEnabled(false);
+    this->setWindowIcon(*this->runningIcon);
+    this->trayIcon->setIcon(*this->runningIcon);
   }
 }
 

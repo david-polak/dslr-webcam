@@ -23,13 +23,14 @@ public:
   ~MainWindow();
 
 public slots:
+  void handleStartBtnClick();
+
   void handleRefreshBtnClick();
   void handleCameraListClick(const QModelIndex &index);
   void handleUseCameraBtnClick();
   void handleRememberCameraCboxClick();
   void handleForgetCameraBtnClick();
   void handleOutputDeviceListChange(const int &index);
-  void handleStartBtnClick();
   void handleAddWidgetBtnClick();
   void handleRealApertureChange(bool value);
   void handleTrayIconClick(QSystemTrayIcon::ActivationReason reason);
