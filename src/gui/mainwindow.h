@@ -32,6 +32,7 @@ public slots:
   void handleStartBtnClick();
   void handleAddWidgetBtnClick();
   void handleRealApertureChange(bool value);
+  void handleTrayIconClick(QSystemTrayIcon::ActivationReason reason);
 
   void verifyV4l2ListNotEmpty();
 

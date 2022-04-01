@@ -289,4 +289,26 @@ void MainWindow::uiInitialiseTrayIcon() {
   this->trayIcon = new QSystemTrayIcon(this);
   this->trayIcon->show();
   this->trayIcon->setContextMenu(trayIconMenu);
+
+  connect(
+      trayIcon,
+      &QSystemTrayIcon::activated,
+      this,
+      &MainWindow::handleTrayIconClick);
+}
+
+void MainWindow::handleTrayIconClick(QSystemTrayIcon::ActivationReason reason) {
+  switch (reason) {
+  case QSystemTrayIcon::Trigger:
+    if (this->isHidden()) {
+      this->showNormal();
+    } else {
+      this->hide();
+    }
+    break;
+  case QSystemTrayIcon::MiddleClick:
+  case QSystemTrayIcon::DoubleClick:
+    this->handleStartBtnClick();
+    break;
+  }
 }
