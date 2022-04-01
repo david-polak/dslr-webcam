@@ -10,7 +10,7 @@
 
 #include "src/gphoto/camerahandler.h"
 #include "src/gstreamer/gstreamercontroller.h"
-#include "src/gui/widgetradiocontrol.h"
+//#include "src/gui/widgetradiocontrol.h"
 #include "src/streamers/camerastreamer.h"
 #include "src/streamers/istreamer.h"
 #include "src/streamers/picturestreamer.h"
