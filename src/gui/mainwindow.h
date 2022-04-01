@@ -56,6 +56,9 @@ protected:
   QMenu *trayIconMenu;
   QAction *quitAction;
 
+  QIcon *standbyIcon;
+  QIcon *runningIcon;
+
   void populateCameraList();
   void populateV4l2List();
   void useCamera();
@@ -69,6 +72,7 @@ protected:
   void uiInitialiseOutputDeviceList();
   void uiInitialiseStartBtn();
   void uiInitialiseTrayIcon();
+  void uiInitialiseIcons();
 
   void deleteUiCameraListModel();
   void deleteWidgetRadioControls();

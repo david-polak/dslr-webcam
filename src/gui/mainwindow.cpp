@@ -15,9 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
   this->ui->setupUi(this);
+  this->uiInitialiseIcons();
   this->uiInitialiseTrayIcon();
-  this->dslrWebcam = new DSLRWebcam();
 
+  this->dslrWebcam = new DSLRWebcam();
   this->uiInitialSetup();
 
   this->populateV4l2List();
@@ -44,6 +45,9 @@ MainWindow::~MainWindow() {
   delete this->selectCameraTab;
   delete this->ui;
   delete this->dslrWebcam;
+  delete this->trayIcon;
+  delete this->trayIconMenu;
+  delete this->quitAction;
 }
 
 void MainWindow::uiInitialSetup() {
@@ -306,6 +310,7 @@ void MainWindow::uiInitialiseTrayIcon() {
   this->quitAction = new QAction(tr("&Quit application"), this);
   this->trayIconMenu->addAction(quitAction);
   this->trayIcon->setContextMenu(trayIconMenu);
+  this->trayIcon->setIcon(*this->standbyIcon);
   this->trayIcon->show();
 
   connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
@@ -338,4 +343,9 @@ void MainWindow::handleStartRunningCboxClick() {
 
 void MainWindow::handleStartHiddenCboxClick() {
   settings.setValue("startHidden", this->ui->startHiddenCbox->isChecked());
+}
+
+void MainWindow::uiInitialiseIcons() {
+  standbyIcon = new QIcon(":icons/standbyIcon.png");
+  this->setWindowIcon(*standbyIcon);
 }
