@@ -22,7 +22,7 @@ class WidgetRadioControl : public QWidget {
   Q_OBJECT
 
 public:
-  WidgetRadioControl(QWidget *parent, DSLRWebcam *dslrWebcam, QString moniker);
+  WidgetRadioControl(DSLRWebcam *dslrWebcam, QString moniker);
   ~WidgetRadioControl();
 
 protected:

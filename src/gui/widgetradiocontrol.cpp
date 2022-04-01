@@ -7,18 +7,16 @@
 
 #include "src/gphoto/gphoto.h"
 
-WidgetRadioControl::WidgetRadioControl(
-    QWidget *parent, DSLRWebcam *dslrWebcam, QString moniker)
-    : QWidget(parent) {
+WidgetRadioControl::WidgetRadioControl(DSLRWebcam *dslrWebcam, QString moniker)
+    : QWidget() {
 
   this->dslrWebcam = dslrWebcam;
   this->moniker = moniker;
 
+  ui.setupUi(this);
+  ui.widgetNameLbl->setText(moniker);
+
   //  this->cameraHandler = cameraHandler;
-  //
-  //  ui.setupUi(this);
-  //  ui.widgetNameLbl->setText(moniker);
-  //
   //  gp_raise(gp_widget_get_name(widget, &name));
   //
   //  initChoices();

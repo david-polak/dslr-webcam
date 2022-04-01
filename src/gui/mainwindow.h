@@ -29,6 +29,7 @@ public slots:
   void handleForgetCameraBtnClick();
   void handleOutputDeviceListChange(const int &index);
   void handleStartBtnClick();
+  void handleAddWidgetBtnClick();
 
   void verifyV4l2ListNotEmpty();
 
@@ -40,6 +41,7 @@ protected:
 
   QList<QPair<QString, QString>> cameraList;
   QPair<QString, QString> selectedCamera;
+  QList<WidgetRadioControl *> widgetRadioControlList;
   QStringList v4l2List;
   QString v4l2Device;
 
@@ -57,6 +59,9 @@ protected:
   void uiInitialiseStartBtn();
 
   void deleteUiCameraListModel();
+  void deleteWidgetRadioControls();
+
+  void uiCreateWidgetRadioControl(const QString &moniker);
 
 public slots:
 

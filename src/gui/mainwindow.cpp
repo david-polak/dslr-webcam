@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() {
   qDebug() << "~MainWindow()";
+  this->deleteWidgetRadioControls();
   this->deleteUiCameraListModel();
   delete this->selectCameraTab;
   delete this->ui;
@@ -209,17 +210,19 @@ void MainWindow::handleOutputDeviceListChange(const int &index) {
 void MainWindow::uiInitialiseCameraTab() {
   auto cameraWidgets = this->dslrWebcam->getCameraWidgets();
 
-  //   //  ui->addWidgetBtn->setEnabled(true);
-  //   //  ui->selectWidgetBox->clear();
-  //   //  ui->selectWidgetBox->setEnabled(true);
-  //   //  ui->selectWidgetBox->addItems(cameraWidgets);
-  //   //
-  //   //  ui->cameraVerticalLayout->addWidget(
-  //   //      dslrWebcam->createWidgetRadioControl(this, "Aperture"));
-  //   //  ui->cameraVerticalLayout->addWidget(
-  //   //      dslrWebcam->createWidgetRadioControl(this, "ISO Speed"));
-  //   //  ui->cameraVerticalLayout->addWidget(
-  //   //      dslrWebcam->createWidgetRadioControl(this, "Shutter Speed"));
+  ui->addWidgetBtn->setEnabled(true);
+  ui->selectWidgetBox->clear();
+  ui->selectWidgetBox->setEnabled(true);
+  ui->selectWidgetBox->addItems(cameraWidgets);
+  connect(
+      ui->addWidgetBtn,
+      SIGNAL(clicked()),
+      this,
+      SLOT(handleAddWidgetBtnClick()));
+
+  this->uiCreateWidgetRadioControl("Aperture");
+  this->uiCreateWidgetRadioControl("ISO Speed");
+  this->uiCreateWidgetRadioControl("Shutter Speed");
 }
 
 void MainWindow::uiInitialiseStartBtn() {
@@ -237,6 +240,36 @@ void MainWindow::handleStartBtnClick() {
     this->ui->startBtn->setStyleSheet("background-color: #ffccd5;");
     this->ui->startBtn->setText("Stop Webcam");
     this->ui->outputDeviceList->setEnabled(false);
+  }
+}
+
+void MainWindow::handleAddWidgetBtnClick() {
+  QString moniker = ui->selectWidgetBox->currentText();
+  this->uiCreateWidgetRadioControl(moniker);
+  // WidgetRadioControl *
+  // DSLRWebcam::createWidgetRadioControl(QWidget *parent, QString moniker) {
+  //   //  CameraWidget *widget = cameraHandler->getWidget(moniker);
+  //   //
+  //   //  WidgetRadioControl *control = new WidgetRadioControl(
+  //   //      parent, moniker, cameraHandler, gphotoContext, widget);
+  //   //
+  //   //  return control;
+  // }
+  // void MainWindow::addWidget() {
+  //   //  ui->cameraVerticalLayout->addWidget(
+  //   //      dslrWebcam->createWidgetRadioControl(this, name));
+  // }
+}
+
+void MainWindow::uiCreateWidgetRadioControl(const QString &moniker) {
+  auto *widget = new WidgetRadioControl(this->dslrWebcam, moniker);
+  this->widgetRadioControlList.append(widget);
+  this->ui->controlWidgetLayout->addWidget(widget);
+}
+
+void MainWindow::deleteWidgetRadioControls() {
+  for (auto &widget : this->widgetRadioControlList) {
+    delete widget;
   }
 }
 
