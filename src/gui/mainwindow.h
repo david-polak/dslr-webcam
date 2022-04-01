@@ -33,6 +33,8 @@ public slots:
   void handleAddWidgetBtnClick();
   void handleRealApertureChange(bool value);
   void handleTrayIconClick(QSystemTrayIcon::ActivationReason reason);
+  void handleStartHiddenCboxClick();
+  void handleStartRunningCboxClick();
 
   void verifyV4l2ListNotEmpty();
 

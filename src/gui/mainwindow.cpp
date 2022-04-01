@@ -34,6 +34,10 @@ MainWindow::MainWindow(QWidget *parent)
     this->uiInitialiseSelectCameraTab();
   }
 
+  bool startHidden = settings.value("startHidden", false).toBool();
+  if (startHidden) {
+    QTimer::singleShot(0, this, SLOT(hide()));
+  }
   QTimer::singleShot(0, this, SLOT(verifyV4l2ListNotEmpty()));
 }
 
@@ -191,6 +195,22 @@ void MainWindow::uiInitialiseSettingsTab() {
         this,
         SLOT(handleForgetCameraBtnClick()));
   }
+
+  bool startHidden = settings.value("startHidden", false).toBool();
+  this->ui->startHiddenCbox->setChecked(startHidden);
+  connect(
+      this->ui->startHiddenCbox,
+      SIGNAL(clicked()),
+      this,
+      SLOT(handleStartHiddenCboxClick()));
+
+  bool startRunning = settings.value("startRunning", false).toBool();
+  this->ui->startRunningCbox->setChecked(startRunning);
+  connect(
+      this->ui->startRunningCbox,
+      SIGNAL(clicked()),
+      this,
+      SLOT(handleStartRunningCboxClick()));
 }
 
 void MainWindow::handleForgetCameraBtnClick() {
@@ -311,4 +331,12 @@ void MainWindow::handleTrayIconClick(QSystemTrayIcon::ActivationReason reason) {
     this->handleStartBtnClick();
     break;
   }
+}
+
+void MainWindow::handleStartRunningCboxClick() {
+  settings.setValue("startRunning", this->ui->startRunningCbox->isChecked());
+}
+
+void MainWindow::handleStartHiddenCboxClick() {
+  settings.setValue("startHidden", this->ui->startHiddenCbox->isChecked());
 }
