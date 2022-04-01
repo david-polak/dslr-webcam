@@ -163,13 +163,3 @@ QStringList CameraHandler::getWidgetValues(const QString &moniker) {
   }
   return list;
 }
-
-//  char *current;
-//  int count = gp_raise(gp_widget_count_choices(widget));
-//
-//  for (int i = 0; i < count; i++) {
-//    const char *choice;
-//    gp_raise(gp_widget_get_choice(widget, i, &choice));
-//    ui.values->addItem(choice);
-//  }
-//  ui.values->setCurrentText(current);

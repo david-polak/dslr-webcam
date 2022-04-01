@@ -10,7 +10,6 @@
 
 #include "src/gphoto/camerahandler.h"
 #include "src/gstreamer/gstreamercontroller.h"
-//#include "src/gui/widgetradiocontrol.h"
 #include "src/streamers/camerastreamer.h"
 #include "src/streamers/istreamer.h"
 #include "src/streamers/picturestreamer.h"
@@ -56,53 +55,6 @@ protected:
   void deleteGstreamer();
   void deleteCameraStreamer();
   void deleteCameraHandler();
-
-  ///////// old
-
-  // public:
-  //
-  //   WidgetRadioControl *
-  //   createWidgetRadioControl(QWidget *parent, QString moniker);
-  //
-  //   void startStream();
-  //   void stopStream();
-  //
-  //   void setV4L2Device(QString v4l2Device);
-  //
-  //   void selectCamera(QString model, QString port);
-  //   void startStreamOld();
-  //
-  //   bool isStreamRunning();
-  //   bool isStreamerRunning();
-  //
-  //   void pauseStreamOld();
-  //   void resumeStreamOld();
-  //
-  //   void startCameraStreamer();
-  //   void stopCameraStreamer();
-  //
-  //   void useCameraStreamer();
-  //   void usePictureStreamer();
-  //   void killCurrentStreamer();
-  //
-  //   void interruptCamera();
-  //   void resumeCamera();
-
-public slots:
-
-  //  void setTrueDepthOfField(bool enable);
-
-protected:
-  //  CameraHandler *cameraHandler = NULL;
-
-  //  IStreamer *currentStreamer = NULL;
-  //  CameraStreamer *cameraStreamer = NULL;
-  //  PictureStreamer *pictureStreamer = NULL;
-  //
-  //  QString cameraModel;
-  //  QString cameraPort;
-  //
-  //  void deleteCameraHandler();
 };
 
 #endif
