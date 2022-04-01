@@ -30,6 +30,7 @@ public slots:
   void handleOutputDeviceListChange(const int &index);
   void handleStartBtnClick();
   void handleAddWidgetBtnClick();
+  void handleRealApertureChange(bool value);
 
   void verifyV4l2ListNotEmpty();
 

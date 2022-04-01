@@ -17,7 +17,7 @@ public:
 
   Camera *camera;
 
-  void toggleDOF(bool enable);
+  void setTrueDepthOfField(bool value);
 
   QString getWidgetValue(const QString &moniker);
   QStringList getWidgetValues(const QString &moniker);

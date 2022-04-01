@@ -137,6 +137,11 @@ void DSLRWebcam::resumeCamera() {
   }
 }
 
+void DSLRWebcam::setTrueDepthOfField(bool value) {
+  this->createCameraHandler();
+  this->cameraHandler->setTrueDepthOfField(value);
+}
+
 // ######### OLD ############################################################
 
 // void DSLRWebcam::startStream() {
@@ -262,9 +267,9 @@ void DSLRWebcam::resumeCamera() {
 //   //  currentStreamer->start();
 // }
 //
-// void DSLRWebcam::toggleDOF(bool enable) {
-//   //  qDebug() << "DSLRWebcam::toggleDOF(" << enable << ")";
-//   //  cameraHandler->toggleDOF(enable);
+// void DSLRWebcam::setTrueDepthOfField(bool enable) {
+//   //  qDebug() << "DSLRWebcam::setTrueDepthOfField(" << enable << ")";
+//   //  cameraHandler->setTrueDepthOfField(enable);
 // }
 //
 // void DSLRWebcam::startStreamOld() {

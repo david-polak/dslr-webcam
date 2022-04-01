@@ -116,6 +116,11 @@ void MainWindow::uiInitialiseSelectCameraTab() {
       SIGNAL(clicked()),
       this,
       SLOT(handleRememberCameraCboxClick()));
+  connect(
+      ui->realAperture,
+      SIGNAL(toggled(bool)),
+      dslrWebcam,
+      SLOT(handleRealApertureChange(bool)));
 }
 
 void MainWindow::handleRefreshBtnClick() {
@@ -273,6 +278,10 @@ void MainWindow::deleteWidgetRadioControls() {
   }
 }
 
+void MainWindow::handleRealApertureChange(bool value) {
+  this->dslrWebcam->setTrueDepthOfField(value);
+}
+
 // ######### OLD ############################################################
 
 // void MainWindow::streamControlBtnAction() {
@@ -423,7 +432,7 @@ void MainWindow::deleteWidgetRadioControls() {
 ////      ui->realAperture,
 ////      SIGNAL(toggled(bool)),
 ////      dslrWebcam,
-////      SLOT(toggleDOF(bool)));
+////      SLOT(setTrueDepthOfField(bool)));
 ////
 ////  connect(ui->addWidgetBtn, SIGNAL(clicked()), this, SLOT(addWidget()));
 ////

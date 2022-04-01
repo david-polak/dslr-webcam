@@ -21,9 +21,7 @@ public:
   DSLRWebcam();
   ~DSLRWebcam();
 
-  QList<QPair<QString, QString>> getCameraList();
   static QStringList getV4L2Devices();
-  QStringList getCameraWidgets();
   bool isRunning() const;
 
   void setCamera(QPair<QString, QString> camera);
@@ -32,12 +30,16 @@ public:
   void start();
   void stop();
 
+  void interruptCamera();
+  void resumeCamera();
+
+  // CameraHandler proxies
+  QList<QPair<QString, QString>> getCameraList();
+  QStringList getCameraWidgets();
   QString getWidgetValue(const QString &moniker);
   QStringList getWidgetValues(const QString &moniker);
   void setWidgetValue(const QString &moniker, const QString &value);
-
-  void interruptCamera();
-  void resumeCamera();
+  void setTrueDepthOfField(bool value);
 
 protected:
   bool running = false;
@@ -88,7 +90,7 @@ protected:
 
 public slots:
 
-  //  void toggleDOF(bool enable);
+  //  void setTrueDepthOfField(bool enable);
 
 protected:
   //  CameraHandler *cameraHandler = NULL;

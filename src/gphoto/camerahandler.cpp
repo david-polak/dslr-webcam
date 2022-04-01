@@ -49,8 +49,8 @@ void CameraHandler::initPortInfo() {
   gp_raise(gp_camera_set_port_info(camera, portInfo));
 }
 
-void CameraHandler::toggleDOF(bool enable) {
-  if (enable) {
+void CameraHandler::setTrueDepthOfField(bool value) {
+  if (value) {
     setWidgetValue("Depth of Field", "2");
   } else {
     setWidgetValue("Depth of Field", "0");
