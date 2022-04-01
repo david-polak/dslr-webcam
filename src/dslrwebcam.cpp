@@ -56,8 +56,6 @@ void DSLRWebcam::start() {
   this->cameraStreamer->setContext(this->gphotoContext);
   this->cameraStreamer->setCamera(this->cameraHandler->camera);
 
-  this->cameraHandler->setCameraStreamer(this->cameraStreamer);
-
   if (this->gstreamer == nullptr) {
     this->gstreamer = new GStreamerController();
     this->gstreamer->setV4L2Device(v4l2Device);
@@ -110,15 +108,33 @@ QStringList DSLRWebcam::getCameraWidgets() {
 }
 
 QString DSLRWebcam::getWidgetValue(const QString &moniker) {
+  this->createCameraHandler();
   return this->cameraHandler->getWidgetValue(moniker);
 }
 
 QStringList DSLRWebcam::getWidgetValues(const QString &moniker) {
+  this->createCameraHandler();
   return this->cameraHandler->getWidgetValues(moniker);
 }
 
 void DSLRWebcam::setWidgetValue(const QString &moniker, const QString &value) {
-  return this->cameraHandler->setWidgetValue(moniker, value);
+  this->createCameraHandler();
+  this->interruptCamera();
+  this->cameraHandler->setWidgetValue(moniker, value);
+  this->resumeCamera();
+}
+
+void DSLRWebcam::interruptCamera() {
+  if (this->cameraStreamer != nullptr) {
+    this->cameraStreamer->requestInterruption();
+    this->cameraStreamer->wait();
+  }
+}
+
+void DSLRWebcam::resumeCamera() {
+  if (this->cameraStreamer != nullptr) {
+    this->cameraStreamer->start();
+  }
 }
 
 // ######### OLD ############################################################

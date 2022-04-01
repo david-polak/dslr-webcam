@@ -7,8 +7,6 @@
 #include <QPair>
 #include <QString>
 
-#include "src/streamers/camerastreamer.h"
-
 class CameraHandler {
 public:
   CameraHandler(QString model, QString port, GPContext *context);
@@ -19,10 +17,7 @@ public:
 
   Camera *camera;
 
-  void setCameraStreamer(CameraStreamer *streamer);
   void toggleDOF(bool enable);
-  void interruptCamera();
-  void resumeCamera();
 
   QString getWidgetValue(const QString &moniker);
   QStringList getWidgetValues(const QString &moniker);
@@ -32,7 +27,6 @@ protected:
   CameraAbilitiesList *abilitiesList = NULL;
   GPContext *context = NULL;
   CameraWidget *rootConfig = NULL;
-  CameraStreamer *streamer = NULL;
   GPPortInfoList *portInfoList = NULL;
   QList<QPair<QString, CameraWidget *>> widgets;
 

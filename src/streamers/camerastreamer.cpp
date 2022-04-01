@@ -26,7 +26,7 @@ void CameraStreamer::run() {
 
   forever {
     if (this->isInterruptionRequested()) {
-      qDebug() << "Interruption requested";
+      //      qDebug() << "Interruption requested";
       return;
     }
 

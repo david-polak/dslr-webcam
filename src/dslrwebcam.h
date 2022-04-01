@@ -36,6 +36,9 @@ public:
   QStringList getWidgetValues(const QString &moniker);
   void setWidgetValue(const QString &moniker, const QString &value);
 
+  void interruptCamera();
+  void resumeCamera();
+
 protected:
   bool running = false;
   GPContext *gphotoContext = nullptr;

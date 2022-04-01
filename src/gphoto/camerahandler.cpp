@@ -50,13 +50,11 @@ void CameraHandler::initPortInfo() {
 }
 
 void CameraHandler::toggleDOF(bool enable) {
-  interruptCamera();
   if (enable) {
     setWidgetValue("Depth of Field", "2");
   } else {
     setWidgetValue("Depth of Field", "0");
   }
-  resumeCamera();
 }
 
 void CameraHandler::setWidgetValue(
@@ -175,22 +173,3 @@ QStringList CameraHandler::getWidgetValues(const QString &moniker) {
 //    ui.values->addItem(choice);
 //  }
 //  ui.values->setCurrentText(current);
-
-void CameraHandler::setCameraStreamer(CameraStreamer *streamer) {
-  this->streamer = streamer;
-}
-
-void CameraHandler::interruptCamera() {
-  qDebug() << "interruptCamera";
-  if (streamer != NULL) {
-    streamer->requestInterruption();
-    streamer->wait();
-  }
-}
-
-void CameraHandler::resumeCamera() {
-  qDebug() << "resumeCamera";
-  if (streamer != NULL) {
-    streamer->start();
-  }
-}
