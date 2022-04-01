@@ -117,6 +117,10 @@ QStringList DSLRWebcam::getWidgetValues(const QString &moniker) {
   return this->cameraHandler->getWidgetValues(moniker);
 }
 
+void DSLRWebcam::setWidgetValue(const QString &moniker, const QString &value) {
+  return this->cameraHandler->setWidgetValue(moniker, value);
+}
+
 // ######### OLD ############################################################
 
 // void DSLRWebcam::startStream() {

@@ -34,6 +34,7 @@ public:
 
   QString getWidgetValue(const QString &moniker);
   QStringList getWidgetValues(const QString &moniker);
+  void setWidgetValue(const QString &moniker, const QString &value);
 
 protected:
   bool running = false;

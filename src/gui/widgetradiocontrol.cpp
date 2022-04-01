@@ -17,17 +17,11 @@ WidgetRadioControl::WidgetRadioControl(DSLRWebcam *dslrWebcam, QString moniker)
   ui.widgetNameLbl->setText(moniker);
 
   this->initialiseValues();
-
-  //  this->cameraHandler = cameraHandler;
-  //  gp_raise(gp_widget_get_name(widget, &name));
-  //
-  //  initialiseValues();
-  //
-  //  connect(
-  //      ui.values,
-  //      SIGNAL(currentTextChanged(QString)),
-  //      this,
-  //      SLOT(changeOption(QString)));
+  connect(
+      ui.values,
+      SIGNAL(currentTextChanged(QString)),
+      this,
+      SLOT(handleValueChange(QString)));
 }
 
 WidgetRadioControl::~WidgetRadioControl() {
@@ -39,6 +33,10 @@ void WidgetRadioControl::initialiseValues() {
   const auto value = this->dslrWebcam->getWidgetValue(this->moniker);
   this->ui.values->addItems(values);
   this->ui.values->setCurrentText(value);
+}
+
+void WidgetRadioControl::handleValueChange(const QString &value) {
+  this->dslrWebcam->setWidgetValue(this->moniker, value);
 }
 
 //    ui.values->addItem(choice);

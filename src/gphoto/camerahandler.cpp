@@ -59,9 +59,10 @@ void CameraHandler::toggleDOF(bool enable) {
   resumeCamera();
 }
 
-void CameraHandler::setWidgetValue(QString name, QString value) {
-  for (auto pair : widgets) {
-    if (pair.first == name) {
+void CameraHandler::setWidgetValue(
+    const QString &moniker, const QString &value) {
+  for (const auto &pair : widgets) {
+    if (pair.first == moniker) {
       auto _widget = pair.second;
 
       const char *name;

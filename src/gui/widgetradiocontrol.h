@@ -32,6 +32,8 @@ protected:
   void initialiseValues();
 
 private slots:
+  void handleValueChange(const QString &value);
+
   //  void changeOption(QString option);
 
   //  CameraWidget *widget = NULL;
