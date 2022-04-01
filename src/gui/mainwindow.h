@@ -1,12 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QSettings>
-
 #include "src/dslrwebcam.h"
 #include "ui_mainwindow.h"
 #include "widgetradiocontrol.h"
+
+#include <QMainWindow>
+#include <QSettings>
+#include <QSystemTrayIcon>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -47,6 +48,12 @@ protected:
   QStringList v4l2List;
   QString v4l2Device;
 
+  QSystemTrayIcon *trayIcon;
+  QMenu *trayIconMenu;
+  QAction *minimizeAction;
+  QAction *restoreAction;
+  QAction *quitAction;
+
   void populateCameraList();
   void populateV4l2List();
   void useCamera();
@@ -59,6 +66,7 @@ protected:
   void uiInitialiseCameraTab();
   void uiInitialiseOutputDeviceList();
   void uiInitialiseStartBtn();
+  void uiInitialiseTrayIcon();
 
   void deleteUiCameraListModel();
   void deleteWidgetRadioControls();

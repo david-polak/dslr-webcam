@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
   this->ui->setupUi(this);
+  this->uiInitialiseTrayIcon();
   this->dslrWebcam = new DSLRWebcam();
 
   this->uiInitialSetup();
@@ -267,4 +268,25 @@ void MainWindow::deleteWidgetRadioControls() {
 
 void MainWindow::handleRealApertureChange(bool value) {
   this->dslrWebcam->setTrueDepthOfField(value);
+}
+
+void MainWindow::uiInitialiseTrayIcon() {
+  this->minimizeAction = new QAction(tr("Mi&nimize"), this);
+  this->restoreAction = new QAction(tr("&Restore"), this);
+  this->quitAction = new QAction(tr("&Quit"), this);
+
+  connect(minimizeAction, &QAction::triggered, this, &QWidget::hide);
+  connect(restoreAction, &QAction::triggered, this, &QWidget::showNormal);
+  connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+
+  this->trayIconMenu = new QMenu(this);
+
+  this->trayIconMenu->addAction(minimizeAction);
+  this->trayIconMenu->addAction(restoreAction);
+  this->trayIconMenu->addSeparator();
+  this->trayIconMenu->addAction(quitAction);
+
+  this->trayIcon = new QSystemTrayIcon(this);
+  this->trayIcon->show();
+  this->trayIcon->setContextMenu(trayIconMenu);
 }
