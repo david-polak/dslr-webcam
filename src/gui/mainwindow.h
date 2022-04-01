@@ -1,10 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QMainWindow>
+#include <QSettings>
+
 #include "src/dslrwebcam.h"
 #include "ui_mainwindow.h"
 #include "widgetradiocontrol.h"
-#include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,26 +22,50 @@ public:
   ~MainWindow();
 
 public slots:
+  void handleRefreshBtnClick();
+  void handleCameraListClick(const QModelIndex &index);
+  void handleUseCameraBtnClick();
+  void handleRememberCameraCboxClick();
+  void handleForgetCameraBtnClick();
+  void handleOutputDeviceListChange(const int &index);
+  void handleStartBtnClick();
+  void handleAddWidgetBtnClick();
+  void handleRealApertureChange(bool value);
 
-  void startStream();
-
-  void changeCamera(int index);
-  void pause();
-  void resume();
-  void useCamera();
-  void usePicture();
-  void fillCameraBox();
-  void fillV4L2List();
-  void setV4L2Device(int index);
-
-  void addWidget();
+  void verifyV4l2ListNotEmpty();
 
 protected:
-  void closeEvent(QCloseEvent *event);
-  void enableStreamers();
+  DSLRWebcam *dslrWebcam;
+  QWidget *selectCameraTab;
+  QWidget *cameraTab;
+  QWidget *settingsTab;
+  QSettings settings;
+
+  QList<QPair<QString, QString>> cameraList;
+  QPair<QString, QString> selectedCamera;
+  QList<WidgetRadioControl *> widgetRadioControlList;
+  QStringList v4l2List;
+  QString v4l2Device;
+
+  void populateCameraList();
+  void populateV4l2List();
+  void useCamera();
+
+  void uiInitialSetup();
+  void uiInitialiseSelectCameraTab();
+  void uiPopulateCameraList();
+
+  void uiInitialiseSettingsTab();
+  void uiInitialiseCameraTab();
+  void uiInitialiseOutputDeviceList();
+  void uiInitialiseStartBtn();
+
+  void deleteUiCameraListModel();
+  void deleteWidgetRadioControls();
+
+  void uiCreateWidgetRadioControl(const QString &moniker);
 
 private:
   Ui::MainWindow *ui;
-  DSLRWebcam *dslrWebcam;
 };
 #endif // MAINWINDOW_H

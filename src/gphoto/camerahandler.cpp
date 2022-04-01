@@ -1,4 +1,5 @@
 #include "camerahandler.h"
+
 #include "gphoto.h"
 
 CameraHandler::CameraHandler(QString model, QString port, GPContext *context) {
@@ -21,11 +22,11 @@ void CameraHandler::initAbilitiesList() {
   gp_raise(gp_abilities_list_new(&abilitiesList));
   gp_raise(gp_abilities_list_load(abilitiesList, context));
 
-  CameraAbilities abilitites;
+  CameraAbilities abilities;
   int index = gp_raise(gp_abilities_list_lookup_model(
       abilitiesList, this->model.toLocal8Bit().constData()));
-  gp_raise(gp_abilities_list_get_abilities(abilitiesList, index, &abilitites));
-  gp_raise(gp_camera_set_abilities(camera, abilitites));
+  gp_raise(gp_abilities_list_get_abilities(abilitiesList, index, &abilities));
+  gp_raise(gp_camera_set_abilities(camera, abilities));
 }
 
 void CameraHandler::initPortInfoList() {
@@ -48,19 +49,18 @@ void CameraHandler::initPortInfo() {
   gp_raise(gp_camera_set_port_info(camera, portInfo));
 }
 
-void CameraHandler::toggleDOF(bool enable) {
-  interruptCamera();
-  if (enable) {
+void CameraHandler::setTrueDepthOfField(bool value) {
+  if (value) {
     setWidgetValue("Depth of Field", "2");
   } else {
     setWidgetValue("Depth of Field", "0");
   }
-  resumeCamera();
 }
 
-void CameraHandler::setWidgetValue(QString name, QString value) {
-  for (auto pair : widgets) {
-    if (pair.first == name) {
+void CameraHandler::setWidgetValue(
+    const QString &moniker, const QString &value) {
+  for (const auto &pair : widgets) {
+    if (pair.first == moniker) {
       auto _widget = pair.second;
 
       const char *name;
@@ -137,7 +137,7 @@ QStringList CameraHandler::getWidgets(CameraWidgetType type, int readonly) {
   return result;
 }
 
-CameraWidget *CameraHandler::getWidget(QString moniker) {
+CameraWidget *CameraHandler::getWidget(const QString &moniker) {
   for (auto pair : widgets) {
     if (pair.first == moniker) {
       return pair.second;
@@ -146,21 +146,20 @@ CameraWidget *CameraHandler::getWidget(QString moniker) {
   throw GP_ERROR;
 }
 
-void CameraHandler::setCameraStreamer(CameraStreamer *streamer) {
-  this->streamer = streamer;
+QString CameraHandler::getWidgetValue(const QString &moniker) {
+  char *value;
+  gp_raise(gp_widget_get_value(this->getWidget(moniker), &value));
+  return {value};
 }
 
-void CameraHandler::interruptCamera() {
-  qDebug() << "interruptCamera";
-  if (streamer != NULL) {
-    streamer->requestInterruption();
-    streamer->wait();
+QStringList CameraHandler::getWidgetValues(const QString &moniker) {
+  QStringList list;
+  auto *widget = this->getWidget(moniker);
+  int count = gp_raise(gp_widget_count_choices(widget));
+  for (int i = 0; i < count; ++i) {
+    const char *choice;
+    gp_raise(gp_widget_get_choice(widget, i, &choice));
+    list.append(QString(choice));
   }
-}
-
-void CameraHandler::resumeCamera() {
-  qDebug() << "resumeCamera";
-  if (streamer != NULL) {
-    streamer->start();
-  }
+  return list;
 }

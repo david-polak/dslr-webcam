@@ -1,11 +1,11 @@
 #ifndef CAMERAHANDLER_H
 #define CAMERAHANDLER_H
 
-#include "src/streamers/camerastreamer.h"
+#include <gphoto2/gphoto2-camera.h>
+
 #include <QList>
 #include <QPair>
 #include <QString>
-#include <gphoto2/gphoto2-camera.h>
 
 class CameraHandler {
 public:
@@ -13,22 +13,20 @@ public:
   ~CameraHandler();
 
   QStringList getWidgets(CameraWidgetType type, int readonly);
-  CameraWidget *getWidget(QString moniker);
+  CameraWidget *getWidget(const QString &moniker);
 
   Camera *camera;
 
-  void setCameraStreamer(CameraStreamer *streamer);
-  void toggleDOF(bool enable);
-  void interruptCamera();
-  void resumeCamera();
+  void setTrueDepthOfField(bool value);
 
-  void setWidgetValue(QString name, QString value);
+  QString getWidgetValue(const QString &moniker);
+  QStringList getWidgetValues(const QString &moniker);
+  void setWidgetValue(const QString &moniker, const QString &value);
 
 protected:
   CameraAbilitiesList *abilitiesList = NULL;
   GPContext *context = NULL;
   CameraWidget *rootConfig = NULL;
-  CameraStreamer *streamer = NULL;
   GPPortInfoList *portInfoList = NULL;
   QList<QPair<QString, CameraWidget *>> widgets;
 

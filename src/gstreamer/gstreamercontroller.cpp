@@ -1,15 +1,25 @@
 #include "gstreamercontroller.h"
-#include <bits/stdc++.h>
 
 #include <QDebug>
 #include <QDir>
 
-GStreamerController::GStreamerController() {}
+GStreamerController::GStreamerController() {
+}
 
 GStreamerController::~GStreamerController() {
-  if (output != NULL) {
-    stop();
+}
+
+QStringList GStreamerController::getV4l2Devices() {
+  QStringList list;
+  // TODO: use v4l2-ctl for write capability detection
+  QStringList filters;
+  filters << "video*";
+  QDir dir("/dev");
+  QFileInfoList files = dir.entryInfoList(filters, QDir::System);
+  for (const auto &file : files) {
+    list.append(file.filePath());
   }
+  return list;
 }
 
 void GStreamerController::start() {
@@ -19,35 +29,23 @@ void GStreamerController::start() {
   command += " ! videoconvert";
   command += " ! v4l2sink device=" + device;
 
-  output = popen(command.toLocal8Bit().constData(), "w");
-  fd = dup(fileno(output));
+  outpipe = popen(command.toLocal8Bit().constData(), "w");
+  fd = dup(fileno(outpipe));
 }
 
 void GStreamerController::stop() {
-  fflush(output);
+  fflush(outpipe);
   close(fd);
-  system("killall gst-launch-1.0"); // :P I'll deal with it later
-  pclose(output);
+
+  // TODO: Figure out a proper solution...
+  system("killall gst-launch-1.0");
+  pclose(outpipe);
 }
 
-int GStreamerController::getFd() { return fd; }
-
-void GStreamerController::setV4L2Device(QString device) {
-  this->device = device;
+int GStreamerController::getFd() const {
+  return fd;
 }
 
-QStringList GStreamerController::listV4L2Devices() {
-  QStringList output;
-  qDebug() << "listV4L2Devices()";
-
-  // TODO: use v4l2-ctl for write capability detection
-  QStringList filters;
-  filters << "video*";
-  QDir dir("/dev");
-  QFileInfoList files = dir.entryInfoList(filters, QDir::System);
-
-  for (auto file : files) {
-    output.append(file.filePath());
-  }
-  return output;
+void GStreamerController::setV4L2Device(QString v4l2Device) {
+  this->device = v4l2Device;
 }

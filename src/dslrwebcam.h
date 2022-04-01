@@ -1,17 +1,18 @@
 #ifndef GPHOTOCONTROLLER_H
 #define GPHOTOCONTROLLER_H
 
-#include "src/gphoto/camerahandler.h"
-#include "src/gstreamer/gstreamercontroller.h"
-#include "src/gui/widgetradiocontrol.h"
-#include "src/streamers/camerastreamer.h"
-#include "src/streamers/istreamer.h"
-#include "src/streamers/picturestreamer.h"
+#include <gphoto2/gphoto2-abilities-list.h>
+#include <gphoto2/gphoto2-context.h>
+
 #include <QList>
 #include <QObject>
 #include <QString>
-#include <gphoto2/gphoto2-abilities-list.h>
-#include <gphoto2/gphoto2-context.h>
+
+#include "src/gphoto/camerahandler.h"
+#include "src/gstreamer/gstreamercontroller.h"
+#include "src/streamers/camerastreamer.h"
+#include "src/streamers/istreamer.h"
+#include "src/streamers/picturestreamer.h"
 
 class DSLRWebcam : public QObject {
   Q_OBJECT
@@ -19,44 +20,41 @@ public:
   DSLRWebcam();
   ~DSLRWebcam();
 
-  QList<QPair<QString, QString>> getCameraList();
-  QStringList getV4L2Devices();
-  QStringList getCameraWidgets();
+  static QStringList getV4L2Devices();
+  bool isRunning() const;
 
-  WidgetRadioControl *createWidgetRadioControl(QWidget *parent,
-                                               QString moniker);
+  void setCamera(QPair<QString, QString> camera);
+  void setV4l2Device(QString v4l2Device);
 
-  void setV4L2Device(QString device);
-
-  void selectCamera(QString model, QString port);
-  void startStream();
-
-  bool isStreamRunning();
-
-  void pauseStream();
-  void resumeStream();
-
-  void useCameraStreamer();
-  void usePictureStreamer();
+  void start();
+  void stop();
 
   void interruptCamera();
   void resumeCamera();
 
-public slots:
-
-  void toggleDOF(bool enable);
+  // CameraHandler proxies
+  QList<QPair<QString, QString>> getCameraList();
+  QStringList getCameraWidgets();
+  QString getWidgetValue(const QString &moniker);
+  QStringList getWidgetValues(const QString &moniker);
+  void setWidgetValue(const QString &moniker, const QString &value);
+  void setTrueDepthOfField(bool value);
 
 protected:
-  GPContext *context = NULL;
-  CameraHandler *handler = NULL;
+  bool running = false;
+  GPContext *gphotoContext = nullptr;
+  GStreamerController *gstreamer = nullptr;
+  CameraStreamer *cameraStreamer = nullptr;
+  CameraHandler *cameraHandler = nullptr;
 
-  GStreamerController *gstreamer = NULL;
+  QPair<QString, QString> camera;
+  QString v4l2Device;
 
-  IStreamer *currentStreamer = NULL;
-  CameraStreamer *cameraStreamer = NULL;
-  PictureStreamer *pictureStreamer = NULL;
+  void createCameraHandler();
 
-  void killCurrentStreamer();
+  void deleteGstreamer();
+  void deleteCameraStreamer();
+  void deleteCameraHandler();
 };
 
 #endif

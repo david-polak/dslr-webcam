@@ -1,15 +1,19 @@
 #include "camerastreamer.h"
 
-#include <QDebug>
 #include <gphoto2/gphoto2-camera.h>
 #include <gphoto2/gphoto2-file.h>
 
-void CameraStreamer::setCamera(Camera *camera) { this->camera = camera; }
-void CameraStreamer::setContext(GPContext *context) { this->context = context; }
+#include <QDebug>
+
+void CameraStreamer::setCamera(Camera *camera) {
+  this->camera = camera;
+}
+void CameraStreamer::setContext(GPContext *context) {
+  this->context = context;
+}
 
 CameraStreamer::~CameraStreamer() {
   qDebug() << "~CameraStreamer()";
-  // gp_file_unref(this->file);
 }
 
 void CameraStreamer::setFd(int fd) {
@@ -22,7 +26,7 @@ void CameraStreamer::run() {
 
   forever {
     if (this->isInterruptionRequested()) {
-      qDebug() << "Interruption requested";
+      //      qDebug() << "Interruption requested";
       return;
     }
 

@@ -1,0 +1,14 @@
+---
+BasedOnStyle: llvm
+
+---
+Language: Cpp
+
+BinPackParameters: false
+BinPackArguments: false
+
+AlignAfterOpenBracket: AlwaysBreak
+AllowShortBlocksOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: None
+
+ReflowComments: true

@@ -7,14 +7,14 @@
 #include <QString>
 
 namespace GPhoto {
-
 QList<QPair<QString, QString>> getCameraList(GPContext *context);
-
+GPContext *createContext();
+void deleteContext(GPContext *context);
 } // namespace GPhoto
 
 inline int gp_raise(int returned) {
   if (returned < GP_OK) {
-    qDebug() << "Error GPhoto returned: " << returned;
+    qCritical() << "Error GPhoto returned: " << returned;
     throw returned;
   }
   return returned;

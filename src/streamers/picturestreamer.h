@@ -1,9 +1,10 @@
 #ifndef PICTURESTREAMER_H
 #define PICTURESTREAMER_H
 
+#include <QImage>
+
 #include "istreamer.h"
 #include "src/gphoto/camerahandler.h"
-#include <QImage>
 
 class PictureStreamer : public IStreamer {
 public:

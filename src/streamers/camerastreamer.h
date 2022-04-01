@@ -1,10 +1,11 @@
 #ifndef CAMERASTREAMER_H
 #define CAMERASTREAMER_H
 
+#include <gphoto2/gphoto2-camera.h>
+
 #include <QThread>
 
 #include "istreamer.h"
-#include <gphoto2/gphoto2-camera.h>
 
 class CameraStreamer : public IStreamer {
 public:

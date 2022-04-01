@@ -1,5 +1,7 @@
 build/
 images/
+.idea/
+.vscode/
 
 # Created by https://www.gitignore.io/api/code,cmake
 # Edit at https://www.gitignore.io/?templates=code,cmake
@@ -98,4 +100,3 @@ Thumbs.db
 # --------
 *.dll
 *.exe
-
