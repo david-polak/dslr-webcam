@@ -48,6 +48,8 @@ MainWindow::~MainWindow() {
   delete this->trayIcon;
   delete this->trayIconMenu;
   delete this->quitAction;
+  delete this->standbyIcon;
+  delete this->runningIcon;
 }
 
 void MainWindow::uiInitialSetup() {
@@ -347,5 +349,6 @@ void MainWindow::handleStartHiddenCboxClick() {
 
 void MainWindow::uiInitialiseIcons() {
   standbyIcon = new QIcon(":icons/standbyIcon.png");
+  runningIcon = new QIcon(":icons/runningIcon.png");
   this->setWindowIcon(*standbyIcon);
 }

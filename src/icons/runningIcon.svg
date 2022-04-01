@@ -8,8 +8,8 @@
    version="1.1"
    id="svg5"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04, custom)"
-   sodipodi:docname="standbyIcon.svg"
-   inkscape:export-filename="/meltea/data/Code/dslr-webcam/src/img/logo.png"
+   sodipodi:docname="runningIcon.svg"
+   inkscape:export-filename="/meltea/data/Code/dslr-webcam/src/icons/runningIcon.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -30,15 +30,15 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="1.587419"
-     inkscape:cx="328.20572"
-     inkscape:cy="302.37763"
+     inkscape:zoom="0.28061869"
+     inkscape:cx="-826.74465"
+     inkscape:cy="-306.46569"
      inkscape:window-width="2560"
      inkscape:window-height="1377"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g725" />
+     inkscape:current-layer="g702" />
   <defs
      id="defs2" />
   <g
@@ -52,7 +52,7 @@
        id="g725"
        transform="matrix(0.9367328,0,0,0.9367328,8.4144286,28.972487)">
       <rect
-         style="fill:#000080;fill-rule:evenodd;stroke-width:0.330433"
+         style="fill:#c83737;fill-rule:evenodd;stroke-width:0.330433"
          id="rect77"
          width="117.88153"
          height="161.64735"
@@ -70,7 +70,7 @@
            cy="154.10345"
            r="30.439474" />
         <circle
-           style="fill:#000000;fill-rule:evenodd;stroke-width:0.222182"
+           style="fill:#000080;fill-rule:evenodd;stroke-width:0.222182"
            id="path185-3"
            cx="68.539047"
            cy="154.10345"
@@ -86,7 +86,7 @@
            cy="101.63835"
            r="16.578838" />
         <circle
-           style="fill:#000000;fill-rule:evenodd;stroke-width:0.100359"
+           style="fill:#000080;fill-rule:evenodd;stroke-width:0.100359"
            id="path185-3-6"
            cx="90.345734"
            cy="101.63835"
