@@ -104,13 +104,8 @@ void DSLRWebcam::deleteCameraHandler() {
   this->cameraHandler = nullptr;
 }
 
-QStringList
-DSLRWebcam::getCameraWidgets(const QPair<QString, QString> &camera) {
-  if (this->cameraHandler == nullptr) {
-    this->cameraHandler =
-        new CameraHandler(camera.first, camera.second, this->gphotoContext);
-  }
-
+QStringList DSLRWebcam::getCameraWidgets() {
+  this->createCameraHandler();
   return cameraHandler->getWidgets(GP_WIDGET_RADIO, 0);
 }
 

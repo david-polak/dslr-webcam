@@ -15,12 +15,13 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
   this->ui->setupUi(this);
+  this->dslrWebcam = new DSLRWebcam();
+
   this->uiInitialSetup();
 
   this->populateV4l2List();
   this->uiInitialiseOutputDeviceList();
 
-  this->dslrWebcam = new DSLRWebcam();
   this->populateCameraList();
 
   QString cameraSetting = settings.value("camera", "").toString();
@@ -146,6 +147,7 @@ void MainWindow::useCamera() {
                 << this->selectedCamera.first;
     return;
   }
+  this->dslrWebcam->setCamera(this->selectedCamera);
 
   this->uiInitialiseStartBtn();
 
@@ -201,6 +203,7 @@ void MainWindow::uiInitialiseOutputDeviceList() {
 
 void MainWindow::handleOutputDeviceListChange(const int &index) {
   this->v4l2Device = ui->outputDeviceList->itemText(index);
+  this->dslrWebcam->setV4l2Device(this->v4l2Device);
 }
 
 void MainWindow::uiInitialiseCameraTab() {
@@ -230,9 +233,10 @@ void MainWindow::handleStartBtnClick() {
     this->ui->startBtn->setStyleSheet("");
     this->ui->startBtn->setText("Start Webcam");
   } else {
-    this->dslrWebcam->start(this->selectedCamera, this->v4l2Device);
+    this->dslrWebcam->start();
     this->ui->startBtn->setStyleSheet("background-color: #ffccd5;");
     this->ui->startBtn->setText("Stop Webcam");
+    this->ui->outputDeviceList->setEnabled(false);
   }
 }
 

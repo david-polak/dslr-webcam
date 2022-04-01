@@ -23,7 +23,7 @@ public:
 
   QList<QPair<QString, QString>> getCameraList();
   static QStringList getV4L2Devices();
-  QStringList getCameraWidgets(const QPair<QString, QString> &camera);
+  QStringList getCameraWidgets();
   bool isRunning() const;
 
   void setCamera(QPair<QString, QString> camera);
