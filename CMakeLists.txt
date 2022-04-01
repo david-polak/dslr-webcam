@@ -31,8 +31,6 @@ add_executable(dslr-webcam
         src/gui/widgetradiocontrol.cpp
         src/gui/widgetradiocontrol.h
         src/gui/widgetradiocontrol.ui
-        src/camera.cpp
-        src/camera.h
         src/dslrwebcam.cpp
         src/dslrwebcam.h
         src/main.cpp
