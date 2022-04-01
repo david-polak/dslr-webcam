@@ -13,6 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
+qt5_add_resources(RESOURCES src/icons.qrc)
+
 add_executable(dslr-webcam
         src/gphoto/camerahandler.cpp
         src/gphoto/camerahandler.h
@@ -34,6 +36,9 @@ add_executable(dslr-webcam
         src/dslrwebcam.cpp
         src/dslrwebcam.h
         src/main.cpp
-        src/Utils.cpp src/Utils.h)
+        src/Utils.cpp
+        src/Utils.h
+        ${RESOURCES}
+        )
 
 target_link_libraries(dslr-webcam PRIVATE Qt5::Widgets gphoto2 gphoto2_port)

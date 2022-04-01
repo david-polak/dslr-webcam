@@ -15,8 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
   this->ui->setupUi(this);
-  this->dslrWebcam = new DSLRWebcam();
+  this->uiInitialiseIcons();
+  this->uiInitialiseTrayIcon();
 
+  this->dslrWebcam = new DSLRWebcam();
   this->uiInitialSetup();
 
   this->populateV4l2List();
@@ -33,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->uiInitialiseSelectCameraTab();
   }
 
-  QTimer::singleShot(0, this, SLOT(verifyV4l2ListNotEmpty()));
+  QTimer::singleShot(0, this, SLOT(handlePostStartupActions()));
 }
 
 MainWindow::~MainWindow() {
@@ -43,6 +45,11 @@ MainWindow::~MainWindow() {
   delete this->selectCameraTab;
   delete this->ui;
   delete this->dslrWebcam;
+  delete this->trayIcon;
+  delete this->trayIconMenu;
+  delete this->quitAction;
+  delete this->standbyIcon;
+  delete this->runningIcon;
 }
 
 void MainWindow::uiInitialSetup() {
@@ -63,12 +70,26 @@ void MainWindow::populateV4l2List() {
   this->v4l2List = DSLRWebcam::getV4L2Devices();
 }
 
-void MainWindow::verifyV4l2ListNotEmpty() {
+bool MainWindow::verifyV4l2ListNotEmpty() {
   if (this->v4l2List.empty()) {
     QString error = "Could not find any v4l2 devices."
                     " Please run `modprobe v4l2loopback exclusive_caps=1`.";
     QMessageBox::information(this, "Error", error, QMessageBox::Ok);
     QCoreApplication::exit(1);
+    return false;
+  }
+  return true;
+}
+
+void MainWindow::handlePostStartupActions() {
+  if (!this->verifyV4l2ListNotEmpty()) {
+    return;
+  }
+  if (settings.value("startHidden", false).toBool()) {
+    this->hide();
+  }
+  if (settings.value("startRunning", false).toBool()) {
+    this->handleStartBtnClick();
   }
 }
 
@@ -190,6 +211,22 @@ void MainWindow::uiInitialiseSettingsTab() {
         this,
         SLOT(handleForgetCameraBtnClick()));
   }
+
+  bool startHidden = settings.value("startHidden", false).toBool();
+  this->ui->startHiddenCbox->setChecked(startHidden);
+  connect(
+      this->ui->startHiddenCbox,
+      SIGNAL(clicked()),
+      this,
+      SLOT(handleStartHiddenCboxClick()));
+
+  bool startRunning = settings.value("startRunning", false).toBool();
+  this->ui->startRunningCbox->setChecked(startRunning);
+  connect(
+      this->ui->startRunningCbox,
+      SIGNAL(clicked()),
+      this,
+      SLOT(handleStartRunningCboxClick()));
 }
 
 void MainWindow::handleForgetCameraBtnClick() {
@@ -240,11 +277,15 @@ void MainWindow::handleStartBtnClick() {
     this->dslrWebcam->stop();
     this->ui->startBtn->setStyleSheet("");
     this->ui->startBtn->setText("Start Webcam");
+    this->setWindowIcon(*this->standbyIcon);
+    this->trayIcon->setIcon(*this->standbyIcon);
   } else {
     this->dslrWebcam->start();
     this->ui->startBtn->setStyleSheet("background-color: #ffccd5;");
     this->ui->startBtn->setText("Stop Webcam");
     this->ui->outputDeviceList->setEnabled(false);
+    this->setWindowIcon(*this->runningIcon);
+    this->trayIcon->setIcon(*this->runningIcon);
   }
 }
 
@@ -267,4 +308,51 @@ void MainWindow::deleteWidgetRadioControls() {
 
 void MainWindow::handleRealApertureChange(bool value) {
   this->dslrWebcam->setTrueDepthOfField(value);
+}
+
+void MainWindow::uiInitialiseTrayIcon() {
+  this->trayIcon = new QSystemTrayIcon(this);
+  this->trayIconMenu = new QMenu(this);
+  this->quitAction = new QAction(tr("&Quit application"), this);
+  this->trayIconMenu->addAction(quitAction);
+  this->trayIcon->setContextMenu(trayIconMenu);
+  this->trayIcon->setIcon(*this->standbyIcon);
+  this->trayIcon->show();
+
+  connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+  connect(
+      trayIcon,
+      &QSystemTrayIcon::activated,
+      this,
+      &MainWindow::handleTrayIconClick);
+}
+
+void MainWindow::handleTrayIconClick(QSystemTrayIcon::ActivationReason reason) {
+  switch (reason) {
+  case QSystemTrayIcon::Trigger:
+    if (this->isHidden()) {
+      this->showNormal();
+    } else {
+      this->hide();
+    }
+    break;
+  case QSystemTrayIcon::MiddleClick:
+  case QSystemTrayIcon::DoubleClick:
+    this->handleStartBtnClick();
+    break;
+  }
+}
+
+void MainWindow::handleStartRunningCboxClick() {
+  settings.setValue("startRunning", this->ui->startRunningCbox->isChecked());
+}
+
+void MainWindow::handleStartHiddenCboxClick() {
+  settings.setValue("startHidden", this->ui->startHiddenCbox->isChecked());
+}
+
+void MainWindow::uiInitialiseIcons() {
+  standbyIcon = new QIcon(":icons/standbyIcon.png");
+  runningIcon = new QIcon(":icons/runningIcon.png");
+  this->setWindowIcon(*standbyIcon);
 }
