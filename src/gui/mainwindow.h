@@ -35,6 +35,7 @@ public slots:
   void verifyV4l2ListNotEmpty();
 
 protected:
+  DSLRWebcam *dslrWebcam;
   QWidget *selectCameraTab;
   QWidget *cameraTab;
   QWidget *settingsTab;
@@ -64,29 +65,7 @@ protected:
 
   void uiCreateWidgetRadioControl(const QString &moniker);
 
-public slots:
-
-  //  void streamControlBtnAction();
-  //  void cameraBtnAction();
-  //
-  //  void changeCamera(int index);
-  //  void pause();
-  //  void resume();
-  //  void usePicture();
-  //  void fillCameraBox();
-  //  void fillV4L2List();
-  //  void setV4L2Device(int index);
-  //
-  //  void addWidget();
-
-protected:
-  //  void closeEvent(QCloseEvent *event);
-  //  void enableStreamers();
-  //  void disableStreamers();
-
 private:
   Ui::MainWindow *ui;
-  DSLRWebcam *dslrWebcam;
-  //  void selectCamera(int index);
 };
 #endif // MAINWINDOW_H
