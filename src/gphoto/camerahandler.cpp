@@ -138,7 +138,7 @@ QStringList CameraHandler::getWidgets(CameraWidgetType type, int readonly) {
   return result;
 }
 
-CameraWidget *CameraHandler::getWidget(QString moniker) {
+CameraWidget *CameraHandler::getWidget(const QString &moniker) {
   for (auto pair : widgets) {
     if (pair.first == moniker) {
       return pair.second;
@@ -146,6 +146,22 @@ CameraWidget *CameraHandler::getWidget(QString moniker) {
   }
   throw GP_ERROR;
 }
+
+QString CameraHandler::getWidgetValue(const QString &moniker) {
+  char *value;
+  gp_raise(gp_widget_get_value(this->getWidget(moniker), &value));
+  return {value};
+}
+
+//  char *current;
+//  int count = gp_raise(gp_widget_count_choices(widget));
+//
+//  for (int i = 0; i < count; i++) {
+//    const char *choice;
+//    gp_raise(gp_widget_get_choice(widget, i, &choice));
+//    ui.values->addItem(choice);
+//  }
+//  ui.values->setCurrentText(current);
 
 void CameraHandler::setCameraStreamer(CameraStreamer *streamer) {
   this->streamer = streamer;

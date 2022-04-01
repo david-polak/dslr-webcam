@@ -109,6 +109,10 @@ QStringList DSLRWebcam::getCameraWidgets() {
   return cameraHandler->getWidgets(GP_WIDGET_RADIO, 0);
 }
 
+QString DSLRWebcam::getWidgetValue(const QString &moniker) {
+  return this->cameraHandler->getWidgetValue(moniker);
+}
+
 // ######### OLD ############################################################
 
 // void DSLRWebcam::startStream() {

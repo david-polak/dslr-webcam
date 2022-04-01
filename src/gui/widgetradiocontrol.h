@@ -29,10 +29,10 @@ protected:
   QString moniker;
   DSLRWebcam *dslrWebcam;
 
+  void initialiseValues();
+
 private slots:
   //  void changeOption(QString option);
-
-  //  void initChoices();
 
   //  CameraWidget *widget = NULL;
   //  GPContext *context = NULL;

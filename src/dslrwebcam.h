@@ -32,6 +32,8 @@ public:
   void start();
   void stop();
 
+  QString getWidgetValue(const QString &moniker);
+
 protected:
   bool running = false;
   GPContext *gphotoContext = nullptr;

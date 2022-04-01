@@ -15,7 +15,7 @@ public:
   ~CameraHandler();
 
   QStringList getWidgets(CameraWidgetType type, int readonly);
-  CameraWidget *getWidget(QString moniker);
+  CameraWidget *getWidget(const QString &moniker);
 
   Camera *camera;
 
@@ -25,6 +25,7 @@ public:
   void resumeCamera();
 
   void setWidgetValue(QString name, QString value);
+  QString getWidgetValue(const QString &moniker);
 
 protected:
   CameraAbilitiesList *abilitiesList = NULL;
