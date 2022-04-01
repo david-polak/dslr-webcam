@@ -34,10 +34,23 @@ bool DSLRWebcam::isRunning() const {
   return this->running;
 }
 
-void DSLRWebcam::start(
-    const QPair<QString, QString> &camera, const QString &v4l2Device) {
-  this->cameraHandler =
-      new CameraHandler(camera.first, camera.second, this->gphotoContext);
+void DSLRWebcam::setCamera(QPair<QString, QString> camera) {
+  this->camera = camera;
+}
+
+void DSLRWebcam::setV4l2Device(QString v4l2Device) {
+  this->v4l2Device = v4l2Device;
+}
+
+void DSLRWebcam::createCameraHandler() {
+  if (this->cameraHandler == nullptr) {
+    this->cameraHandler = new CameraHandler(
+        this->camera.first, this->camera.second, this->gphotoContext);
+  }
+}
+
+void DSLRWebcam::start() {
+  this->createCameraHandler();
 
   this->cameraStreamer = new CameraStreamer();
   this->cameraStreamer->setContext(this->gphotoContext);
@@ -89,6 +102,16 @@ void DSLRWebcam::deleteCameraHandler() {
   }
   delete this->cameraHandler;
   this->cameraHandler = nullptr;
+}
+
+QStringList
+DSLRWebcam::getCameraWidgets(const QPair<QString, QString> &camera) {
+  if (this->cameraHandler == nullptr) {
+    this->cameraHandler =
+        new CameraHandler(camera.first, camera.second, this->gphotoContext);
+  }
+
+  return cameraHandler->getWidgets(GP_WIDGET_RADIO, 0);
 }
 
 // ######### OLD ############################################################
@@ -154,9 +177,6 @@ void DSLRWebcam::deleteCameraHandler() {
 //   gphotoContext);
 // }
 //
-// QStringList DSLRWebcam::getCameraWidgets() {
-//   //  return cameraHandler->getWidgets(GP_WIDGET_RADIO, 0);
-// }
 //
 // void DSLRWebcam::killCurrentStreamer() {
 //   //  qDebug() << "Stopping streamer";

@@ -204,6 +204,19 @@ void MainWindow::handleOutputDeviceListChange(const int &index) {
 }
 
 void MainWindow::uiInitialiseCameraTab() {
+  auto cameraWidgets = this->dslrWebcam->getCameraWidgets();
+
+  //   //  ui->addWidgetBtn->setEnabled(true);
+  //   //  ui->selectWidgetBox->clear();
+  //   //  ui->selectWidgetBox->setEnabled(true);
+  //   //  ui->selectWidgetBox->addItems(cameraWidgets);
+  //   //
+  //   //  ui->cameraVerticalLayout->addWidget(
+  //   //      dslrWebcam->createWidgetRadioControl(this, "Aperture"));
+  //   //  ui->cameraVerticalLayout->addWidget(
+  //   //      dslrWebcam->createWidgetRadioControl(this, "ISO Speed"));
+  //   //  ui->cameraVerticalLayout->addWidget(
+  //   //      dslrWebcam->createWidgetRadioControl(this, "Shutter Speed"));
 }
 
 void MainWindow::uiInitialiseStartBtn() {

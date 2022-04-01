@@ -23,9 +23,13 @@ public:
 
   QList<QPair<QString, QString>> getCameraList();
   static QStringList getV4L2Devices();
+  QStringList getCameraWidgets(const QPair<QString, QString> &camera);
   bool isRunning() const;
 
-  void start(const QPair<QString, QString> &camera, const QString &v4l2Device);
+  void setCamera(QPair<QString, QString> camera);
+  void setV4l2Device(QString v4l2Device);
+
+  void start();
   void stop();
 
 protected:
@@ -35,6 +39,11 @@ protected:
   CameraStreamer *cameraStreamer = nullptr;
   CameraHandler *cameraHandler = nullptr;
 
+  QPair<QString, QString> camera;
+  QString v4l2Device;
+
+  void createCameraHandler();
+
   void deleteGstreamer();
   void deleteCameraStreamer();
   void deleteCameraHandler();
@@ -42,7 +51,6 @@ protected:
   ///////// old
 
   // public:
-  //   QStringList getCameraWidgets();
   //
   //   WidgetRadioControl *
   //   createWidgetRadioControl(QWidget *parent, QString moniker);
