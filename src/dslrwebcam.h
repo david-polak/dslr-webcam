@@ -33,6 +33,7 @@ public:
   void stop();
 
   QString getWidgetValue(const QString &moniker);
+  QStringList getWidgetValues(const QString &moniker);
 
 protected:
   bool running = false;

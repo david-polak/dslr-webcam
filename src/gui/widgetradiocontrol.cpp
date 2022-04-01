@@ -35,10 +35,27 @@ WidgetRadioControl::~WidgetRadioControl() {
 }
 
 void WidgetRadioControl::initialiseValues() {
+  const auto values = this->dslrWebcam->getWidgetValues(this->moniker);
   const auto value = this->dslrWebcam->getWidgetValue(this->moniker);
-
-  qDebug() << value;
+  this->ui.values->addItems(values);
+  this->ui.values->setCurrentText(value);
 }
+
+//    ui.values->addItem(choice);
+
+//  qDebug() << value;
+
+//  char *current;
+//  gp_raise(gp_widget_get_value(widget, &current));
+//  int count = gp_raise(gp_widget_count_choices(widget));
+//
+//  for (int i = 0; i < count; i++) {
+//    const char *choice;
+//    gp_raise(gp_widget_get_choice(widget, i, &choice));
+//    ui.values->addItem(choice);
+//  }
+//  ui.values->setCurrentText(current);
+//}
 //
 // void WidgetRadioControl::changeOption(QString option) {
 //   //  qDebug() << "Set" << name << "=" << option;

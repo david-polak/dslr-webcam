@@ -153,6 +153,18 @@ QString CameraHandler::getWidgetValue(const QString &moniker) {
   return {value};
 }
 
+QStringList CameraHandler::getWidgetValues(const QString &moniker) {
+  QStringList list;
+  auto *widget = this->getWidget(moniker);
+  int count = gp_raise(gp_widget_count_choices(widget));
+  for (int i = 0; i < count; ++i) {
+    const char *choice;
+    gp_raise(gp_widget_get_choice(widget, i, &choice));
+    list.append(QString(choice));
+  }
+  return list;
+}
+
 //  char *current;
 //  int count = gp_raise(gp_widget_count_choices(widget));
 //

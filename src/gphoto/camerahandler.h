@@ -25,7 +25,9 @@ public:
   void resumeCamera();
 
   void setWidgetValue(QString name, QString value);
+
   QString getWidgetValue(const QString &moniker);
+  QStringList getWidgetValues(const QString &moniker);
 
 protected:
   CameraAbilitiesList *abilitiesList = NULL;
