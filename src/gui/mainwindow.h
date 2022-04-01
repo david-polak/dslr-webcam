@@ -35,8 +35,9 @@ public slots:
   void handleTrayIconClick(QSystemTrayIcon::ActivationReason reason);
   void handleStartHiddenCboxClick();
   void handleStartRunningCboxClick();
+  void handlePostStartupActions();
 
-  void verifyV4l2ListNotEmpty();
+  bool verifyV4l2ListNotEmpty();
 
 protected:
   DSLRWebcam *dslrWebcam;
@@ -53,8 +54,6 @@ protected:
 
   QSystemTrayIcon *trayIcon;
   QMenu *trayIconMenu;
-  QAction *minimizeAction;
-  QAction *restoreAction;
   QAction *quitAction;
 
   void populateCameraList();

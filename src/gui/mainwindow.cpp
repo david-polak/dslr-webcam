@@ -34,11 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->uiInitialiseSelectCameraTab();
   }
 
-  bool startHidden = settings.value("startHidden", false).toBool();
-  if (startHidden) {
-    QTimer::singleShot(0, this, SLOT(hide()));
-  }
-  QTimer::singleShot(0, this, SLOT(verifyV4l2ListNotEmpty()));
+  QTimer::singleShot(0, this, SLOT(handlePostStartupActions()));
 }
 
 MainWindow::~MainWindow() {
@@ -68,12 +64,26 @@ void MainWindow::populateV4l2List() {
   this->v4l2List = DSLRWebcam::getV4L2Devices();
 }
 
-void MainWindow::verifyV4l2ListNotEmpty() {
+bool MainWindow::verifyV4l2ListNotEmpty() {
   if (this->v4l2List.empty()) {
     QString error = "Could not find any v4l2 devices."
                     " Please run `modprobe v4l2loopback exclusive_caps=1`.";
     QMessageBox::information(this, "Error", error, QMessageBox::Ok);
     QCoreApplication::exit(1);
+    return false;
+  }
+  return true;
+}
+
+void MainWindow::handlePostStartupActions() {
+  if (!this->verifyV4l2ListNotEmpty()) {
+    return;
+  }
+  if (settings.value("startHidden", false).toBool()) {
+    this->hide();
+  }
+  if (settings.value("startRunning", false).toBool()) {
+    this->handleStartBtnClick();
   }
 }
 
@@ -291,25 +301,14 @@ void MainWindow::handleRealApertureChange(bool value) {
 }
 
 void MainWindow::uiInitialiseTrayIcon() {
-  this->minimizeAction = new QAction(tr("Mi&nimize"), this);
-  this->restoreAction = new QAction(tr("&Restore"), this);
-  this->quitAction = new QAction(tr("&Quit"), this);
-
-  connect(minimizeAction, &QAction::triggered, this, &QWidget::hide);
-  connect(restoreAction, &QAction::triggered, this, &QWidget::showNormal);
-  connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
-
-  this->trayIconMenu = new QMenu(this);
-
-  this->trayIconMenu->addAction(minimizeAction);
-  this->trayIconMenu->addAction(restoreAction);
-  this->trayIconMenu->addSeparator();
-  this->trayIconMenu->addAction(quitAction);
-
   this->trayIcon = new QSystemTrayIcon(this);
-  this->trayIcon->show();
+  this->trayIconMenu = new QMenu(this);
+  this->quitAction = new QAction(tr("&Quit application"), this);
+  this->trayIconMenu->addAction(quitAction);
   this->trayIcon->setContextMenu(trayIconMenu);
+  this->trayIcon->show();
 
+  connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
   connect(
       trayIcon,
       &QSystemTrayIcon::activated,
