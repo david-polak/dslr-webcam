@@ -1,7 +1,7 @@
 DSLR Webcam is a Linux only utility which turns USB connected DSLR into a
 webcam.
 
-![DSLR Webcam](docs/images/readme_screenshot.png)
+![DSLR Webcam](docs/images/DSLR-Webcam.png)
 
 # Usage
 
